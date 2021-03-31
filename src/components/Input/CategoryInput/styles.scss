@@ -1,0 +1,33 @@
+.category-input {
+
+  $bg--active: #eee;
+ 
+  &__wrapper {
+    transition-duration: 200ms;
+    @apply flex items-center;
+
+    &.focus {
+      @extend .category-input__wrapper;
+      background-color: $bg--active;
+    }
+  }
+
+  &__delete-icon {
+    transition: 200ms;
+  }
+
+  &__input {
+    &::placeholder {
+      @apply text-gray-400;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: $bg--active;
+    }
+  
+    transition-duration: 200ms;
+    width: 175px;
+    @apply text-2xl font-extrabold;
+  }
+}
