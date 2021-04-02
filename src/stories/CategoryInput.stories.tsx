@@ -3,6 +3,7 @@ import React from 'react';
 import { Story } from '@storybook/react';
 
 import { CategoryInput } from '../components/Input/CategoryInput';
+import '../global.css';
 
 export default {
   title: 'Example/CategoryInput',

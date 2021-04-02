@@ -36,7 +36,7 @@ const CategoryInput: FC<Props> = ({ index }) => {
 
   return (
     <div
-      className={`category-input__wrapper input-paddings ${
+      className={`category-input__wrapper input-padding ${
         inputOnFocus ? ' focus' : ''
       }`}
       onFocus={() => setInputOnFocus(true)}
