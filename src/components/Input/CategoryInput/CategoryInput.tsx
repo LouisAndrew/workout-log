@@ -1,8 +1,9 @@
 import React, { FC, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import './styles.scss';
 
-type Props = {
+import './styles.css';
+
+export type Props = {
   /**
    * index of the category input within a wrapper
    * used when the categoryName is still empty

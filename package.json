@@ -23,13 +23,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "browserslist": {
     "production": [
@@ -44,6 +40,13 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.2.1",
+    "@storybook/addon-docs": "^6.2.1",
+    "@storybook/addon-essentials": "^6.2.1",
+    "@storybook/addon-links": "^6.2.1",
+    "@storybook/node-logger": "^6.2.1",
+    "@storybook/preset-create-react-app": "^3.1.7",
+    "@storybook/react": "^6.2.1",
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "@types/lodash": "^4.14.168",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
@@ -59,7 +62,63 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "postcss": "^7.0.35",
     "prettier": "^2.2.1",
-    "sass": "^1.32.8",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "plugin:react/recommended",
+      "airbnb"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "react",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-use-before-define": "off",
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js",
+            ".jsx",
+            ".ts",
+            ".tsx"
+          ]
+        }
+      ],
+      "import/extensions": 0,
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "react/prop-types": 0,
+      "implicit-arrow-linebreak": 0,
+      "comma-dangle": 0,
+      "no-useless-return": 0,
+      "import/no-unresolved": 0,
+      "react/jsx-props-no-spreading": 0
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
   }
 }

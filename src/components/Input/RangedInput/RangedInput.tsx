@@ -3,8 +3,6 @@ import React, {
 } from 'react';
 import { parseInt } from 'lodash';
 
-import './styles.scss';
-
 type Props = {
   /**
    * max number of digits

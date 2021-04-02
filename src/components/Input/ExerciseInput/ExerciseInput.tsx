@@ -3,8 +3,6 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 import { RangedInput } from '../RangedInput';
 
-import './styles.scss';
-
 const ExerciseInput = () => {
   const [exerciseName, setExerciseName] = useState('');
   const [inputOnFocus, setInputOnFocus] = useState(false);

@@ -1,0 +1,6 @@
+.category-input__wrapper {
+}
+
+.category-input__input {
+  @apply border-none focus:outline-none;
+}
