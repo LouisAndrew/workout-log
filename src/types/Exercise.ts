@@ -1,21 +1,5 @@
 import { Tag } from './Tag';
-
-export type Review = 'UP' | 'DOWN' | 'STAY';
-export type Metric = 'kg' | 'lbs';
-export type ExerciseSet = {
-  /**
-   * weight lifted during the set
-   */
-  weight: number;
-  /**
-   * number of reps lifted during the set
-   */
-  reps: number;
-  /**
-   * review for the current set (OPTIONAL. FOR PERSONAL USE ONLY)
-   */
-  review?: Review;
-};
+import { ExerciseSet } from './Set';
 
 export type Exercise = {
   /**
@@ -44,10 +28,6 @@ export type ExerciseWithTags<E extends Exercise> = E & {
 };
 
 export type ExerciseWithLog<E extends Exercise> = E & {
-  /**
-   * metric of the weight lifted
-   */
-  metric: Metric;
   /**
    * logs of the set done during the exercise.
    */
