@@ -211,27 +211,19 @@ const RangedInput: FC<Props> = ({
           placeholder="-"
           onChange={handleChangeSeparator}
           onKeyDown={handleKeyDownSeparator}
-          className="ranged-input__input w-6 ranged-input__input-separator"
-          style={{
-            transitionDuration: '200ms, 300ms opacity',
-            maxWidth: shouldSeparatorRender ? 100 : 0,
-            opacity: shouldSeparatorRender ? 1 : 0,
-          }}
+          className={`ranged-input__input ranged-input__input-separator w-${shouldSeparatorRender ? '6' : '0'} opacity-${shouldSeparatorRender ? '1' : '0'}`}
         />
         <input
           value={end === -1 ? '' : end}
           ref={endInput}
           onChange={handleChangeEnd}
           onKeyDown={handleKeyDownEnd}
-          className={`ranged-input__input w-${widthMultiplier * maxDigit}${
-            shouldEndShowError ? ' text-red-400' : ''
+          className={`ranged-input__input w-${
+            shouldEndRender ? `${widthMultiplier * maxDigit}` : '0'} opacity-${
+            shouldEndRender ? '1' : '0'} ${
+            shouldEndShowError ? 'text-red-400' : ''
           }`}
           placeholder={inputPlaceholder}
-          style={{
-            transitionDuration: '200ms, 300ms opacity',
-            maxWidth: shouldEndRender ? 100 : 0,
-            opacity: shouldEndRender ? 1 : 0,
-          }}
         />
       </div>
       <div className="ranged-input__placeholder">{placeholder.toUpperCase()}</div>
