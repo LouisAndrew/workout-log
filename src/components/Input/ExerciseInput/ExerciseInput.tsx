@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { RangedInput } from '../RangedInput';
 
-const ExerciseInput = () => {
-  const [exerciseName, setExerciseName] = useState('');
-  const [inputOnFocus, setInputOnFocus] = useState(false);
+export type Props = {
+  /**
+   * default exercise name (when filled)
+   */
+  value?: string
+  /**
+   * should the input field focused by default?
+   */
+  defaultFocused: boolean
+}
+
+const ExerciseInput: FC<Props> = ({ value, defaultFocused = false }) => {
+  const [exerciseName, setExerciseName] = useState(value || '');
+  const [inputOnFocus, setInputOnFocus] = useState(defaultFocused);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // verify if exercise name already exists
