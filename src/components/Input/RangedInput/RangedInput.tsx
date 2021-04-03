@@ -3,7 +3,9 @@ import React, {
 } from 'react';
 import { parseInt } from 'lodash';
 
-type Props = {
+import './styles.css';
+
+export type Props = {
   /**
    * max number of digits
    */
@@ -13,6 +15,10 @@ type Props = {
    */
   placeholder: string;
   /**
+   * identifier if the input is editable
+   */
+  isEditable: boolean
+  /**
    * change function whenever value is changed
    */
   onChange: (start: number, end?: number) => void;
@@ -20,24 +26,34 @@ type Props = {
    * custom styling for the component
    */
   className?: string;
+  /**
+   * default value for start
+   */
+  defaultStart?: number
+  /**
+   * default value for end
+   */
+  defaultEnd?: number
   [key: string]: any;
 };
 
 const RangedInput: FC<Props> = ({
-  maxDigit,
-  placeholder,
-  onChange,
+  maxDigit = 1,
+  placeholder = 'PLC',
+  onChange = () => {},
+  defaultEnd,
+  defaultStart,
   className,
   ...props
 }) => {
-  const [start, setStart] = useState(-1);
-  const [end, setEnd] = useState(-1);
-  const [isSeparatorFilled, setIsSeparatorFilled] = useState(false);
+  const [start, setStart] = useState(defaultStart || -1);
+  const [end, setEnd] = useState(defaultEnd || -1);
+  const [isSeparatorFilled, setIsSeparatorFilled] = useState(!!defaultStart && !!defaultEnd);
 
   const [shouldEndShowError, setShouldEndShowError] = useState(false);
 
-  const [shouldSeparatorRender, setShouldSeparatorRender] = useState(true);
-  const [shouldEndRender, setShouldEndRender] = useState(true);
+  const [shouldSeparatorRender, setShouldSeparatorRender] = useState(!!defaultEnd);
+  const [shouldEndRender, setShouldEndRender] = useState(!!defaultEnd);
 
   const startInput = useRef<HTMLInputElement | null>(null);
   const separatorInput = useRef<HTMLInputElement | null>(null);
@@ -170,6 +186,7 @@ const RangedInput: FC<Props> = ({
   }, [start, end]);
 
   const widthMultiplier = 6;
+  const inputPlaceholder = Array.from(new Array(maxDigit).keys()).map(() => '#').join('');
 
   return (
     <div
@@ -185,6 +202,7 @@ const RangedInput: FC<Props> = ({
           onChange={handleChangeStart}
           onKeyDown={handleKeyDownStart}
           className={`ranged-input__input w-${widthMultiplier * maxDigit}`}
+          placeholder={inputPlaceholder}
           required
         />
         <input
@@ -208,6 +226,7 @@ const RangedInput: FC<Props> = ({
           className={`ranged-input__input w-${widthMultiplier * maxDigit}${
             shouldEndShowError ? ' text-red-400' : ''
           }`}
+          placeholder={inputPlaceholder}
           style={{
             transitionDuration: '200ms, 300ms opacity',
             maxWidth: shouldEndRender ? 100 : 0,
@@ -215,7 +234,7 @@ const RangedInput: FC<Props> = ({
           }}
         />
       </div>
-      <div className="ranged-input__placeholder">{placeholder}</div>
+      <div className="ranged-input__placeholder">{placeholder.toUpperCase()}</div>
     </div>
   );
 };
