@@ -5,38 +5,64 @@ import { RangedInput } from '../RangedInput';
 
 import './styles.css';
 
+type Range = {
+  start: number;
+  end?: number;
+};
+
 export type Props = {
   /**
    * default exercise name (when filled)
    */
-  value?: string
+  value?: string;
   /**
-   * should the input field focused by default?
+   * default number of reps
    */
-  defaultFocused: boolean
-}
+  defaultReps?: Range;
+  /**
+   * default number of sets
+   */
+  defaultSets?: Range;
+  /**
+   * determine if the input field is editable
+   */
+  isEditable?: boolean;
+};
 
-const ExerciseInput: FC<Props> = ({ value, defaultFocused = false }) => {
+const ExerciseInput: FC<Props> = ({
+  value,
+  defaultReps,
+  defaultSets,
+  isEditable = false,
+}) => {
   const [exerciseName, setExerciseName] = useState(value || '');
-  const [inputOnFocus, setInputOnFocus] = useState(defaultFocused);
+
+  const [sets, setSets] = useState<Range>(defaultSets || { start: -1 });
+  const [reps, setReps] = useState<Range>(defaultReps || { start: -1 });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // verify if exercise name already exists
-    setExerciseName(e.target.value);
+    if (isEditable) {
+      setExerciseName(e.target.value);
+    }
   };
 
   const handleSetChange = (start: number, end?: number) => {
-    console.log({ start, end });
+    setSets({ start, end });
+  };
+
+  const handleRepsChange = (start: number, end?: number) => {
+    setReps({ start, end });
   };
 
   return (
-    <div
-      className={`exercise-input__wrapper${inputOnFocus ? ' active' : ''}`}
-      onFocus={() => setInputOnFocus(true)}
-      onBlur={() => setInputOnFocus(false)}
-    >
+    <div className="exercise-input__wrapper">
       <div className="exercise-input__upper-wrapper">
-        <BiGridVertical className={`exercise-input__options-icon ${exerciseName ? 'active' : ''}`} />
+        <BiGridVertical
+          className={`exercise-input__options-icon ${
+            exerciseName ? 'active' : ''
+          }`}
+        />
         <input
           value={exerciseName}
           onChange={handleChange}
@@ -44,21 +70,27 @@ const ExerciseInput: FC<Props> = ({ value, defaultFocused = false }) => {
           placeholder="Exercise name"
         />
       </div>
-      <div className={`exercise-input__lower-wrapper ${exerciseName ? 'visible' : ''}`}>
+      <div
+        className={`exercise-input__lower-wrapper ${
+          exerciseName ? 'visible' : ''
+        }`}
+      >
         <RangedInput
           maxDigit={1}
           placeholder="Sets"
           onChange={handleSetChange}
-          isEditable
+          isEditable={isEditable}
+          defaultStart={sets.start}
+          defaultEnd={sets.end}
         />
-        <span className="exercise-input__separator">
-          X
-        </span>
+        <span className="exercise-input__separator">X</span>
         <RangedInput
           maxDigit={2}
           placeholder="Reps"
-          onChange={handleSetChange}
-          isEditable
+          onChange={handleRepsChange}
+          isEditable={isEditable}
+          defaultStart={reps.start}
+          defaultEnd={reps.end}
         />
       </div>
     </div>

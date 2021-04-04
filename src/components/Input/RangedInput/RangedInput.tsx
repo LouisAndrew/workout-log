@@ -1,6 +1,5 @@
-import React, {
-  FC, useEffect, useRef, useState
-} from 'react';
+/* eslint-disable object-curly-newline */
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { parseInt } from 'lodash';
 
 import './styles.css';
@@ -17,7 +16,7 @@ export type Props = {
   /**
    * identifier if the input is editable
    */
-  isEditable: boolean
+  isEditable?: boolean;
   /**
    * change function whenever value is changed
    */
@@ -29,11 +28,11 @@ export type Props = {
   /**
    * default value for start
    */
-  defaultStart?: number
+  defaultStart?: number;
   /**
    * default value for end
    */
-  defaultEnd?: number
+  defaultEnd?: number;
   [key: string]: any;
 };
 
@@ -44,15 +43,20 @@ const RangedInput: FC<Props> = ({
   defaultEnd,
   defaultStart,
   className,
+  isEditable = false,
   ...props
 }) => {
   const [start, setStart] = useState(defaultStart || -1);
   const [end, setEnd] = useState(defaultEnd || -1);
-  const [isSeparatorFilled, setIsSeparatorFilled] = useState(!!defaultStart && !!defaultEnd);
+  const [isSeparatorFilled, setIsSeparatorFilled] = useState(
+    !!defaultStart && !!defaultEnd
+  );
 
   const [shouldEndShowError, setShouldEndShowError] = useState(false);
 
-  const [shouldSeparatorRender, setShouldSeparatorRender] = useState(!!defaultEnd);
+  const [shouldSeparatorRender, setShouldSeparatorRender] = useState(
+    !!defaultEnd
+  );
   const [shouldEndRender, setShouldEndRender] = useState(!!defaultEnd);
 
   const startInput = useRef<HTMLInputElement | null>(null);
@@ -66,94 +70,106 @@ const RangedInput: FC<Props> = ({
   };
 
   const handleChangeStart = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const str = e.target.value;
-    if (str) {
-      if (lengthValidator(str) && isNumberValidator(str)) {
-        setStart(parseInt(str));
-        if (str.length === maxDigit) {
-          separatorInput.current?.focus();
+    if (isEditable) {
+      const str = e.target.value;
+      if (str) {
+        if (lengthValidator(str) && isNumberValidator(str)) {
+          setStart(parseInt(str));
+          if (str.length === maxDigit) {
+            separatorInput.current?.focus();
+          }
         }
+      } else {
+        setStart(-1);
       }
-    } else {
-      setStart(-1);
     }
   };
 
   const handleKeyDownStart = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (start !== -1) {
-        separatorInput.current?.focus();
+    if (isEditable) {
+      if (e.key === 'Enter') {
+        if (start !== -1) {
+          separatorInput.current?.focus();
+        }
       }
     }
   };
 
   const handleChangeSeparator = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value === '-';
-    setIsSeparatorFilled(value);
-    if (value) {
-      endInput.current?.focus();
+    if (isEditable) {
+      const value = e.target.value === '-';
+      setIsSeparatorFilled(value);
+      if (value) {
+        endInput.current?.focus();
+      }
     }
   };
 
   const handleKeyDownSeparator = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace') {
-      if (isSeparatorFilled) {
-        setIsSeparatorFilled(false);
-      } else {
+    if (isEditable) {
+      if (e.key === 'Backspace') {
+        if (isSeparatorFilled) {
+          setIsSeparatorFilled(false);
+        } else {
+          startInput.current?.focus();
+        }
+      }
+
+      if (e.key === 'Enter') {
+        if (start !== -1) {
+          setIsSeparatorFilled(true);
+          endInput.current?.focus();
+          return;
+        }
+
         startInput.current?.focus();
       }
-    }
-
-    if (e.key === 'Enter') {
-      if (start !== -1) {
-        setIsSeparatorFilled(true);
-        endInput.current?.focus();
-        return;
-      }
-
-      startInput.current?.focus();
     }
   };
 
   const handleChangeEnd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (start === -1) {
-      startInput.current?.focus();
-      return;
-    }
-
-    if (!isSeparatorFilled) {
-      separatorInput.current?.focus();
-      return;
-    }
-
-    const str = e.target.value;
-    if (str) {
-      if (lengthValidator(str) && isNumberValidator(str)) {
-        setEnd(parseInt(str));
+    if (isEditable) {
+      if (start === -1) {
+        startInput.current?.focus();
+        return;
       }
-    } else {
-      setEnd(-1);
+
+      if (!isSeparatorFilled) {
+        separatorInput.current?.focus();
+        return;
+      }
+
+      const str = e.target.value;
+      if (str) {
+        if (lengthValidator(str) && isNumberValidator(str)) {
+          setEnd(parseInt(str));
+        }
+      } else {
+        setEnd(-1);
+      }
     }
   };
 
   const handleKeyDownEnd = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace') {
-      if (end === -1) {
-        separatorInput?.current?.focus();
-      } else {
-        const endToString = end.toString();
-        if (endToString.length === 1) {
-          setEnd(-1);
-          return;
+    if (isEditable) {
+      if (e.key === 'Backspace') {
+        if (end === -1) {
+          separatorInput?.current?.focus();
+        } else {
+          const endToString = end.toString();
+          if (endToString.length === 1) {
+            setEnd(-1);
+            return;
+          }
+
+          setEnd(parseInt(endToString.substring(0, endToString.length - 1)));
         }
-
-        setEnd(parseInt(endToString.substring(0, endToString.length - 1)));
       }
-    }
 
-    if (e.key === 'Enter') {
-      if (end !== -1 && start !== -1 && isSeparatorFilled) {
-        endInput.current?.blur();
+      if (e.key === 'Enter') {
+        if (end !== -1 && start !== -1 && isSeparatorFilled) {
+          endInput.current?.blur();
+        }
       }
     }
   };
@@ -186,12 +202,18 @@ const RangedInput: FC<Props> = ({
   }, [start, end]);
 
   const widthMultiplier = 6;
-  const inputPlaceholder = Array.from(new Array(maxDigit).keys()).map(() => '#').join('');
+  const inputPlaceholder = Array.from(new Array(maxDigit).keys())
+    .map(() => '#')
+    .join('');
 
   return (
     <div
       className={`ranged-input__wrapper ${className}`}
-      onFocus={() => renderAll()}
+      onFocus={() => {
+        if (isEditable) {
+          renderAll();
+        }
+      }}
       onBlur={() => collapseUnecessary()}
       {...props}
     >
@@ -211,7 +233,9 @@ const RangedInput: FC<Props> = ({
           placeholder="-"
           onChange={handleChangeSeparator}
           onKeyDown={handleKeyDownSeparator}
-          className={`ranged-input__input ranged-input__input-separator w-${shouldSeparatorRender ? '6' : '0'} opacity-${shouldSeparatorRender ? '1' : '0'}`}
+          className={`ranged-input__input ranged-input__input-separator w-${
+            shouldSeparatorRender ? '6' : '0'
+          } opacity-${shouldSeparatorRender ? '1' : '0'}`}
         />
         <input
           value={end === -1 ? '' : end}
@@ -219,14 +243,16 @@ const RangedInput: FC<Props> = ({
           onChange={handleChangeEnd}
           onKeyDown={handleKeyDownEnd}
           className={`ranged-input__input w-${
-            shouldEndRender ? `${widthMultiplier * maxDigit}` : '0'} opacity-${
-            shouldEndRender ? '1' : '0'} ${
+            shouldEndRender ? `${widthMultiplier * maxDigit}` : '0'
+          } opacity-${shouldEndRender ? '1' : '0'} ${
             shouldEndShowError ? 'text-red-400' : ''
           }`}
           placeholder={inputPlaceholder}
         />
       </div>
-      <div className="ranged-input__placeholder">{placeholder.toUpperCase()}</div>
+      <div className="ranged-input__placeholder">
+        {placeholder.toUpperCase()}
+      </div>
     </div>
   );
 };

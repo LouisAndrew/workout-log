@@ -3,11 +3,13 @@ import React from 'react';
 import { Story } from '@storybook/react';
 
 import '../index.css';
-import RangedInput, { Props } from '../components/Input/RangedInput/RangedInput';
+import RangedInput, {
+  Props,
+} from '../components/Input/RangedInput/RangedInput';
 
 export default {
   title: 'Components/Input/RangedInput',
-  component: RangedInput
+  component: RangedInput,
 };
 
 const Template: Story<Props> = (args) => (
@@ -17,29 +19,44 @@ const Template: Story<Props> = (args) => (
 );
 
 export const Inactive = Template.bind({});
+Inactive.args = {
+  isEditable: true,
+};
+
 export const FilledSingle = Template.bind({});
 FilledSingle.args = {
   defaultStart: 2,
-  placeholder: 'sets'
+  placeholder: 'sets',
+  isEditable: true,
 };
 
 export const FilledOneDigit = Template.bind({});
 FilledOneDigit.args = {
   defaultStart: 3,
   defaultEnd: 4,
-  placeholder: 'sets'
+  placeholder: 'sets',
+  isEditable: true,
 };
 
 export const FilledTwoDigits = Template.bind({});
 FilledTwoDigits.args = {
   defaultStart: 12,
   defaultEnd: 15,
-  placeholder: 'reps'
+  placeholder: 'reps',
+  isEditable: true,
 };
 
 export const FilledAlternate = Template.bind({});
 FilledAlternate.args = {
   defaultStart: 8,
   defaultEnd: 12,
-  placeholder: 'reps'
+  placeholder: 'reps',
+  isEditable: true,
+};
+
+export const FilledNoEdit = Template.bind({});
+FilledNoEdit.args = {
+  defaultStart: 12,
+  defaultEnd: 15,
+  placeholder: 'reps',
 };
