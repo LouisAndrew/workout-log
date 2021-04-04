@@ -1,6 +1,7 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Story } from '@storybook/react';
+import { AiFillPlaySquare } from 'react-icons/ai';
 
 import Button, { Props } from '../components/Button/Button';
 
@@ -34,4 +35,29 @@ export const Ghost = Template.bind({});
 Ghost.args = {
   children: defaultText,
   type: 'ghost'
+};
+
+export const Small = Template.bind({});
+Small.args = {
+  children: defaultText,
+  size: 's'
+};
+
+export const Large = Template.bind({});
+Large.args = {
+  children: defaultText,
+  size: 'l'
+};
+
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+  children: defaultText,
+  Icon: AiFillPlaySquare
+};
+
+export const PrimaryWithIcon = Template.bind({});
+PrimaryWithIcon.args = {
+  children: defaultText,
+  type: 'primary',
+  Icon: AiFillPlaySquare
 };
