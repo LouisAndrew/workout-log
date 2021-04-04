@@ -1,5 +1,5 @@
 .review-select__wrapper {
-  @apply w-52 duration-200 bg-gray-100 px-4 py-3 rounded;
+  @apply w-52 duration-200 bg-gray-200 px-4 py-3 rounded;
 }
 
 .review-select__selected {
@@ -40,8 +40,8 @@
 }
 
 .review-select__selector-wrapper {
-  @apply flex items-center w-full bg-gray-200 duration-200 px-2 py-1
-    hover:bg-gray-50;
+  @apply flex items-center w-full bg-gray-200 duration-200 px-2 py-1 rounded
+    hover:bg-gray-300;
 }
 
 .review-select__selector-indicator {

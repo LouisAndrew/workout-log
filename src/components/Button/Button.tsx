@@ -1,8 +1,13 @@
+import { IconType } from 'react-icons/lib';
 import React, { FC } from 'react';
 
 import './styles.css';
 
 export type Props = {
+  /**
+   * size of the button
+   */
+  size?: 's' | 'm' | 'l'
   /**
    * type of the button
    */
@@ -24,6 +29,10 @@ export type Props = {
    */
   onClick?: () => void
   /**
+   * icon to render with the children
+   */
+  Icon?: IconType
+  /**
    * additional class name(s) for styling (tailwind)
    */
   className?: string
@@ -34,10 +43,15 @@ export type Props = {
 }
 
 const Button: FC<Props> = ({
-  children, type = 'secondary', nativeType = 'button', bg, color, onClick, className, ...rest
+  children, type = 'secondary', nativeType = 'button', bg, color, onClick, Icon, className, size = 'm', ...rest
 }) => (
   // eslint-disable-next-line react/button-has-type
-  <button type={nativeType} onClick={onClick} className={`button button--${type} bg-${bg || ''} text-${color || ''} ${className}`} {...rest}>
+  <button type={nativeType} onClick={onClick} className={`button button--${type} ${size === 'm' ? '' : `button-${size}`} bg-${bg || ''} text-${color || ''} ${className}`} {...rest}>
+    {Icon && (
+      <span className="button__icon-wrapper" role="img">
+        <Icon />
+      </span>
+    )}
     {children}
   </button>
 );
