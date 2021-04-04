@@ -1,13 +1,13 @@
-export type Metric = 'kg' | 'lbs';
+export type Metric = 'KG' | 'LBS' | '';
 export type Review = {
   /**
    * indicator of how the set / exercise was
    */
-  review: 'UP' | 'DOWN' | 'STAY'
+  review: 'UP' | 'DOWN' | 'STAY' | '?';
   /**
    * additional / optional note that user could input
    */
-  note?: string
+  note?: string;
 };
 
 export type ExerciseSet = {
