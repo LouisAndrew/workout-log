@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { FC, useEffect, useState } from 'react';
 import {
@@ -11,6 +12,7 @@ import { parseInt } from 'lodash';
 import { Metric, Review } from '../../../types/Set';
 
 import './styles.css';
+import { ReviewSelect } from '../../Select/ReviewSelect';
 
 export type Props = {
   /**
@@ -72,10 +74,9 @@ const LogInput: FC<Props> = ({
   const [review, setReview] = useState<Review>(
     defaultReview || { review: '?' }
   );
-
-  console.log({
-    setReview,
-  });
+  const [shouldDisplayReviewSelect, setShouldDisplayReviewSelect] = useState(
+    false
+  );
 
   const handleChangeWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditable) {
@@ -103,6 +104,10 @@ const LogInput: FC<Props> = ({
         return;
       }
     }
+  };
+
+  const openSelectReview = () => {
+    setShouldDisplayReviewSelect(true);
   };
 
   const getLength = (val: number) => val.toString().length;
@@ -142,6 +147,19 @@ const LogInput: FC<Props> = ({
         <span className="log-input__review-value">
           {review.review === '?' ? 'NOT SET' : review.review}
         </span>
+        {shouldDisplayReviewSelect && (
+          <ReviewSelect
+            defaultReview={review}
+            onChange={(r) => {
+              if (r.review !== review.review && r.note !== review.note) {
+                setReview(r);
+              }
+            }}
+            isEditable
+            className="log-input__edit-review"
+            clickOutsidefn={() => setShouldDisplayReviewSelect(false)}
+          />
+        )}
       </div>
     );
   };
@@ -150,7 +168,7 @@ const LogInput: FC<Props> = ({
     <div className={`log-input__wrapper ${className}`} {...rest}>
       <div className="log-input__upper-wrapper">
         <span className="log-input__set-id">SET #{index}</span>
-        <ReviewIcon />
+        <ReviewIcon onClick={openSelectReview} />
       </div>
       <div className="log-input__lower-wrapper">
         <label

@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useState } from 'react';
+/* eslint-disable object-curly-newline */
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
   BiQuestionMark,
   BiUpvote,
@@ -9,6 +10,7 @@ import {
 } from 'react-icons/bi';
 
 import { Review, ReviewIndicator } from '../../../types/Set';
+import { useClickOutside } from '../../../hooks/useClickOutside';
 import Selector from './Selector';
 import './styles.css';
 
@@ -16,7 +18,7 @@ export type Props = {
   /**
    * default review value
    */
-  defaultReview?: Review;
+  defaultReview: Review;
   /**
    * identifies if the field is editable
    */
@@ -25,6 +27,10 @@ export type Props = {
    * handler function to handle change
    */
   onChange: (r: Review) => void;
+  /**
+   * function to to be called when clicking outside of the modal
+   */
+  clickOutsidefn?: () => void;
   /**
    * optional styling option
    */
@@ -36,6 +42,7 @@ const ReviewSelect: FC<Props> = ({
   isEditable = false,
   className,
   onChange,
+  clickOutsidefn = () => console.log('outside click'),
 }) => {
   const [reviewIndicator, setReviewIndicator] = useState<ReviewIndicator>(
     defaultReview.review
@@ -44,6 +51,9 @@ const ReviewSelect: FC<Props> = ({
   const [shouldExpandSelection, setShouldExpandSelection] = useState(
     isEditable && defaultReview.review === '?'
   );
+
+  const ref = useRef<HTMLDivElement>(null);
+  useClickOutside(ref, clickOutsidefn);
 
   const availableIndicators = ['UP', 'DOWN', 'STAY'];
 
@@ -97,7 +107,7 @@ const ReviewSelect: FC<Props> = ({
   }, [reviewIndicator, note]);
 
   return (
-    <div className={`review-select__wrapper ${className}`}>
+    <div className={`review-select__wrapper ${className}`} ref={ref}>
       <div className="review-select__selected">
         <ReviewIcon r={reviewIndicator} />
         <span className="review-select__selected-indicator">
@@ -128,6 +138,7 @@ const ReviewSelect: FC<Props> = ({
             indicator={i as ReviewIndicator}
             onClick={handleClickSelector}
             Icon={getIcon(i as ReviewIndicator)}
+            key={i}
           />
         ))}
       </div>

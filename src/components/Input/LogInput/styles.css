@@ -14,8 +14,12 @@
 }
 
 .log-input__review {
-  @apply duration-200 py-1 pl-1 pr-1 rounded flex items-center overflow-hidden
-    hover:bg-gray-200 hover:pr-2 cursor-pointer;
+  @apply duration-200 py-1 pl-1 pr-1 rounded flex items-center
+    hover:bg-gray-200 hover:pr-2 cursor-pointer relative;
+}
+
+.log-input__edit-review {
+  @apply absolute z-10 top-0 left-0;
 }
 
 .log-input__review-value {
