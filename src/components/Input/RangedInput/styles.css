@@ -2,10 +2,6 @@
   @apply flex flex-col items-center duration-200;
 }
 
-.ranged-input__input-group {
-  transition-duration: 100ms;
-}
-
 .ranged-input__input {
   @apply border-none font-body font-black text-center duration-200
          focus:outline-none;

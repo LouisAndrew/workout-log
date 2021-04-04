@@ -1,9 +1,10 @@
 export type Metric = 'KG' | 'LBS' | '';
+export type ReviewIndicator = 'UP' | 'DOWN' | 'STAY' | '?';
 export type Review = {
   /**
    * indicator of how the set / exercise was
    */
-  review: 'UP' | 'DOWN' | 'STAY' | '?';
+  review: ReviewIndicator;
   /**
    * additional / optional note that user could input
    */
