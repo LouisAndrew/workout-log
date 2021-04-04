@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useEffect } from 'react';
 import { BiGridVertical } from 'react-icons/bi';
 
 import { RangedInput } from '../RangedInput';
@@ -27,6 +27,14 @@ export type Props = {
    * determine if the input field is editable
    */
   isEditable?: boolean;
+  /**
+   * handler function to handle change
+   */
+  onChange?: (name: string, reps?: Range, sets?: Range) => void;
+  /**
+   * additional styling
+   */
+  className?: string;
 };
 
 const ExerciseInput: FC<Props> = ({
@@ -34,13 +42,15 @@ const ExerciseInput: FC<Props> = ({
   defaultReps,
   defaultSets,
   isEditable = false,
+  onChange,
+  className,
 }) => {
   const [exerciseName, setExerciseName] = useState(value || '');
 
   const [sets, setSets] = useState<Range>(defaultSets || { start: -1 });
   const [reps, setReps] = useState<Range>(defaultReps || { start: -1 });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     // verify if exercise name already exists
     if (isEditable) {
       setExerciseName(e.target.value);
@@ -55,8 +65,18 @@ const ExerciseInput: FC<Props> = ({
     setReps({ start, end });
   };
 
+  useEffect(() => {
+    if (exerciseName !== '') {
+      onChange?.(
+        exerciseName,
+        reps.start === -1 ? undefined : reps,
+        sets.start === -1 ? undefined : sets
+      );
+    }
+  }, [reps, sets, exerciseName]);
+
   return (
-    <div className="exercise-input__wrapper">
+    <div className={`exercise-input__wrapper ${className}`}>
       <div className="exercise-input__upper-wrapper">
         <BiGridVertical
           className={`exercise-input__options-icon ${
@@ -65,7 +85,7 @@ const ExerciseInput: FC<Props> = ({
         />
         <input
           value={exerciseName}
-          onChange={handleChange}
+          onChange={handleChangeName}
           className="exercise-input__input"
           placeholder="Exercise name"
         />
