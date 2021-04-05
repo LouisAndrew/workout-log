@@ -1,8 +1,7 @@
 // eslint-disable-next-line object-curly-newline
 import React, { FC, useRef, useState } from 'react';
-import { BiDumbbell, BiX } from 'react-icons/bi';
+import { BiDumbbell, BiX, BiSave } from 'react-icons/bi';
 
-// import { ExerciseInput, LogInput } from '@components/Input';
 import { ExerciseInput, LogInput } from '@components/Input';
 import { Button } from '@components/Button';
 import { CompleteExercise } from '@t/Exercise';
@@ -104,6 +103,10 @@ const LoggableExerciseInput: FC<Props> = ({
     };
   };
 
+  const saveLog = () => {
+    console.log('saving');
+  };
+
   return (
     <div className={`loggable-exercise-input__wrapper ${className}`}>
       <ExerciseInput
@@ -138,16 +141,29 @@ const LoggableExerciseInput: FC<Props> = ({
           </div>
         ))}
         {isLoggable && (
-          <Button
-            className={`loggable-exercise-input__log-button ${
+          <div
+            className={`loggable-exercise-input__button-group ${
               logs.length > 0 ? 'mt-3' : ''
             }`}
-            size="s"
-            Icon={BiDumbbell}
-            onClick={createLog}
           >
-            Log Exercise
-          </Button>
+            <Button
+              className="loggable-exercise-input__log-button loggable-exercise-input__button"
+              size="s"
+              Icon={BiDumbbell}
+              onClick={createLog}
+            >
+              Log Exercise
+            </Button>
+            <Button
+              className="loggable-exercise-input__save-button loggable-exercise-input__button"
+              size="s"
+              type="primary"
+              Icon={BiSave}
+              onClick={saveLog}
+            >
+              Save Log
+            </Button>
+          </div>
         )}
       </div>
     </div>

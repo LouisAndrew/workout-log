@@ -1,9 +1,10 @@
 .review-select__wrapper {
-  @apply w-52 duration-200 bg-gray-200 px-4 py-3 rounded;
+  @apply w-52 duration-200 bg-gray-100 px-4 py-3 rounded
+    border-2 border-gray-200 shadow-lg;
 }
 
 .review-select__selected {
-  @apply flex items-center w-full bg-gray-50 px-1 py-0.5 rounded;
+  @apply flex items-center w-full bg-gray-200 px-1 py-0.5 rounded;
 }
 
 .review-select__selected-indicator {
@@ -15,12 +16,13 @@
 }
 
 .review-select__selected-icons {
-  @apply w-6 h-6 p-0.5 duration-200
-    hover:bg-gray-200 rounded;
+  @apply w-6 h-6 p-0.5 duration-200 border-2 border-transparent 
+   hover:border-gray-500 hover:bg-gray-100 rounded;
 }
 
 .review-select__remove-icon {
-  @apply duration-200 mr-1 hover:bg-red-300;
+  @apply duration-200 mr-1
+  hover:text-red-400 hover:border-red-400;
 }
 
 .review-select__selections {
@@ -40,7 +42,7 @@
 }
 
 .review-select__selector-wrapper {
-  @apply flex items-center w-full bg-gray-200 duration-200 px-2 py-1 rounded
+  @apply flex items-center w-full bg-gray-100 duration-200 px-2 py-1 rounded
     hover:bg-gray-300;
 }
 
@@ -48,7 +50,7 @@
   @apply ml-3 text-sm font-bold;
 }
 
-@keyframes fade-in {
+@keyframes note-in {
   from {
     opacity: 0;
   }
@@ -58,8 +60,8 @@
 }
 
 .review-select__note {
-  animation-name: fade-in;
-  animation-duration: 1000ms;
+  animation-name: note-in;
+  animation-duration: 400ms;
   @apply duration-200 pt-1;
 }
 
@@ -68,6 +70,6 @@
 }
 
 .review-select__note-input {
-  @apply font-body mt-1 font-medium bg-gray-50 py-2 text-sm
+  @apply font-body mt-1 font-medium bg-gray-200 py-2 text-sm
     px-3 w-full rounded;
 }

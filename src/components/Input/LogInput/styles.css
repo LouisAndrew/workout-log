@@ -12,7 +12,7 @@
 
 .log-input__review {
   @apply duration-200 py-1 pl-1 pr-1 rounded flex items-center
-    hover:bg-gray-200 hover:pr-2 cursor-pointer relative;
+    hover:bg-gray-100 hover:pr-2 cursor-pointer relative;
 }
 
 @keyframes fade-in {
