@@ -6,7 +6,7 @@ import { ExerciseInput, LogInput } from '../../Input';
 import { Button } from '../../Button';
 import { CompleteExercise } from '../../../types/Exercise';
 import { ExerciseSetOrdered, Review } from '../../../types/Set';
-import { stringToRange } from '../../../helper/ranges';
+import { rangeToString, stringToRange, Range } from '../../../helper/ranges';
 
 import './styles.css';
 
@@ -44,7 +44,7 @@ const LoggableExerciseInput: FC<Props> = ({
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
 
   const logsRef = useRef<ExerciseSetOrdered[]>(logs);
-  // const exerciseRef = useRef(exercise);
+  const exerciseRef = useRef(exercise);
 
   const createLog = () => {
     const temp = logsRef.current;
@@ -55,7 +55,7 @@ const LoggableExerciseInput: FC<Props> = ({
       review: {
         indicator: '?',
       },
-      order: temp[temp.length - 1].order + 1,
+      order: temp.length > 0 ? temp[temp.length - 1].order + 1 : 0,
     };
 
     const newLogs = [...temp, emptyLog];
@@ -92,6 +92,17 @@ const LoggableExerciseInput: FC<Props> = ({
     logsRef.current = filtered;
   };
 
+  const handleChangeExercise = (name: string, reps?: Range, sets?: Range) => {
+    exerciseRef.current = {
+      name,
+      reps: reps ? rangeToString(reps) : '',
+      sets: sets ? rangeToString(sets) : '',
+      tags: [],
+      order: exercise.order,
+      logs: [],
+    };
+  };
+
   return (
     <div className={`loggable-exercise-input__wrapper ${className}`}>
       <ExerciseInput
@@ -99,6 +110,7 @@ const LoggableExerciseInput: FC<Props> = ({
         defaultReps={stringToRange(exercise.reps)}
         defaultSets={stringToRange(exercise.sets)}
         isEditable={isEditable}
+        onChange={handleChangeExercise}
       />
       <div className="loggable-exercise-input__log-wrapper">
         {logs.map((l, i) => (
@@ -116,6 +128,7 @@ const LoggableExerciseInput: FC<Props> = ({
               weightMetric={l.metric}
               onChange={onLogChange}
               isEditable={isEditable}
+              className="loggable-exercise-input__log-item"
             />
             <BiX
               className="loggable-exercise-input__remove-log"

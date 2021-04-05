@@ -109,7 +109,9 @@ const RangedInput: FC<Props> = ({
     if (isEditable) {
       if (e.key === 'Backspace') {
         if (isSeparatorFilled) {
-          setIsSeparatorFilled(false);
+          if (end === -1) {
+            setIsSeparatorFilled(false);
+          }
         } else {
           startInput.current?.focus();
         }
@@ -198,6 +200,10 @@ const RangedInput: FC<Props> = ({
     const shouldCallWithEnd = end !== -1 && end > start;
     if (start !== -1) {
       onChange(start, shouldCallWithEnd ? end : undefined);
+    }
+
+    if (start !== -1 && end !== -1) {
+      setIsSeparatorFilled(true);
     }
   }, [start, end]);
 

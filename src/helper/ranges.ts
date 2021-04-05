@@ -6,6 +6,10 @@ export type Range = {
 };
 
 export const stringToRange = (str: string): Range => {
+  if (str === '') {
+    return { start: -1 };
+  }
+
   if (!str.includes('-')) {
     return { start: parseInt(str) };
   }

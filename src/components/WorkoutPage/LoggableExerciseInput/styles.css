@@ -2,23 +2,20 @@
   @apply pl-8 pt-4 duration-200;
 }
 
-.loggable-exercise-input__log-wrapper {
-  @apply duration-200;
-}
-
 @keyframes log-fade-in {
   from {
-    height: 0;
     opacity: 0;
   }
   to {
-    height: max-content;
     opacity: 1;
   }
 }
 
+.loggable-exercise-input__log-item {
+  animation: log-fade-in 400ms;
+}
+
 .loggable-exercise-input__log {
-  animation: log-fade-in 300ms;
   @apply flex items-center py-2 px-2 w-max duration-100
     hover:bg-gray-100;
 }
@@ -33,7 +30,17 @@
 }
 
 .loggable-exercise-input__log-button {
+  @apply duration-200 opacity-0;
 }
+
+.loggable-exercise-input__log-wrapper:hover
+  .loggable-exercise-input__log-button,
+.loggable-exercise-input__log-wrapper
+  .log-input__input:focus
+  .loggable-exercise-input__log-button {
+  @apply opacity-100;
+}
+
 .loggable-exercise-input__log-button svg {
   transform: scale(1.5) rotate(45deg);
 }
