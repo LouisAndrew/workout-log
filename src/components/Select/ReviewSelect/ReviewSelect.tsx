@@ -18,7 +18,7 @@ export type Props = {
   /**
    * default review value
    */
-  defaultReview: Review;
+  defaultReview?: Review;
   /**
    * identifies if the field is editable
    */
@@ -38,7 +38,7 @@ export type Props = {
 };
 
 const ReviewSelect: FC<Props> = ({
-  defaultReview,
+  defaultReview = { review: '?' },
   isEditable = false,
   className,
   onChange,
@@ -51,6 +51,9 @@ const ReviewSelect: FC<Props> = ({
   const [shouldExpandSelection, setShouldExpandSelection] = useState(
     isEditable && defaultReview.review === '?'
   );
+
+  // const noteRef = useRef(note);
+  // const reviewRef = useRef(reviewIndicator);
 
   const ref = useRef<HTMLDivElement>(null);
   useClickOutside(ref, clickOutsidefn);
@@ -163,4 +166,4 @@ const ReviewSelect: FC<Props> = ({
   );
 };
 
-export default ReviewSelect;
+export default React.memo(ReviewSelect);
