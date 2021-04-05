@@ -4,9 +4,9 @@ import { Story } from '@storybook/react';
 
 import LoggableExerciseInput, {
   Props,
-} from '../components/WorkoutPage/LoggableExerciseInput/LoggableExerciseInput';
+} from '@components/WorkoutPage/LoggableExerciseInput/LoggableExerciseInput';
 
-import { benchPressOrdered } from '../mocks/exercises';
+import { benchPressOrdered } from '@/mocks/exercises';
 
 export default {
   title: 'WorkoutPage/LoggableExercise',

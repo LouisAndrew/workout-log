@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IconType } from 'react-icons/lib';
 
-import { ReviewIndicator } from '../../../types/Set';
+import { ReviewIndicator } from '@t/Set';
 
 export type Props = {
   /**

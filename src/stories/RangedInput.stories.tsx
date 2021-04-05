@@ -1,11 +1,9 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Story } from '@storybook/react';
+import RangedInput, { Props } from '@components/Input/RangedInput/RangedInput';
 
 import '../index.css';
-import RangedInput, {
-  Props,
-} from '../components/Input/RangedInput/RangedInput';
 
 export default {
   title: 'Components/Input/RangedInput',

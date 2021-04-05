@@ -1,8 +1,8 @@
 import React, { useState, FC, useEffect } from 'react';
 import { BiGridVertical } from 'react-icons/bi';
+import { Range } from '@helper/ranges';
 
 import { RangedInput } from '../RangedInput';
-import { Range } from '../../../helper/ranges';
 
 import './styles.css';
 

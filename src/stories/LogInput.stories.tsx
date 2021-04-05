@@ -2,7 +2,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Story } from '@storybook/react';
 
-import LogInput, { Props } from '../components/Input/LogInput/LogInput';
+import LogInput, { Props } from '@components/Input/LogInput/LogInput';
 
 export default {
   title: 'Components/Input/LogInput',

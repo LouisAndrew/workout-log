@@ -5,8 +5,8 @@ import { BiUpvote } from 'react-icons/bi';
 
 import ReviewSelect, {
   Props,
-} from '../components/Select/ReviewSelect/ReviewSelect';
-import SelectorComponent from '../components/Select/ReviewSelect/Selector';
+} from '@components/Select/ReviewSelect/ReviewSelect';
+import SelectorComponent from '@components/Select/ReviewSelect/Selector';
 
 export default {
   title: 'Components/Select/ReviewSelect',
@@ -18,7 +18,7 @@ const Template: Story<Props> = (args) => <ReviewSelect {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   defaultReview: {
-    review: '?',
+    indicator: '?',
   },
   isEditable: true,
 };
@@ -26,7 +26,7 @@ Default.args = {
 export const Selected = Template.bind({});
 Selected.args = {
   defaultReview: {
-    review: 'UP',
+    indicator: 'UP',
   },
   isEditable: true,
 };
@@ -34,7 +34,7 @@ Selected.args = {
 export const SelectedWithNotes = Template.bind({});
 SelectedWithNotes.args = {
   defaultReview: {
-    review: 'DOWN',
+    indicator: 'DOWN',
     note: 'Pay attention to squat depth',
   },
   isEditable: true,
@@ -43,7 +43,7 @@ SelectedWithNotes.args = {
 export const SelectedWithNotesNoEdit = Template.bind({});
 SelectedWithNotesNoEdit.args = {
   defaultReview: {
-    review: 'DOWN',
+    indicator: 'DOWN',
     note: 'Pay attention to squat depth',
   },
 };

@@ -4,7 +4,7 @@ import { Story } from '@storybook/react';
 
 import ExerciseInput, {
   Props,
-} from '../components/Input/ExerciseInput/ExerciseInput';
+} from '@components/Input/ExerciseInput/ExerciseInput';
 
 export default {
   title: 'Components/Input/ExerciseInput',

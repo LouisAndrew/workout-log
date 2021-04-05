@@ -3,61 +3,63 @@ import React from 'react';
 import { Story } from '@storybook/react';
 import { AiFillPlaySquare } from 'react-icons/ai';
 
-import Button, { Props } from '../components/Button/Button';
+import Button, { Props } from '@components/Button/Button';
 
 export default {
   title: 'Components/Button',
-  component: Button
+  component: Button,
 };
 
 const defaultText = 'Click me';
 
-const Template: Story<Props> = ({ children, ...args }) => <Button {...args}>{children}</Button>;
+const Template: Story<Props> = ({ children, ...args }) => (
+  <Button {...args}>{children}</Button>
+);
 
 export const Primary = Template.bind({});
 Primary.args = {
   children: defaultText,
-  type: 'primary'
+  type: 'primary',
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  children: defaultText
+  children: defaultText,
 };
 
 export const Remove = Template.bind({});
 Remove.args = {
   children: defaultText,
-  type: 'remove'
+  type: 'remove',
 };
 
 export const Ghost = Template.bind({});
 Ghost.args = {
   children: defaultText,
-  type: 'ghost'
+  type: 'ghost',
 };
 
 export const Small = Template.bind({});
 Small.args = {
   children: defaultText,
-  size: 's'
+  size: 's',
 };
 
 export const Large = Template.bind({});
 Large.args = {
   children: defaultText,
-  size: 'l'
+  size: 'l',
 };
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   children: defaultText,
-  Icon: AiFillPlaySquare
+  Icon: AiFillPlaySquare,
 };
 
 export const PrimaryWithIcon = Template.bind({});
 PrimaryWithIcon.args = {
   children: defaultText,
   type: 'primary',
-  Icon: AiFillPlaySquare
+  Icon: AiFillPlaySquare,
 };

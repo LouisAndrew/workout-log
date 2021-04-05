@@ -2,11 +2,12 @@
 import React, { FC, useRef, useState } from 'react';
 import { BiDumbbell, BiX } from 'react-icons/bi';
 
-import { ExerciseInput, LogInput } from '../../Input';
-import { Button } from '../../Button';
-import { CompleteExercise } from '../../../types/Exercise';
-import { ExerciseSetOrdered, Review } from '../../../types/Set';
-import { rangeToString, stringToRange, Range } from '../../../helper/ranges';
+// import { ExerciseInput, LogInput } from '@components/Input';
+import { ExerciseInput, LogInput } from '@components/Input';
+import { Button } from '@components/Button';
+import { CompleteExercise } from '@t/Exercise';
+import { ExerciseSetOrdered, Review } from '@t/Set';
+import { rangeToString, stringToRange, Range } from '@helper/ranges';
 
 import './styles.css';
 

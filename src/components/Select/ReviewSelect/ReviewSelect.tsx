@@ -9,8 +9,8 @@ import {
   BiCaretDownSquare,
 } from 'react-icons/bi';
 
-import { Review, ReviewIndicator } from '../../../types/Set';
-import { useClickOutside } from '../../../hooks/useClickOutside';
+import { Review, ReviewIndicator } from '@t/Set';
+import { useClickOutside } from '@h/useClickOutside';
 import Selector from './Selector';
 import './styles.css';
 

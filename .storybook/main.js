@@ -33,6 +33,10 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve?.alias,
       '@': path.resolve(__dirname, '../src/'),
+      '@components': path.resolve(__dirname, '../src/components/'),
+      '@helper': path.resolve(__dirname, '../src/helper/'),
+      '@t': path.resolve(__dirname, '../src/types/'),
+      '@h': path.resolve(__dirname, '../src/hooks/')
     };
     return config;
   },

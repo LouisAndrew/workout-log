@@ -8,11 +8,10 @@ import {
   BiRevision,
 } from 'react-icons/bi';
 import { parseInt } from 'lodash';
-
-import { Metric, Review } from '../../../types/Set';
+import { ReviewSelect } from '@components/Select/ReviewSelect';
+import { Metric, Review } from '@t/Set';
 
 import './styles.css';
-import { ReviewSelect } from '../../Select/ReviewSelect';
 
 export type Props = {
   /**
