@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
   BiQuestionMark,
   BiUpvote,
@@ -78,6 +78,8 @@ const LogInput: FC<Props> = ({
     false
   );
 
+  const reviewRef = useRef(review);
+
   const handleChangeWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditable) {
       const val = parseInt(e.target.value, 10);
@@ -108,6 +110,15 @@ const LogInput: FC<Props> = ({
 
   const openSelectReview = () => {
     setShouldDisplayReviewSelect(true);
+  };
+
+  const handleCloseReviewSelect = () => {
+    setReview(reviewRef.current);
+    setShouldDisplayReviewSelect(false);
+  };
+
+  const handleChangeReview = (r: Review) => {
+    reviewRef.current = r;
   };
 
   const getLength = (val: number) => val.toString().length;
@@ -150,14 +161,10 @@ const LogInput: FC<Props> = ({
         {shouldDisplayReviewSelect && (
           <ReviewSelect
             defaultReview={review}
-            onChange={(r) => {
-              if (r.review !== review.review && r.note !== review.note) {
-                setReview(r);
-              }
-            }}
+            onChange={handleChangeReview}
             isEditable
             className="log-input__edit-review"
-            clickOutsidefn={() => setShouldDisplayReviewSelect(false)}
+            clickOutsidefn={handleCloseReviewSelect}
           />
         )}
       </div>
