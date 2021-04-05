@@ -1,0 +1,9 @@
+.loggable-exercise-input__log-wrapper {
+  @apply pl-8 pt-2;
+}
+
+.loggable-exercise-input__log-button {
+}
+.loggable-exercise-input__log-button svg {
+  transform: scale(1.5) rotate(45deg);
+}
