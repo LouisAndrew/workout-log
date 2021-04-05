@@ -7,13 +7,13 @@ import {
 
 const benchPress: Exercise = {
   name: 'Bench Press',
-  sets: '3 - 4',
-  reps: '8 - 12',
+  sets: '3-4',
+  reps: '8-12',
 };
 
 const squat: Exercise = {
   name: 'Squat',
-  sets: '2 - 3',
+  sets: '2-3',
   reps: '10',
 };
 
@@ -29,11 +29,11 @@ const benchPressTagged: ExerciseWithTags<Exercise> = {
 
 const benchPressLogged: ExerciseWithLog<typeof benchPressTagged> = {
   ...benchPressTagged,
-  metric: 'kg',
   logs: [
     {
       weight: 40,
       reps: 10,
+      metric: 'KG',
     },
   ],
 };

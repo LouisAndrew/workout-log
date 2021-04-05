@@ -40,3 +40,9 @@ export type ExerciseWithOrder<E extends Exercise> = E & {
    */
   order: number;
 };
+
+export type CompleteExerciseNoLog = ExerciseWithOrder<
+  ExerciseWithTags<Exercise>
+>;
+
+export type CompleteExercise = ExerciseWithLog<CompleteExerciseNoLog>;
