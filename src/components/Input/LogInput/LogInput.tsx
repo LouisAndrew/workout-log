@@ -20,9 +20,13 @@ export type Props = {
    */
   exerciseId: string;
   /**
-   * index / number of the set
+   * index of the set
    */
   index: number;
+  /**
+   * number of the set
+   */
+  setNum?: number;
   /**
    * default value of the reps
    */
@@ -50,7 +54,12 @@ export type Props = {
   /**
    * handler function to handle changes on the input
    */
-  onChange: (weight: number, reps: number, review?: Review) => void;
+  onChange: (
+    weight: number,
+    reps: number,
+    index: number,
+    review?: Review
+  ) => void;
   /**
    * additional props
    */
@@ -67,17 +76,19 @@ const LogInput: FC<Props> = ({
   isEditable = false,
   className,
   onChange,
+  setNum,
   ...rest
 }) => {
   const [weight, setWeight] = useState(defaultWeight || -1);
   const [reps, setReps] = useState(defaultReps || -1);
   const [review, setReview] = useState<Review>(
-    defaultReview || { review: '?' }
+    defaultReview || { indicator: '?' }
   );
   const [shouldDisplayReviewSelect, setShouldDisplayReviewSelect] = useState(
     false
   );
 
+  const firstRender = useRef(true);
   const reviewRef = useRef(review);
 
   const handleChangeWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,8 +140,8 @@ const LogInput: FC<Props> = ({
     return `w-${width}`;
   };
 
-  const getReviewIcon = ({ review: r }: Review) => {
-    switch (r) {
+  const getReviewIcon = ({ indicator }: Review) => {
+    switch (indicator) {
       case 'UP':
         return BiUpvote;
       case 'DOWN':
@@ -144,10 +155,21 @@ const LogInput: FC<Props> = ({
   };
 
   useEffect(() => {
-    if (weight !== -1 && reps !== -1) {
-      onChange(weight, reps, review.review !== '?' ? review : undefined);
+    if (!firstRender.current) {
+      if (weight !== -1 || reps !== -1 || review.indicator !== '?') {
+        onChange(
+          weight,
+          reps,
+          index,
+          review.indicator !== '?' ? review : undefined
+        );
+      }
     }
   }, [weight, reps, review]);
+
+  useEffect(() => {
+    firstRender.current = false;
+  }, []);
 
   const ReviewIcon = (args: any) => {
     const Icon = getReviewIcon(review);
@@ -156,13 +178,13 @@ const LogInput: FC<Props> = ({
       <div className="log-input__review group" {...args}>
         <Icon className="log-input__review-icon" />
         <span className="log-input__review-value">
-          {review.review === '?' ? 'NOT SET' : review.review}
+          {review.indicator === '?' ? 'NOT SET' : review.indicator}
         </span>
         {shouldDisplayReviewSelect && (
           <ReviewSelect
             defaultReview={review}
             onChange={handleChangeReview}
-            isEditable
+            isEditable={isEditable}
             className="log-input__edit-review"
             clickOutsidefn={handleCloseReviewSelect}
           />
@@ -174,7 +196,7 @@ const LogInput: FC<Props> = ({
   return (
     <div className={`log-input__wrapper ${className}`} {...rest}>
       <div className="log-input__upper-wrapper">
-        <span className="log-input__set-id">SET #{index}</span>
+        <span className="log-input__set-id">SET #{setNum || index}</span>
         <ReviewIcon onClick={openSelectReview} />
       </div>
       <div className="log-input__lower-wrapper">
@@ -182,7 +204,7 @@ const LogInput: FC<Props> = ({
           htmlFor={`${exerciseId}-reps`}
           className="log-input__reps-input-label log-input__label"
         >
-          SETS
+          REPS
           <input
             type="number"
             placeholder="##"
@@ -198,7 +220,7 @@ const LogInput: FC<Props> = ({
           htmlFor={`${exerciseId}-weight`}
           className="log-input__weight-input-label log-input__label"
         >
-          REPS
+          WEIGHT
           <input
             type="number"
             value={weight === -1 ? '' : weight}

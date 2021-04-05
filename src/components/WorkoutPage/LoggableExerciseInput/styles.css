@@ -1,5 +1,35 @@
 .loggable-exercise-input__log-wrapper {
-  @apply pl-8 pt-2;
+  @apply pl-8 pt-4 duration-200;
+}
+
+.loggable-exercise-input__log-wrapper {
+  @apply duration-200;
+}
+
+@keyframes log-fade-in {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: max-content;
+    opacity: 1;
+  }
+}
+
+.loggable-exercise-input__log {
+  animation: log-fade-in 300ms;
+  @apply flex items-center py-2 px-2 w-max duration-100
+    hover:bg-gray-100;
+}
+
+.loggable-exercise-input__log:hover .log-input__input {
+  @apply bg-gray-100 duration-100;
+}
+
+.loggable-exercise-input__remove-log {
+  @apply h-6 w-6 p-1 bg-gray-200 ml-8 rounded duration-200 opacity-0
+  hover:bg-red-300 group-hover:opacity-100 cursor-pointer;
 }
 
 .loggable-exercise-input__log-button {

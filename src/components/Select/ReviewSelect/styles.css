@@ -20,7 +20,7 @@
 }
 
 .review-select__remove-icon {
-  @apply duration-200 mr-1 hover:text-red-500;
+  @apply duration-200 mr-1 hover:bg-red-300;
 }
 
 .review-select__selections {

@@ -34,13 +34,18 @@ const benchPressLogged: ExerciseWithLog<typeof benchPressTagged> = {
       weight: 40,
       reps: 10,
       metric: 'KG',
+      review: {
+        indicator: '?',
+        note: 'Keep up',
+      },
+      order: 1,
     },
   ],
 };
 
 const benchPressOrdered: ExerciseWithOrder<typeof benchPressLogged> = {
   ...benchPressLogged,
-  order: 1,
+  order: 0,
 };
 
 export {

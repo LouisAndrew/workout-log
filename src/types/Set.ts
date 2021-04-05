@@ -16,7 +16,7 @@ export type Review = {
   /**
    * indicator of how the set / exercise was
    */
-  review: ReviewIndicator;
+  indicator: ReviewIndicator;
   /**
    * additional / optional note that user could input
    */
@@ -32,4 +32,11 @@ export type ExerciseSet = SetAndReps & {
    * review for the current set (OPTIONAL. FOR PERSONAL USE ONLY)
    */
   review?: Review;
+};
+
+export type ExerciseSetOrdered = ExerciseSet & {
+  /**
+   * order (index) for the exercise
+   */
+  order: number;
 };

@@ -1,5 +1,5 @@
 import { Tag } from './Tag';
-import { ExerciseSet } from './Set';
+import { ExerciseSetOrdered } from './Set';
 
 export type Exercise = {
   /**
@@ -31,7 +31,7 @@ export type ExerciseWithLog<E extends Exercise> = E & {
   /**
    * logs of the set done during the exercise.
    */
-  logs: ExerciseSet[];
+  logs: ExerciseSetOrdered[];
 };
 
 export type ExerciseWithOrder<E extends Exercise> = E & {

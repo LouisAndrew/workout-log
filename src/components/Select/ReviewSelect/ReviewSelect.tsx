@@ -45,16 +45,14 @@ const ReviewSelect: FC<Props> = ({
   clickOutsidefn = () => console.log('outside click'),
 }) => {
   const [reviewIndicator, setReviewIndicator] = useState<ReviewIndicator>(
-    defaultReview.review
+    defaultReview.indicator || '?'
   );
   const [note, setNote] = useState(defaultReview.note || '');
   const [shouldExpandSelection, setShouldExpandSelection] = useState(
-    isEditable && defaultReview.review === '?'
+    isEditable && defaultReview.indicator === '?'
   );
 
-  // const noteRef = useRef(note);
-  // const reviewRef = useRef(reviewIndicator);
-
+  const firstRender = useRef(true);
   const ref = useRef<HTMLDivElement>(null);
   useClickOutside(ref, clickOutsidefn);
 
@@ -106,8 +104,14 @@ const ReviewSelect: FC<Props> = ({
   };
 
   useEffect(() => {
-    onChange({ review: reviewIndicator, note });
+    if (!firstRender.current) {
+      onChange({ indicator: reviewIndicator, note });
+    }
   }, [reviewIndicator, note]);
+
+  useEffect(() => {
+    firstRender.current = false;
+  }, []);
 
   return (
     <div className={`review-select__wrapper ${className}`} ref={ref}>

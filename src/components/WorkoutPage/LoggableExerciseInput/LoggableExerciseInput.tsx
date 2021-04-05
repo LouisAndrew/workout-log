@@ -1,13 +1,11 @@
-import React, { FC, useState } from 'react';
-import { BiDumbbell } from 'react-icons/bi';
+// eslint-disable-next-line object-curly-newline
+import React, { FC, useRef, useState } from 'react';
+import { BiDumbbell, BiX } from 'react-icons/bi';
 
 import { ExerciseInput, LogInput } from '../../Input';
 import { Button } from '../../Button';
-import {
-  CompleteExercise,
-  CompleteExerciseNoLog,
-} from '../../../types/Exercise';
-import { ExerciseSet } from '../../../types/Set';
+import { CompleteExercise } from '../../../types/Exercise';
+import { ExerciseSetOrdered, Review } from '../../../types/Set';
 import { stringToRange } from '../../../helper/ranges';
 
 import './styles.css';
@@ -40,46 +38,99 @@ const LoggableExerciseInput: FC<Props> = ({
   isEditable,
   isLoggable = true,
   className,
-  onChange,
+  // onChange,
 }) => {
-  const { logs: defaultLogs, ...rest } = defaultExercise;
-  const [e, setE] = useState<CompleteExerciseNoLog>(rest);
-  const [logs, setLogs] = useState<ExerciseSet[]>(defaultLogs || []);
+  const [exercise] = useState<CompleteExercise>(defaultExercise);
+  const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
 
-  console.log({
-    setE,
-    setLogs,
-    isLoggable,
-    onChange,
-  });
+  const logsRef = useRef<ExerciseSetOrdered[]>(logs);
+  // const exerciseRef = useRef(exercise);
 
-  console.log(stringToRange(e.reps));
+  const createLog = () => {
+    const temp = logsRef.current;
+    const emptyLog: ExerciseSetOrdered = {
+      metric: 'KG',
+      reps: -1,
+      weight: -1,
+      review: {
+        indicator: '?',
+      },
+      order: temp[temp.length - 1].order + 1,
+    };
+
+    const newLogs = [...temp, emptyLog];
+    setLogs(newLogs);
+    logsRef.current = newLogs;
+  };
+
+  const onLogChange = (
+    weight: number,
+    reps: number,
+    index: number,
+    review?: Review
+  ) => {
+    const temp = logsRef.current;
+    const toEditIndex = temp.findIndex((l) => l.order === index);
+    if (toEditIndex === -1) {
+      return;
+    }
+    temp[toEditIndex] = {
+      weight,
+      reps,
+      review,
+      metric: 'KG',
+      order: index,
+    };
+
+    logsRef.current = temp; // not calling setLogs to prevent rerender for every updates
+  };
+
+  const removeLog = (order: number) => {
+    const temp = logsRef.current;
+    const filtered = temp.filter((l) => l.order !== order);
+    setLogs(filtered);
+    logsRef.current = filtered;
+  };
 
   return (
     <div className={`loggable-exercise-input__wrapper ${className}`}>
       <ExerciseInput
-        value={e.name}
-        defaultReps={stringToRange(e.reps)}
-        defaultSets={stringToRange(e.sets)}
+        value={exercise.name}
+        defaultReps={stringToRange(exercise.reps)}
+        defaultSets={stringToRange(exercise.sets)}
         isEditable={isEditable}
       />
       <div className="loggable-exercise-input__log-wrapper">
         {logs.map((l, i) => (
-          <LogInput
-            exerciseId={e.id}
-            index={i + 1}
-            defaultReps={l.reps}
-            defaultWeight={l.weight}
-            defaultReview={l.review}
-            weightMetric={l.metric}
-            onChange={() => {}}
-          />
+          <div
+            className="loggable-exercise-input__log group"
+            key={`${exercise.id || exercise.name}-${l.order}`}
+          >
+            <LogInput
+              exerciseId={exercise.id || ''}
+              index={l.order}
+              setNum={i + 1}
+              defaultReps={l.reps}
+              defaultWeight={l.weight}
+              defaultReview={l.review}
+              weightMetric={l.metric}
+              onChange={onLogChange}
+              isEditable={isEditable}
+            />
+            <BiX
+              className="loggable-exercise-input__remove-log"
+              onClick={() => removeLog(l.order)}
+            />
+          </div>
         ))}
         {isLoggable && (
           <Button
-            className="loggable-exercise-input__log-button"
+            className={`loggable-exercise-input__log-button ${
+              logs.length > 0 ? 'mt-3' : ''
+            }`}
             size="s"
             Icon={BiDumbbell}
+            onClick={createLog}
           >
             Log Exercise
           </Button>
