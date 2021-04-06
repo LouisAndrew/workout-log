@@ -38,7 +38,7 @@ const LoggableExerciseInput: FC<Props> = ({
   isEditable,
   isLoggable = true,
   className,
-  // onChange,
+  onChange,
 }) => {
   const [exercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
@@ -104,7 +104,14 @@ const LoggableExerciseInput: FC<Props> = ({
   };
 
   const saveLog = () => {
-    console.log('saving');
+    const e = exerciseRef.current;
+    const l = logsRef.current;
+    const complete: CompleteExercise = {
+      ...e,
+      logs: l,
+    };
+
+    onChange?.(complete);
   };
 
   return (
