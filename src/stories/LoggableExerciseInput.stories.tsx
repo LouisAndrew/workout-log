@@ -17,6 +17,6 @@ const Template: Story<Props> = (args) => <LoggableExerciseInput {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  defaultExercise: benchPressOrdered,
+  defaultExercise: { ...benchPressOrdered, logs: [] },
   isEditable: true,
 };

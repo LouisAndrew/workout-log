@@ -10,6 +10,11 @@
   @apply pl-8 pt-4 duration-200;
 }
 
+.loggable-exercise-input__indicator {
+  @apply text-xs font-body font-semibold
+    text-gray-500 italic relative -top-3 left-2;
+}
+
 @keyframes log-fade-in {
   from {
     opacity: 0;

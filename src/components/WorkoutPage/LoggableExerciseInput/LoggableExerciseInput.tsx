@@ -138,6 +138,11 @@ const LoggableExerciseInput: FC<Props> = ({
         onChange={handleChangeExercise}
       />
       <div className="loggable-exercise-input__log-wrapper">
+        {isLoggable && logs.length === 0 ? (
+          <span className="loggable-exercise-input__indicator">
+            Add some logs to your exercsie 💪
+          </span>
+        ) : null}
         {logs.map((l, i) => (
           <div
             className="loggable-exercise-input__log group"
