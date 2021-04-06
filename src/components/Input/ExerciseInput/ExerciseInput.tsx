@@ -1,4 +1,5 @@
-import React, { useState, FC, useEffect } from 'react';
+// eslint-disable-next-line object-curly-newline
+import React, { useState, FC, useEffect, useRef } from 'react';
 import { BiGridVertical } from 'react-icons/bi';
 import { Range } from '@helper/ranges';
 
@@ -46,6 +47,8 @@ const ExerciseInput: FC<Props> = ({
   const [sets, setSets] = useState<Range>(defaultSets || { start: -1 });
   const [reps, setReps] = useState<Range>(defaultReps || { start: -1 });
 
+  const firstRender = useRef(true);
+
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     // verify if exercise name already exists
     if (isEditable) {
@@ -62,14 +65,20 @@ const ExerciseInput: FC<Props> = ({
   };
 
   useEffect(() => {
-    if (exerciseName !== '') {
-      onChange?.(
-        exerciseName,
-        reps.start === -1 ? undefined : reps,
-        sets.start === -1 ? undefined : sets
-      );
+    if (!firstRender.current) {
+      if (exerciseName !== '') {
+        onChange?.(
+          exerciseName,
+          reps.start === -1 ? undefined : reps,
+          sets.start === -1 ? undefined : sets
+        );
+      }
     }
   }, [reps, sets, exerciseName]);
+
+  useEffect(() => {
+    firstRender.current = true;
+  }, []);
 
   return (
     <div className={`exercise-input__wrapper ${className}`}>

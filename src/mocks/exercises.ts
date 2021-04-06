@@ -35,7 +35,7 @@ const benchPressLogged: ExerciseWithLog<typeof benchPressTagged> = {
       reps: 10,
       metric: 'KG',
       review: {
-        indicator: '?',
+        indicator: 'UP',
         note: 'Keep up',
       },
       order: 1,

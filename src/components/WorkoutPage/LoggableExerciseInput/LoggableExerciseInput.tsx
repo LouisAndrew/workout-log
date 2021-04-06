@@ -7,8 +7,10 @@ import { Button } from '@components/Button';
 import { CompleteExercise } from '@t/Exercise';
 import { ExerciseSetOrdered, Review } from '@t/Set';
 import { rangeToString, stringToRange, Range } from '@helper/ranges';
+import { deepEqual } from '@helper/comparator';
 
 import './styles.css';
+import { cloneDeep } from 'lodash';
 
 export type Props = {
   /**
@@ -42,9 +44,10 @@ const LoggableExerciseInput: FC<Props> = ({
 }) => {
   const [exercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
+  const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
 
-  const logsRef = useRef<ExerciseSetOrdered[]>(logs);
-  const exerciseRef = useRef(exercise);
+  const logsRef = useRef<ExerciseSetOrdered[]>(cloneDeep(logs));
+  const exerciseRef = useRef(cloneDeep(exercise));
 
   const createLog = () => {
     const temp = logsRef.current;
@@ -61,6 +64,7 @@ const LoggableExerciseInput: FC<Props> = ({
     const newLogs = [...temp, emptyLog];
     setLogs(newLogs);
     logsRef.current = newLogs;
+    checkShouldSaveButtonRender();
   };
 
   const onLogChange = (
@@ -83,6 +87,7 @@ const LoggableExerciseInput: FC<Props> = ({
     };
 
     logsRef.current = temp; // not calling setLogs to prevent rerender for every updates
+    checkShouldSaveButtonRender();
   };
 
   const removeLog = (order: number) => {
@@ -90,6 +95,7 @@ const LoggableExerciseInput: FC<Props> = ({
     const filtered = temp.filter((l) => l.order !== order);
     setLogs(filtered);
     logsRef.current = filtered;
+    checkShouldSaveButtonRender();
   };
 
   const handleChangeExercise = (name: string, reps?: Range, sets?: Range) => {
@@ -97,21 +103,29 @@ const LoggableExerciseInput: FC<Props> = ({
       name,
       reps: reps ? rangeToString(reps) : '',
       sets: sets ? rangeToString(sets) : '',
-      tags: [],
+      tags: defaultExercise.tags,
       order: exercise.order,
       logs: [],
     };
+    checkShouldSaveButtonRender();
   };
 
   const saveLog = () => {
-    const e = exerciseRef.current;
-    const l = logsRef.current;
     const complete: CompleteExercise = {
-      ...e,
-      logs: l,
+      ...exerciseRef.current,
+      logs: logsRef.current,
     };
 
     onChange?.(complete);
+  };
+
+  const checkShouldSaveButtonRender = () => {
+    const complete: CompleteExercise = {
+      ...exerciseRef.current,
+      logs: logsRef.current,
+    };
+
+    setShouldSaveButtonRender(!deepEqual(complete, defaultExercise));
   };
 
   return (
@@ -161,15 +175,17 @@ const LoggableExerciseInput: FC<Props> = ({
             >
               Log Exercise
             </Button>
-            <Button
-              className="loggable-exercise-input__save-button loggable-exercise-input__button"
-              size="s"
-              type="primary"
-              Icon={BiSave}
-              onClick={saveLog}
-            >
-              Save Log
-            </Button>
+            {shouldSaveButtonRender && (
+              <Button
+                className="loggable-exercise-input__save-button loggable-exercise-input__button"
+                size="s"
+                type="primary"
+                Icon={BiSave}
+                onClick={saveLog}
+              >
+                Save Log
+              </Button>
+            )}
           </div>
         )}
       </div>
