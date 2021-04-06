@@ -13,6 +13,7 @@ import { rangeToString, stringToRange } from '@helper/ranges';
 
 import { generateExerciseId } from '@helper/generateId';
 import { deepEqual } from '@/helper/comparator';
+import { cloneDeep } from 'lodash';
 import { LoggableExerciseInput } from '../LoggableExerciseInput';
 
 type W = Workout | WorkoutTemplate;
@@ -41,12 +42,13 @@ const wt: WorkoutTemplate = {
   exercises: [],
 };
 
-const WorkoutList: FC<Props> = ({ type, defaultWorkout }) => {
+const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
   const isTemplate = type === 'TEMPLATE';
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
+  const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
 
   const exercisesRef = useRef<CompleteExercise[] | CompleteExerciseNoLog[]>(
-    workout.exercises
+    cloneDeep(workout.exercises)
   );
 
   // const workoutRef = useRef<E>(workout);
@@ -71,6 +73,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout }) => {
         ...workout,
         exercises: newExercises,
       });
+      checkShouldSaveButtonRender();
     }
   };
 
@@ -98,6 +101,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout }) => {
     };
 
     exercisesRef.current = temp;
+    checkShouldSaveButtonRender();
   };
 
   const onChangeExercise = (exercise: CompleteExercise, exerciseId: string) => {
@@ -127,6 +131,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout }) => {
     };
 
     exercisesRef.current = temp;
+    checkShouldSaveButtonRender();
   };
 
   const removeExercise = (exerciseId: string) => {
@@ -138,6 +143,26 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout }) => {
       ...workout,
       exercises: filtered,
     });
+    checkShouldSaveButtonRender();
+  };
+
+  const checkShouldSaveButtonRender = () => {
+    const complete = {
+      ...workout,
+      exercises: exercisesRef.current,
+    };
+    setShouldSaveButtonRender(!deepEqual(workout, complete));
+  };
+
+  const saveWorkoutList = () => {
+    const complete = {
+      ...workout,
+      exercises: exercisesRef.current,
+    };
+
+    onChange?.(complete);
+    setWorkout(cloneDeep(complete));
+    setShouldSaveButtonRender(false);
   };
 
   useEffect(() => {
@@ -191,13 +216,24 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout }) => {
           </div>
         ))}
       </div>
-      <Button
-        type="ghost"
-        onClick={addExercise}
-        className="workout-list__add-button"
-      >
-        Add Exercise
-      </Button>
+      <div className="workout-list__button-group">
+        <Button
+          type="ghost"
+          onClick={addExercise}
+          className="workout-list__add-button"
+        >
+          Add Exercise
+        </Button>
+        {shouldSaveButtonRender && (
+          <Button
+            className="workout-list__save-button"
+            type="primary"
+            onClick={saveWorkoutList}
+          >
+            Save Exercise List
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

@@ -42,7 +42,7 @@ const LoggableExerciseInput: FC<Props> = ({
   className,
   onChange,
 }) => {
-  const [exercise] = useState<CompleteExercise>(defaultExercise);
+  const [exercise, setExercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
   const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
 
@@ -106,6 +106,7 @@ const LoggableExerciseInput: FC<Props> = ({
       tags: defaultExercise.tags,
       order: exercise.order,
       logs: [],
+      id: defaultExercise.id,
     };
     checkShouldSaveButtonRender();
   };
@@ -117,6 +118,8 @@ const LoggableExerciseInput: FC<Props> = ({
     };
 
     onChange?.(complete);
+    setExercise(cloneDeep(complete));
+    setShouldSaveButtonRender(false);
   };
 
   const checkShouldSaveButtonRender = () => {
@@ -125,7 +128,7 @@ const LoggableExerciseInput: FC<Props> = ({
       logs: logsRef.current,
     };
 
-    setShouldSaveButtonRender(!deepEqual(complete, defaultExercise));
+    setShouldSaveButtonRender(!deepEqual(complete, exercise));
   };
 
   return (

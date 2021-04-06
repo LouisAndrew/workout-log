@@ -36,6 +36,10 @@
   @apply my-2 ml-3 mb-6 pt-2;
 }
 
+.workout-list__button-group {
+  @apply ml-8 mt-3 flex;
+}
+
 .workout-list__add-button {
-  @apply ml-8 mt-3;
+  @apply mr-3;
 }

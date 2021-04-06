@@ -7,12 +7,12 @@
 }
 
 .exercise-input__options-icon {
-  @apply opacity-0 h-8 w-8 p-0.5 duration-200 mr-2 duration-200 rounded self-end
+  @apply text-gray-400 h-8 w-8 p-0.5 duration-200 mr-2 duration-200 rounded self-end
     hover:bg-gray-200;
 }
 
 .exercise-input__options-icon.active {
-  @apply opacity-100 cursor-pointer;
+  @apply text-black cursor-pointer;
 }
 
 .exercise-input__input {
