@@ -21,6 +21,10 @@ export type Props = {
    */
   defaultSets?: Range;
   /**
+   * exercise id
+   */
+  id?: string;
+  /**
    * determine if the input field is editable
    */
   isEditable?: boolean;
@@ -32,6 +36,7 @@ export type Props = {
    * additional styling
    */
   className?: string;
+  dragHandle?: any;
 };
 
 const ExerciseInput: FC<Props> = ({
@@ -41,6 +46,7 @@ const ExerciseInput: FC<Props> = ({
   isEditable = false,
   onChange,
   className,
+  dragHandle,
 }) => {
   const [exerciseName, setExerciseName] = useState(value || '');
 
@@ -87,6 +93,7 @@ const ExerciseInput: FC<Props> = ({
           className={`exercise-input__options-icon ${
             exerciseName ? 'active' : ''
           }`}
+          {...dragHandle}
         />
         <input
           value={exerciseName}

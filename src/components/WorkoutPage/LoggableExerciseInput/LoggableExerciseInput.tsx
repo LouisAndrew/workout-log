@@ -33,6 +33,7 @@ export type Props = {
    * handler function to handle change
    */
   onChange?: (e: CompleteExercise) => void;
+  dragHandle?: any;
 };
 
 const LoggableExerciseInput: FC<Props> = ({
@@ -41,6 +42,7 @@ const LoggableExerciseInput: FC<Props> = ({
   isLoggable = true,
   className,
   onChange,
+  dragHandle,
 }) => {
   const [exercise, setExercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
@@ -139,6 +141,7 @@ const LoggableExerciseInput: FC<Props> = ({
         defaultSets={stringToRange(exercise.sets)}
         isEditable={isEditable}
         onChange={handleChangeExercise}
+        dragHandle={dragHandle}
       />
       <div className="loggable-exercise-input__log-wrapper">
         {isLoggable && logs.length === 0 ? (

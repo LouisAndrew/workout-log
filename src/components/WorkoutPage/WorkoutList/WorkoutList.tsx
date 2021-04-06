@@ -1,6 +1,23 @@
 // eslint-disable-next-line object-curly-newline
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { BiX } from 'react-icons/bi';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
 
 import { Workout, WorkoutTemplate } from '@t/Workout';
 
@@ -42,16 +59,25 @@ const wt: WorkoutTemplate = {
   exercises: [],
 };
 
+const workoutToIds = (workout: W) =>
+  [...workout.exercises].sort((a, b) => a.order - b.order).map((e) => e.id);
+
 const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
   const isTemplate = type === 'TEMPLATE';
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
   const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
+  const [ids, setIds] = useState<string[]>(workoutToIds(workout));
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const exercisesRef = useRef<CompleteExercise[] | CompleteExerciseNoLog[]>(
     cloneDeep(workout.exercises)
   );
-
-  // const workoutRef = useRef<E>(workout);
 
   const addExercise = () => {
     const temp = exercisesRef.current;
@@ -71,8 +97,9 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
       exercisesRef.current = newExercises;
       setWorkout({
         ...workout,
-        exercises: newExercises,
+        exercises: cloneDeep(newExercises),
       });
+      setIds(workoutToIds({ ...workout, exercises: newExercises }));
       checkShouldSaveButtonRender();
     }
   };
@@ -95,6 +122,9 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
 
     temp[exerciseIndex] = {
       ...exercise,
+      order: exerciseDefinedBefore
+        ? ids.indexOf(exerciseId)
+        : temp[exerciseIndex].order,
       id: exerciseDefinedBefore
         ? generateExerciseId(temp, workout.templateId)
         : exerciseId,
@@ -124,6 +154,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
     const shouldChangeId = exerciseDefinedBefore && !deepEqual(restA, restB);
     temp[exerciseIndex] = {
       ...restA,
+      order: shouldChangeId ? ids.indexOf(exerciseId) : restA.order,
       id: shouldChangeId
         ? generateExerciseId(temp, workout.templateId)
         : exerciseId,
@@ -141,8 +172,9 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
     exercisesRef.current = filtered;
     setWorkout({
       ...workout,
-      exercises: filtered,
+      exercises: cloneDeep(filtered),
     });
+    setIds(workoutToIds({ ...workout, exercises: filtered }));
     checkShouldSaveButtonRender();
   };
 
@@ -162,59 +194,68 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
 
     onChange?.(complete);
     setWorkout(cloneDeep(complete));
+    setIds(workoutToIds(workout));
     setShouldSaveButtonRender(false);
   };
 
-  useEffect(() => {
-    console.log(workout);
-  }, [workout]);
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
 
-  // console.log({ setWorkout, onChange, workout });
+    if (active.id !== over?.id) {
+      setIds((i) => {
+        const oldIndex = i.indexOf(active.id);
+        const newIndex = i.indexOf(over?.id || '');
+
+        return arrayMove(ids, oldIndex, newIndex);
+      });
+    }
+  }
+
+  useEffect(() => {
+    const temp = exercisesRef.current;
+    ids.forEach((id, i) => {
+      const index = temp.findIndex((e) => e.id === id);
+      if (index === -1) return;
+      temp[index] = {
+        ...temp[index],
+        order: i,
+      };
+    });
+    exercisesRef.current = temp;
+  }, [ids]);
+
+  const getWorkoutById = (id: string) =>
+    workout.exercises.filter((e) => e.id === id)[0];
 
   return (
     <div className="workout-list__wrapper">
       <div className="workout-list__exercises-wrapper">
-        {workout.exercises.map((e: CompleteExerciseNoLog) => (
-          <div className="workout-list__exercise" key={e.id}>
-            {isTemplate ? (
-              <ExerciseInput
-                value={e.name}
-                defaultReps={stringToRange(e.reps)}
-                defaultSets={stringToRange(e.sets)}
-                isEditable
-                className="workout-list__exercise-input workout-list__template"
-                onChange={
-                  (name, reps, sets) => {
-                    onChangeExerciseTemplate(
-                      {
-                        name,
-                        id: e.id,
-                        reps: rangeToString(reps || { start: -1 }),
-                        sets: rangeToString(sets || { start: -1 }),
-                        tags: e.tags,
-                        order: e.order,
-                      },
-                      e.id
-                    );
-                  }
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
-              />
-            ) : (
-              <LoggableExerciseInput
-                defaultExercise={e as CompleteExercise}
-                className="workout-list__exercise-input"
-                isEditable
-                isLoggable
-                onChange={(ex) => onChangeExercise(ex, e.id)}
-              />
-            )}
-            <BiX
-              className="workout-list__remove-exercise"
-              onClick={() => removeExercise(e.id)}
-            />
-          </div>
-        ))}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+            {ids.map((id) => {
+              const e = getWorkoutById(id);
+              return (
+                <WorkoutListItem
+                  key={e.id}
+                  exercise={e}
+                  isTemplate={isTemplate}
+                  onChange={(ex) => {
+                    if (isTemplate) {
+                      onChangeExerciseTemplate(ex, e.id);
+                    } else {
+                      onChangeExercise(ex as CompleteExercise, e.id);
+                    }
+                  }}
+                  onRemove={() => removeExercise(e.id)}
+                />
+              );
+            })}
+          </SortableContext>
+        </DndContext>
       </div>
       <div className="workout-list__button-group">
         <Button
@@ -234,6 +275,78 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
           </Button>
         )}
       </div>
+    </div>
+  );
+};
+
+type WorkoutListItemProps = {
+  onRemove: () => void;
+  onChange: (e: CompleteExercise | CompleteExerciseNoLog) => void;
+  exercise: CompleteExercise | CompleteExerciseNoLog;
+  isTemplate: boolean;
+};
+
+const WorkoutListItem: FC<WorkoutListItemProps> = ({
+  onRemove,
+  onChange,
+  exercise,
+  isTemplate,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id: exercise.id || '',
+    transition: {
+      duration: 150, // milliseconds
+      easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+    },
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition || '',
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className="workout-list__exercise">
+      {isTemplate ? (
+        <ExerciseInput
+          value={exercise.name}
+          defaultReps={stringToRange(exercise.reps)}
+          defaultSets={stringToRange(exercise.sets)}
+          isEditable
+          className="workout-list__exercise-input workout-list__template"
+          id={exercise.id}
+          onChange={
+            (name, reps, sets) => {
+              onChange({
+                name,
+                id: exercise.id,
+                reps: rangeToString(reps || { start: -1 }),
+                sets: rangeToString(sets || { start: -1 }),
+                tags: exercise.tags,
+                order: exercise.order,
+              });
+            }
+            // eslint-disable-next-line react/jsx-curly-newline
+          }
+          dragHandle={{ ...attributes, ...listeners }}
+        />
+      ) : (
+        <LoggableExerciseInput
+          defaultExercise={exercise as CompleteExercise}
+          className="workout-list__exercise-input"
+          isEditable
+          isLoggable
+          onChange={onChange}
+          dragHandle={{ ...attributes, ...listeners }}
+        />
+      )}
+      <BiX className="workout-list__remove-exercise" onClick={onRemove} />
     </div>
   );
 };
