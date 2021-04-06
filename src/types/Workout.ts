@@ -1,8 +1,4 @@
-import {
-  Exercise as E, ExerciseWithLog, ExerciseWithOrder, ExerciseWithTags
-} from './Exercise';
-
-type Exercise = ExerciseWithOrder<ExerciseWithTags<E>>
+import { CompleteExerciseNoLog, CompleteExercise } from './Exercise';
 
 export type WorkoutTemplate = {
   /**
@@ -12,16 +8,20 @@ export type WorkoutTemplate = {
   /**
    * exercises of the workout (should already have tag and order)
    */
- exercises: Exercise[];
-}
+  exercises: CompleteExerciseNoLog[];
+};
 
-export type Workout = WorkoutTemplate & {
+export type Workout = {
+  /**
+   * template id for the workout. describes the structure of workout
+   */
+  templateId: string;
   /**
    * exercises of the workout (should now also have log(s))
    */
-  exercises: ExerciseWithLog<Exercise>[]
+  exercises: CompleteExercise[];
   /**
    * date of the workout
    */
   date: Date;
-}
+};

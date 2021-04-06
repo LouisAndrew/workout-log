@@ -77,7 +77,7 @@ const ExerciseInput: FC<Props> = ({
   }, [reps, sets, exerciseName]);
 
   useEffect(() => {
-    firstRender.current = true;
+    firstRender.current = false;
   }, []);
 
   return (

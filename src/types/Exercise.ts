@@ -17,7 +17,7 @@ export type Exercise = {
   /**
    * automatically generated id of the exercise. see: helper/generateUniqueId
    */
-  id?: string;
+  id: string;
 };
 
 export type ExerciseWithTags<E extends Exercise> = E & {

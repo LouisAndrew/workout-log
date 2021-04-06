@@ -1,3 +1,5 @@
+import { Exercise } from '@t/Exercise';
+
 /**
  * Function to create a single random string
  * @param len Length of the random string
@@ -19,7 +21,7 @@ const generateSingleId = (length: number) =>
 const generateUniqueId = (
   ids: string[] = [],
   fn?: (arg: string) => string,
-  length: number = 4,
+  length: number = 4
 ): string => {
   const defaultFn = (value: string) => value;
   const idGenerator = fn || defaultFn;
@@ -37,4 +39,13 @@ const generateUniqueId = (
   return idGenerator(generateSingleId(length));
 };
 
-export { generateUniqueId, generateSingleId };
+const generateExerciseId = <E extends Exercise>(
+  exercises: E[],
+  workoutId: string
+) => {
+  const exerciseIds = exercises.map((e) => e.id);
+  const fn = (value: string) => `${workoutId}-${value}`;
+  return generateUniqueId(exerciseIds, fn, 4);
+};
+
+export { generateUniqueId, generateSingleId, generateExerciseId };

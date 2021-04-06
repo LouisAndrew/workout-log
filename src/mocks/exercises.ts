@@ -9,12 +9,14 @@ const benchPress: Exercise = {
   name: 'Bench Press',
   sets: '3-4',
   reps: '8-12',
+  id: '-1',
 };
 
 const squat: Exercise = {
   name: 'Squat',
   sets: '2-3',
   reps: '10',
+  id: '-1',
 };
 
 const benchPressTagged: ExerciseWithTags<Exercise> = {
