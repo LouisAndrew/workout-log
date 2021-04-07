@@ -1,6 +1,5 @@
 // eslint-disable-next-line object-curly-newline
 import React, { useState, FC, useEffect, useRef } from 'react';
-import { BiGridVertical } from 'react-icons/bi';
 import { Range } from '@helper/ranges';
 
 import { RangedInput } from '../RangedInput';
@@ -36,7 +35,6 @@ export type Props = {
    * additional styling
    */
   className?: string;
-  dragHandle?: any;
 };
 
 const ExerciseInput: FC<Props> = ({
@@ -46,7 +44,6 @@ const ExerciseInput: FC<Props> = ({
   isEditable = false,
   onChange,
   className,
-  dragHandle,
 }) => {
   const [exerciseName, setExerciseName] = useState(value || '');
 
@@ -89,12 +86,6 @@ const ExerciseInput: FC<Props> = ({
   return (
     <div className={`exercise-input__wrapper ${className}`}>
       <div className="exercise-input__upper-wrapper">
-        <BiGridVertical
-          className={`exercise-input__options-icon ${
-            exerciseName ? 'active' : ''
-          }`}
-          {...dragHandle}
-        />
         <input
           value={exerciseName}
           onChange={handleChangeName}

@@ -1,21 +1,6 @@
 // eslint-disable-next-line object-curly-newline
 import React, { FC, useEffect, useRef, useState } from 'react';
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { Workout, WorkoutTemplate } from '@t/Workout';
 
 import { Button } from '@components/Button';
@@ -61,15 +46,6 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
   const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
   const [ids, setIds] = useState<string[]>(workoutToIds(workout));
-
-  const [activeId, setActiveId] = useState('');
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   const exercisesRef = useRef<CompleteExercise[] | CompleteExerciseNoLog[]>(
     cloneDeep(workout.exercises)
@@ -194,18 +170,26 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
     setShouldSaveButtonRender(false);
   };
 
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    setActiveId('');
-    if (active.id !== over?.id) {
-      setIds((i) => {
-        const oldIndex = i.indexOf(active.id);
-        const newIndex = i.indexOf(over?.id || '');
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
 
-        return arrayMove(ids, oldIndex, newIndex);
-      });
+    if (destination) {
+      if (
+        // eslint-disable-next-line operator-linebreak
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+      ) {
+        return;
+      }
+
+      const temp = Array.from(ids);
+      temp.splice(source.index, 1); // remove 1 item from index
+      temp.splice(destination.index, 0, draggableId);
+      // ☝️ remove 0 item, push draggable id to destination index
+
+      setIds(temp);
     }
-  }
+  };
 
   useEffect(() => {
     const temp = exercisesRef.current;
@@ -229,36 +213,40 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
 
   return (
     <div className="workout-list__wrapper">
-      <div className="workout-list__exercises-wrapper">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-          onDragStart={(event) => setActiveId(event.active.id)}
-        >
-          <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-            {ids.map((id) => {
-              const e = getWorkoutById(id);
-              return (
-                <WorkoutListItem
-                  key={e.id}
-                  exercise={e}
-                  isTemplate={isTemplate}
-                  onChange={(ex) => {
-                    if (isTemplate) {
-                      onChangeExerciseTemplate(ex, e.id);
-                    } else {
-                      onChangeExercise(ex as CompleteExercise, e.id);
-                    }
-                  }}
-                  onRemove={() => removeExercise(e.id)}
-                  isOverlay={activeId === e.id}
-                />
-              );
-            })}
-          </SortableContext>
-        </DndContext>
-      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId={workout.templateId}>
+          {(provided, snapshot) => (
+            <div
+              className={`workout-list__exercises-wrapper ${
+                snapshot.isDraggingOver ? 'active' : ''
+              }`}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {ids.map((id, index) => {
+                const e = getWorkoutById(id);
+                return (
+                  <WorkoutListItem
+                    index={index}
+                    key={e.id}
+                    exercise={e}
+                    isTemplate={isTemplate}
+                    onChange={(ex) => {
+                      if (isTemplate) {
+                        onChangeExerciseTemplate(ex, e.id);
+                      } else {
+                        onChangeExercise(ex as CompleteExercise, e.id);
+                      }
+                    }}
+                    onRemove={() => removeExercise(e.id)}
+                  />
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       <div className="workout-list__button-group">
         <Button
           type="ghost"
