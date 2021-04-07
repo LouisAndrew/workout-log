@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { FC, useState } from 'react';
-import { BiDice3, BiPencil } from 'react-icons/bi';
+import { BiDice3, BiPencil, BiX } from 'react-icons/bi';
 
 import { Button } from '@components/Button';
-import { generateUniqueId } from '@helper/generateId';
+import { ID_MAX_LENGTH } from '@helper/generateId';
 
 import './styles.css';
 
@@ -17,14 +17,27 @@ export type Props = {
    */
   onSubmitId: (id: string) => void;
   /**
+   * function to call when random id is clicked
+   */
+  newRandomId: () => void;
+  /**
    * additional styling
    */
   className?: string;
+  /**
+   * function to unmount component
+   */
+  close: () => void;
+  [key: string]: any;
 };
 
-const ID_MAX_LENGTH = 16;
-
-const TemplateMaker: FC<Props> = ({ defaultId, onSubmitId, className }) => {
+const TemplateMaker: FC<Props> = ({
+  defaultId,
+  onSubmitId,
+  className,
+  close,
+  newRandomId,
+}) => {
   const [isCreatingCustomId, setIsCreatingCustomId] = useState(false);
   const [customId, setCustomId] = useState('');
 
@@ -42,13 +55,12 @@ const TemplateMaker: FC<Props> = ({ defaultId, onSubmitId, className }) => {
     setCustomId(e.target.value.replace(' ', '-').toLowerCase());
   };
 
-  // TODO: use service to check existing id(s)
-  const newRandomId = () => {
-    onSubmitId(generateUniqueId([], undefined, 16));
-  };
-
   return (
     <div className={`template-maker__wrapper ${className}`}>
+      <BiX
+        className="absolute right-2 h-5 w-5 cursor-pointer"
+        onClick={close}
+      />
       TEMPLATE ID:
       <span className="template-maker__id-placeholder">{defaultId}</span>
       <div className="template-maker__button-group">

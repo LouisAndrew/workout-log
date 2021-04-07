@@ -1,6 +1,6 @@
 .template-maker__wrapper {
   @apply text-sm font-body tracking-wider font-bold w-48 bg-gray-100 px-4 py-3 rounded
-  border-2 border-gray-200 shadow-lg;
+  border-2 border-gray-200 shadow-lg relative;
 }
 
 .template-maker__id-placeholder {

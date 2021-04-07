@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable function-paren-newline */
 /* eslint-disable operator-linebreak */
 // eslint-disable-next-line object-curly-newline
@@ -11,7 +12,7 @@ import { CompleteExercise, CompleteExerciseNoLog } from '@t/Exercise';
 import { generateExerciseId } from '@helper/generateId';
 import { deepEqual, isTemplateChanged } from '@helper/comparator';
 import { E } from '@helper/exercises-helper';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, debounce } from 'lodash';
 import WorkoutListItem from './WorkoutListItem';
 import './styles.css';
 
@@ -53,7 +54,6 @@ const WorkoutList: FC<Props> = ({
 }) => {
   const isTemplate = type === 'TEMPLATE';
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
-  const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
   const [ids, setIds] = useState<string[]>(workoutToIds(workout));
 
   const exercisesRef = useRef<E[]>(cloneDeep(workout.exercises));
@@ -110,7 +110,6 @@ const WorkoutList: FC<Props> = ({
     };
 
     exercisesRef.current = temp;
-    checkShouldSaveButtonRender();
   };
 
   const onChangeExercise = (exercise: CompleteExercise, exerciseId: string) => {
@@ -141,7 +140,6 @@ const WorkoutList: FC<Props> = ({
     };
 
     exercisesRef.current = temp;
-    checkShouldSaveButtonRender();
   };
 
   const removeExercise = (exerciseId: string) => {
@@ -155,14 +153,6 @@ const WorkoutList: FC<Props> = ({
     });
     setIds(workoutToIds({ ...workout, exercises: filtered }));
     saveWorkoutList();
-  };
-
-  const checkShouldSaveButtonRender = () => {
-    const complete = {
-      ...workout,
-      exercises: exercisesRef.current,
-    };
-    setShouldSaveButtonRender(!deepEqual(workout, complete));
   };
 
   const saveWorkoutList = () => {
@@ -179,7 +169,6 @@ const WorkoutList: FC<Props> = ({
     );
     setWorkout(newWorkouts);
     setIds(workoutToIds(newWorkouts));
-    setShouldSaveButtonRender(false);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -228,14 +217,12 @@ const WorkoutList: FC<Props> = ({
   const getWorkoutById = (id: string) =>
     workout.exercises.filter((e) => e.id === id)[0];
 
+  const debouncedSave = debounce(saveWorkoutList, 500);
+
   return (
     <div
       className={`workout-list__wrapper ${className}`}
-      onBlur={() => {
-        if (shouldSaveButtonRender) {
-          saveWorkoutList();
-        }
-      }}
+      onKeyUp={() => debouncedSave()}
     >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={workout.templateId}>

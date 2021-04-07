@@ -48,4 +48,23 @@ const generateExerciseId = <E extends Exercise>(
   return generateUniqueId(exerciseIds, fn, 4);
 };
 
-export { generateUniqueId, generateSingleId, generateExerciseId };
+const ID_MAX_LENGTH = 16;
+
+const idFromExerciseName = (str: string) => {
+  const normalized = str.replaceAll(' ', '-').toLowerCase();
+  const { length } = normalized;
+  if (length >= ID_MAX_LENGTH) {
+    return normalized.substr(0, ID_MAX_LENGTH);
+  }
+
+  const fill = (value: string) => `${normalized}${value}`;
+  return generateUniqueId([], fill, ID_MAX_LENGTH - length);
+};
+
+export {
+  generateUniqueId,
+  generateSingleId,
+  generateExerciseId,
+  ID_MAX_LENGTH,
+  idFromExerciseName,
+};

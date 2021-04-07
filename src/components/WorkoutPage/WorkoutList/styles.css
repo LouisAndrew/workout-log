@@ -59,7 +59,11 @@
 }
 
 .workout-list__add-button {
-  @apply mr-3;
+  @apply mr-3 duration-200 opacity-0;
+}
+
+.workout-list__wrapper:hover .workout-list__add-button {
+  @apply opacity-100;
 }
 
 .workout-list__drag-handle {
