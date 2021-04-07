@@ -2,15 +2,7 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable curly */
 
-// eslint-disable-next-line import/prefer-default-export
-// export const isExerciseEqual = (a: CompleteExercise, b: CompleteExercise) => {
-//   const { logs, ...restA } = a;
-//   const { logs: logsB, ...restB } = b;
-
-//   console.log({ logs, logsB });
-
-//   return strictEqual(restA, restB);
-// };
+import { E, getIds, sortByOrder } from './exercises-helper';
 
 // eslint-disable-next-line import/prefer-default-export
 export const deepEqual = <T>(a: T, b: T): boolean => {
@@ -35,4 +27,22 @@ export const deepEqual = <T>(a: T, b: T): boolean => {
   );
 
   return hasSameProperties;
+};
+
+export const isTemplateChanged = (a: E[], b: E[]) => {
+  if (a.length !== b.length) return true;
+
+  // check if all exercise with ids are there
+  const idsA = getIds(a);
+  const idsB = getIds(b);
+  if (!idsA.every((id) => idsB.includes(id))) return true;
+
+  // check if order is changed
+  const ordersA = getIds(sortByOrder(a));
+  const ordersB = getIds(sortByOrder(b));
+  if (!ordersA.every((e, i) => e === ordersB[i])) return true;
+
+  // TODO: check for tags.
+
+  return false;
 };

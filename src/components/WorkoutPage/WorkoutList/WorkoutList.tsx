@@ -1,3 +1,5 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable operator-linebreak */
 // eslint-disable-next-line object-curly-newline
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
@@ -7,7 +9,8 @@ import { Button } from '@components/Button';
 import { CompleteExercise, CompleteExerciseNoLog } from '@t/Exercise';
 
 import { generateExerciseId } from '@helper/generateId';
-import { deepEqual } from '@/helper/comparator';
+import { deepEqual, isTemplateChanged } from '@helper/comparator';
+import { E } from '@helper/exercises-helper';
 import { cloneDeep } from 'lodash';
 import WorkoutListItem from './WorkoutListItem';
 import './styles.css';
@@ -26,7 +29,7 @@ export type Props = {
   /**
    * change function to handle changes within the list
    */
-  onChange?: (w: W) => void;
+  onChange?: (w: W, templateChanged: boolean) => void;
   /**
    * additional styling
    */
@@ -36,6 +39,7 @@ export type Props = {
 const wt: WorkoutTemplate = {
   templateId: '0', // get latest id from db,
   exercises: [],
+  name: '',
 };
 
 const workoutToIds = (workout: W) =>
@@ -47,9 +51,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
   const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
   const [ids, setIds] = useState<string[]>(workoutToIds(workout));
 
-  const exercisesRef = useRef<CompleteExercise[] | CompleteExerciseNoLog[]>(
-    cloneDeep(workout.exercises)
-  );
+  const exercisesRef = useRef<E[]>(cloneDeep(workout.exercises));
 
   const addExercise = () => {
     const temp = exercisesRef.current;
@@ -72,7 +74,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
         exercises: cloneDeep(newExercises),
       });
       setIds(workoutToIds({ ...workout, exercises: newExercises }));
-      checkShouldSaveButtonRender();
+      saveWorkoutList();
     }
   };
 
@@ -147,7 +149,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
       exercises: cloneDeep(filtered),
     });
     setIds(workoutToIds({ ...workout, exercises: filtered }));
-    checkShouldSaveButtonRender();
+    saveWorkoutList();
   };
 
   const checkShouldSaveButtonRender = () => {
@@ -164,9 +166,14 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
       exercises: exercisesRef.current,
     };
 
-    onChange?.(complete);
-    setWorkout(cloneDeep(complete));
-    setIds(workoutToIds(workout));
+    const newWorkouts = cloneDeep(complete);
+
+    onChange?.(
+      complete,
+      isTemplateChanged(newWorkouts.exercises, defaultWorkout?.exercises || [])
+    );
+    setWorkout(newWorkouts);
+    setIds(workoutToIds(newWorkouts));
     setShouldSaveButtonRender(false);
   };
 
@@ -188,21 +195,26 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
       // ☝️ remove 0 item, push draggable id to destination index
 
       setIds(temp);
+      mapIdsToRef(temp);
     }
   };
 
-  useEffect(() => {
+  const mapIdsToRef = (idsNewOrder: string[]) => {
     const temp = exercisesRef.current;
-    ids.forEach((id, i) => {
-      const index = temp.findIndex((e) => e.id === id);
-      if (index === -1) return;
-      temp[index] = {
-        ...temp[index],
-        order: i,
-      };
-    });
-    exercisesRef.current = temp;
-  }, [ids]);
+    const newOrder: E[] = idsNewOrder
+      .map((id, i) => {
+        const index = temp.findIndex((e) => e.id === id);
+        if (index === -1) return undefined;
+        return {
+          ...temp[index],
+          order: i,
+        };
+      })
+      .filter((o) => !!o) as E[];
+
+    exercisesRef.current = newOrder;
+    saveWorkoutList();
+  };
 
   useEffect(() => {
     setIds(workoutToIds(workout));
@@ -254,7 +266,11 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
           )}
         </Droppable>
       </DragDropContext>
-      <div className="workout-list__button-group">
+      <div
+        className={`workout-list__button-group ${
+          ids.length === 0 ? 'no-margin' : ''
+        }`}
+      >
         <Button
           type="ghost"
           onClick={addExercise}

@@ -6,12 +6,20 @@ export type WorkoutTemplate = {
    */
   templateId: string;
   /**
+   * name of the workout
+   */
+  name: string;
+  /**
    * exercises of the workout (should already have tag and order)
    */
   exercises: CompleteExerciseNoLog[];
 };
 
 export type Workout = {
+  /**
+   * name of the workout
+   */
+  name: string;
   /**
    * template id for the workout. describes the structure of workout
    */

@@ -1,0 +1,24 @@
+.workout-page__wrapper {
+  @apply px-4;
+}
+
+.workout-page__input-label {
+  @apply w-full relative py-4 block overflow-hidden;
+}
+
+.workout-page__input-placeholder {
+  @apply font-display text-4xl font-extrabold absolute duration-200 text-gray-400 cursor-text;
+}
+
+.workout-page__input-placeholder.active {
+  @apply -top-1 text-sm text-gray-600;
+}
+
+.workout-page__input {
+  @apply font-display text-5xl font-extrabold w-full
+    focus:outline-none overflow-hidden h-auto tracking-wider;
+}
+
+.workout-page__exercises {
+  @apply duration-200;
+}
