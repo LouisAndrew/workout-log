@@ -6,6 +6,11 @@
   @apply flex items-start justify-between duration-200 hover:bg-gray-100 pr-3 rounded;
 }
 
+.workout-list__exercise-overlay {
+  backdrop-filter: blur(12px);
+  @apply duration-200 opacity-60 bg-gray-200;
+}
+
 .workout-list__exercise:hover input {
   @apply bg-gray-100;
 }

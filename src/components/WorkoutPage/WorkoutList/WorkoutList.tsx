@@ -1,6 +1,5 @@
 // eslint-disable-next-line object-curly-newline
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { BiX } from 'react-icons/bi';
 import {
   DndContext,
   closestCenter,
@@ -10,28 +9,23 @@ import {
   useSensors,
   DragEndEvent,
 } from '@dnd-kit/core';
-import { CSS } from '@dnd-kit/utilities';
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-  useSortable,
 } from '@dnd-kit/sortable';
 
 import { Workout, WorkoutTemplate } from '@t/Workout';
 
-import './styles.css';
-import { ExerciseInput } from '@components/Input';
 import { Button } from '@components/Button';
 import { CompleteExercise, CompleteExerciseNoLog } from '@t/Exercise';
-import { rangeToString, stringToRange } from '@helper/ranges';
-// import { deepEqual } from '@helper/comparator';
 
 import { generateExerciseId } from '@helper/generateId';
 import { deepEqual } from '@/helper/comparator';
 import { cloneDeep } from 'lodash';
-import { LoggableExerciseInput } from '../LoggableExerciseInput';
+import WorkoutListItem from './WorkoutListItem';
+import './styles.css';
 
 type W = Workout | WorkoutTemplate;
 
@@ -67,6 +61,8 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
   const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
   const [ids, setIds] = useState<string[]>(workoutToIds(workout));
+
+  const [activeId, setActiveId] = useState('');
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -200,7 +196,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-
+    setActiveId('');
     if (active.id !== over?.id) {
       setIds((i) => {
         const oldIndex = i.indexOf(active.id);
@@ -224,6 +220,10 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
     exercisesRef.current = temp;
   }, [ids]);
 
+  useEffect(() => {
+    setIds(workoutToIds(workout));
+  }, [workout]);
+
   const getWorkoutById = (id: string) =>
     workout.exercises.filter((e) => e.id === id)[0];
 
@@ -234,6 +234,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
+          onDragStart={(event) => setActiveId(event.active.id)}
         >
           <SortableContext items={ids} strategy={verticalListSortingStrategy}>
             {ids.map((id) => {
@@ -251,6 +252,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
                     }
                   }}
                   onRemove={() => removeExercise(e.id)}
+                  isOverlay={activeId === e.id}
                 />
               );
             })}
@@ -275,78 +277,6 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
           </Button>
         )}
       </div>
-    </div>
-  );
-};
-
-type WorkoutListItemProps = {
-  onRemove: () => void;
-  onChange: (e: CompleteExercise | CompleteExerciseNoLog) => void;
-  exercise: CompleteExercise | CompleteExerciseNoLog;
-  isTemplate: boolean;
-};
-
-const WorkoutListItem: FC<WorkoutListItemProps> = ({
-  onRemove,
-  onChange,
-  exercise,
-  isTemplate,
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({
-    id: exercise.id || '',
-    transition: {
-      duration: 150, // milliseconds
-      easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-    },
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition: transition || '',
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} className="workout-list__exercise">
-      {isTemplate ? (
-        <ExerciseInput
-          value={exercise.name}
-          defaultReps={stringToRange(exercise.reps)}
-          defaultSets={stringToRange(exercise.sets)}
-          isEditable
-          className="workout-list__exercise-input workout-list__template"
-          id={exercise.id}
-          onChange={
-            (name, reps, sets) => {
-              onChange({
-                name,
-                id: exercise.id,
-                reps: rangeToString(reps || { start: -1 }),
-                sets: rangeToString(sets || { start: -1 }),
-                tags: exercise.tags,
-                order: exercise.order,
-              });
-            }
-            // eslint-disable-next-line react/jsx-curly-newline
-          }
-          dragHandle={{ ...attributes, ...listeners }}
-        />
-      ) : (
-        <LoggableExerciseInput
-          defaultExercise={exercise as CompleteExercise}
-          className="workout-list__exercise-input"
-          isEditable
-          isLoggable
-          onChange={onChange}
-          dragHandle={{ ...attributes, ...listeners }}
-        />
-      )}
-      <BiX className="workout-list__remove-exercise" onClick={onRemove} />
     </div>
   );
 };
