@@ -21,6 +21,10 @@ export type Props = {
    * function to save log / template
    */
   onSave?: (w: W) => void;
+  /**
+   * additional styling
+   */
+  className?: string;
 };
 
 const NEW_TEMPLATE_ID = 'new-workout';
@@ -33,8 +37,8 @@ const wt: W = {
 
 const WorkoutPage: FC<Props> = ({ defaultWorkout, type }) => {
   const [workout] = useState(defaultWorkout || wt);
+  const [templateId] = useState(workout.templateId);
   const [workoutName, setWorkoutName] = useState(workout.name);
-  // const workoutRef = useRef(cloneDeep(workout));
 
   return (
     <div className="workout-page__wrapper">
@@ -58,13 +62,21 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type }) => {
           value={workoutName}
         />
       </label>
-      <div className="workout-page__exercises">
+      <div className="workout-page__template-id workout-page__text">
+        TEMPLATE ID:
+        <span className="workout-page__template-id-placeholder">
+          {templateId}
+        </span>
+      </div>
+      <div className="workout-page__exercises workout-page__text">
+        EXERCISES:
         <WorkoutList
           type={type}
           defaultWorkout={workout}
           onChange={(w, t) => {
             console.log({ w, t });
           }}
+          className="workout-page__exercise-list"
         />
       </div>
     </div>

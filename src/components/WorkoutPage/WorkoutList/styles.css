@@ -63,7 +63,7 @@
 }
 
 .workout-list__drag-handle {
-  @apply text-gray-400 h-8 w-8 p-0.5 duration-200 mr-2 duration-200 rounded mt-3
+  @apply text-gray-400 h-8 w-8 p-0.5 duration-200 mr-2 duration-200 rounded mt-5
     hover:bg-gray-200;
 }
 

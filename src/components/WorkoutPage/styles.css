@@ -3,11 +3,11 @@
 }
 
 .workout-page__input-label {
-  @apply w-full relative py-4 block overflow-hidden;
+  @apply w-full relative pt-4 pb-0 block overflow-hidden;
 }
 
 .workout-page__input-placeholder {
-  @apply font-display text-4xl font-extrabold absolute duration-200 text-gray-400 cursor-text;
+  @apply font-display text-5xl font-extrabold absolute duration-200 text-gray-400 cursor-text;
 }
 
 .workout-page__input-placeholder.active {
@@ -16,9 +16,26 @@
 
 .workout-page__input {
   @apply font-display text-5xl font-extrabold w-full
-    focus:outline-none overflow-hidden h-auto tracking-wider;
+    focus:outline-none overflow-hidden tracking-wider;
 }
 
 .workout-page__exercises {
   @apply duration-200;
+}
+
+.workout-page__text {
+  @apply text-sm font-body tracking-wider font-bold;
+}
+
+.workout-page__template-id {
+  @apply flex  items-center mb-2;
+}
+
+.workout-page__template-id-placeholder {
+  @apply font-medium text-sm ml-6 py-0.5 px-2 duration-200 rounded
+    cursor-pointer hover:bg-gray-900 hover:text-white;
+}
+
+.workout-page__exercise-list {
+  @apply mt-2;
 }

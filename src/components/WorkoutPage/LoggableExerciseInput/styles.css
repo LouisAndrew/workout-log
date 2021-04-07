@@ -34,7 +34,7 @@
 }
 
 .loggable-exercise-input__button {
-  @apply duration-200 opacity-0;
+  @apply duration-200 opacity-0 border-transparent;
 }
 
 .loggable-exercise-input__wrapper:hover .loggable-exercise-input__button,

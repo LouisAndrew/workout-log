@@ -45,7 +45,12 @@ const wt: WorkoutTemplate = {
 const workoutToIds = (workout: W) =>
   [...workout.exercises].sort((a, b) => a.order - b.order).map((e) => e.id);
 
-const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
+const WorkoutList: FC<Props> = ({
+  type,
+  defaultWorkout,
+  onChange,
+  className,
+}) => {
   const isTemplate = type === 'TEMPLATE';
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
   const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
@@ -225,7 +230,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
 
   return (
     <div
-      className="workout-list__wrapper"
+      className={`workout-list__wrapper ${className}`}
       onBlur={() => {
         if (shouldSaveButtonRender) {
           saveWorkoutList();
@@ -275,6 +280,7 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
           type="ghost"
           onClick={addExercise}
           className="workout-list__add-button"
+          size="s"
         >
           Add Exercise
         </Button>
