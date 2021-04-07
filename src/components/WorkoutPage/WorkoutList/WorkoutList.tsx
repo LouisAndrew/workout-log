@@ -212,7 +212,14 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
     workout.exercises.filter((e) => e.id === id)[0];
 
   return (
-    <div className="workout-list__wrapper">
+    <div
+      className="workout-list__wrapper"
+      onBlur={() => {
+        if (shouldSaveButtonRender) {
+          saveWorkoutList();
+        }
+      }}
+    >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={workout.templateId}>
           {(provided, snapshot) => (
@@ -255,15 +262,6 @@ const WorkoutList: FC<Props> = ({ type, defaultWorkout, onChange }) => {
         >
           Add Exercise
         </Button>
-        {shouldSaveButtonRender && (
-          <Button
-            className="workout-list__save-button"
-            type="primary"
-            onClick={saveWorkoutList}
-          >
-            Save Exercise List
-          </Button>
-        )}
       </div>
     </div>
   );

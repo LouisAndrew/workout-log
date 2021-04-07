@@ -1,6 +1,6 @@
 // eslint-disable-next-line object-curly-newline
 import React, { FC, useRef, useState } from 'react';
-import { BiDumbbell, BiX, BiSave } from 'react-icons/bi';
+import { BiDumbbell, BiX } from 'react-icons/bi';
 
 import { ExerciseInput, LogInput } from '@components/Input';
 import { Button } from '@components/Button';
@@ -33,7 +33,6 @@ export type Props = {
    * handler function to handle change
    */
   onChange?: (e: CompleteExercise) => void;
-  dragHandle?: any;
 };
 
 const LoggableExerciseInput: FC<Props> = ({
@@ -42,7 +41,6 @@ const LoggableExerciseInput: FC<Props> = ({
   isLoggable = true,
   className,
   onChange,
-  dragHandle,
 }) => {
   const [exercise, setExercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
@@ -134,14 +132,20 @@ const LoggableExerciseInput: FC<Props> = ({
   };
 
   return (
-    <div className={`loggable-exercise-input__wrapper ${className}`}>
+    <div
+      className={`loggable-exercise-input__wrapper ${className}`}
+      onBlur={() => {
+        if (shouldSaveButtonRender) {
+          saveLog();
+        }
+      }}
+    >
       <ExerciseInput
         value={exercise.name}
         defaultReps={stringToRange(exercise.reps)}
         defaultSets={stringToRange(exercise.sets)}
         isEditable={isEditable}
         onChange={handleChangeExercise}
-        dragHandle={dragHandle}
       />
       <div className="loggable-exercise-input__log-wrapper">
         {isLoggable && logs.length === 0 ? (
@@ -186,17 +190,6 @@ const LoggableExerciseInput: FC<Props> = ({
             >
               Log Exercise
             </Button>
-            {shouldSaveButtonRender && (
-              <Button
-                className="loggable-exercise-input__save-button loggable-exercise-input__button"
-                size="s"
-                type="primary"
-                Icon={BiSave}
-                onClick={saveLog}
-              >
-                Save Log
-              </Button>
-            )}
           </div>
         )}
       </div>
