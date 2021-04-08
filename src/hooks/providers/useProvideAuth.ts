@@ -1,7 +1,7 @@
 import { User } from '@supabase/supabase-js';
 import { useState } from 'react';
 
-import { useSupabase } from './useSupabase';
+import { useSupabase } from '@h/useSupabase';
 
 export type AuthFunc = (email: string, password: string)
                           => Promise<User | Error | null | undefined>;

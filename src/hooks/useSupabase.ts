@@ -1,18 +1,5 @@
-import { useEffect, useState } from 'react';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { useContext } from 'react';
+import { SupabaseContext } from '@h/context/SupabaseContext';
 
 // eslint-disable-next-line import/prefer-default-export
-export const useSupabase = () => {
-  const [supabase, setSupabase] = useState<SupabaseClient | null>(null);
-
-  useEffect(() => {
-    const { REACT_APP_SUPABASE_KEY, REACT_APP_SUPABASE_URL } = process.env;
-    setSupabase(
-      createClient(REACT_APP_SUPABASE_URL || '', REACT_APP_SUPABASE_KEY || '')
-    );
-  }, []);
-
-  const get = (): SupabaseClient | null => supabase;
-
-  return { get };
-};
+export const useSupabase = () => useContext(SupabaseContext);
