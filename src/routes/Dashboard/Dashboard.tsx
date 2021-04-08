@@ -1,9 +1,9 @@
-import { useAuth } from '@/hooks/useAuth';
 import React, { FC } from 'react';
+import { useAuth } from '@h/useAuth';
 
 export type Props = {};
 
-const Main: FC<Props> = () => {
+const Dashboard: FC<Props> = () => {
   const { user } = useAuth();
   return (
     <div>
@@ -15,4 +15,4 @@ const Main: FC<Props> = () => {
   );
 };
 
-export default Main;
+export default Dashboard;

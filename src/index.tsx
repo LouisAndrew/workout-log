@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AuthProvider from '@h/context/AuthContext';
+import SupabaseProvider from '@h/context/SupabaseContext';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SupabaseProvider>
+      <AuthProvider>
+        <Router>
+          <App />
+        </Router>
+      </AuthProvider>
+    </SupabaseProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
