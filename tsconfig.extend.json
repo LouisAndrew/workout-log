@@ -6,7 +6,8 @@
       "@components/*": ["./src/components/*"],
       "@helper/*": ["./src/helper/*"],
       "@h/*": ["./src/hooks/*"],
-      "@t/*": ["./src/types/*"]
+      "@t/*": ["./src/types/*"],
+      "@r/*": ["./src/routes/*"]
     }
   }
 }

@@ -1,41 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '@h/useAuth';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Main } from '@r/Main';
+import PrivateRoute from '@r/PrivateRoute';
+import AuthProvider from '@h/context/AuthContext';
+import { Login } from './routes/Login';
 
 function App() {
-  const [r, setR] = useState(false);
-  const { getUser, signIn, signUp } = useAuth();
-
-  useEffect(() => {
-    if (r) {
-      setR(false);
-    }
-  }, [r]);
-
-  const email = 'louisandrew3@gmail.com';
-  const password = 'abcdef';
-
   return (
-    <div className="App">
-      <header className="App-header" />
-      {getUser() ? (
-        JSON.stringify(getUser())
-      ) : (
-        <>
-          <button
-            type="button"
-            onClick={() => signIn(email, password).then(() => setR(true))}
-          >
-            sign in
-          </button>
-          <button
-            type="button"
-            onClick={() => signUp(email, password).then(() => setR(true))}
-          >
-            sign up
-          </button>
-        </>
-      )}
-    </div>
+    <AuthProvider>
+      <Router>
+        <Switch>
+          <PrivateRoute path="/dashboard">
+            <Main />
+          </PrivateRoute>
+          {/* <Route path="/dashboard">
+          <Main />
+        </Route> */}
+          <Route path="/login" component={Login} />
+        </Switch>
+      </Router>
+    </AuthProvider>
   );
 }
 
