@@ -1,0 +1,21 @@
+.basic-input__label {
+  @apply font-body text-sm tracking-wider font-light duration-200 relative block;
+}
+
+.basic-input__input {
+  @apply block font-display tracking-widest text-lg tracking-widest w-64 bg-gray-100 rounded 
+    px-2 py-1 mt-1 duration-200
+   focus:outline-none focus:ring-1 focus:ring-black focus:ring-offset-1;
+}
+
+.basic-input__input.error {
+  @apply text-red-400 focus:ring-red-400;
+}
+
+.basic-input_error {
+  @apply text-xs font-bold text-red-400 pl-2;
+}
+
+.basic-input__input-icon {
+  @apply absolute h-6 w-6 right-0 bottom-2 cursor-pointer;
+}
