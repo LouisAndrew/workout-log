@@ -13,6 +13,7 @@ type Props = {
   exercise: CompleteExercise | CompleteExerciseNoLog;
   isTemplate: boolean;
   index: number;
+  comparisonExercise?: CompleteExercise;
 };
 
 const WorkoutListItem: FC<Props> = ({
@@ -21,6 +22,7 @@ const WorkoutListItem: FC<Props> = ({
   exercise,
   isTemplate,
   index,
+  comparisonExercise,
 }) => (
   <Draggable draggableId={exercise.id} index={index}>
     {(provided, snapshot) => (
@@ -64,6 +66,7 @@ const WorkoutListItem: FC<Props> = ({
             isEditable
             isLoggable
             onChange={onChange}
+            comparisonExercise={comparisonExercise}
           />
         )}
         <BiX className="workout-list__remove-exercise" onClick={onRemove} />

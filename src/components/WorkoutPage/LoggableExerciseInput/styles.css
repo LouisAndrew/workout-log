@@ -1,5 +1,29 @@
 .loggable-exercise-input__wrapper {
-  @apply duration-200 hover:bg-gray-100 px-3 pt-3 pb-4;
+  @apply duration-200 hover:bg-gray-100 px-3 pt-3 pb-4 flex w-full;
+}
+
+.loggable-exercise-input__wrapper.main {
+  @apply w-full;
+}
+
+.loggable-exercise-input__comparison {
+  @apply pt-0 text-gray-500 duration-200 opacity-0;
+}
+
+.loggable-exercise-input__comparison.active {
+  @apply opacity-100;
+}
+
+.loggable-exercise-input__comparison span {
+  @apply text-gray-500;
+}
+
+.loggable-exercise-input__comparison-separator {
+  @apply w-0.5 bg-gray-300 ml-7 mr-5 duration-200 opacity-0;
+}
+
+.loggable-exercise-input__comparison-separator.active {
+  @apply opacity-100;
 }
 
 .loggable-exercise-input__wrapper:hover input {
@@ -34,7 +58,7 @@
 }
 
 .loggable-exercise-input__button {
-  @apply duration-200 opacity-0 border-transparent;
+  @apply duration-200 opacity-0 border-transparent whitespace-nowrap;
 }
 
 .loggable-exercise-input__wrapper:hover .loggable-exercise-input__button,
@@ -49,11 +73,11 @@
   @apply ml-0.5;
 }
 
-.loggable-exercise-input__save-button {
-  @apply ml-2;
+.loggable-exercise-input__compare-button {
+  @apply ml-2 bg-gray-200 hover:bg-gray-300;
 }
 
-.loggable-exercise-input__save-button svg {
+.loggable-exercise-input__compare-button svg {
   transform: scale(1.5);
   @apply ml-0.5;
 }

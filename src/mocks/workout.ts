@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import { Workout, WorkoutTemplate } from '@t/Workout';
 import {
   benchPress,
@@ -28,4 +29,10 @@ const workout2: Workout = {
   date: new Date(Date.parse('22 Mar 2021')),
 };
 
-export { template, workout1, workout2 };
+const workout3: Workout = {
+  ...template,
+  exercises: [benchPressLog2],
+  date: new Date(Date.parse('17 Mar 2021')),
+};
+
+export { template, workout1, workout2, workout3 };

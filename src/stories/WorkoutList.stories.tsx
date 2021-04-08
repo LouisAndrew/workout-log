@@ -5,7 +5,7 @@ import { Story } from '@storybook/react';
 import WorkoutList, {
   Props,
 } from '@components/WorkoutPage/WorkoutList/WorkoutList';
-import { benchPressOrdered } from '@/mocks/exercises';
+import { workout1, workout2, workout3 } from '@/mocks/workout';
 
 export default {
   title: 'WorkoutPage/WorkoutList',
@@ -22,8 +22,19 @@ TemplateList.args = {
 export const LogList = Template.bind({});
 LogList.args = {
   type: 'LOG',
-  defaultWorkout: {
-    templateId: '2',
-    exercises: [benchPressOrdered],
-  },
+  defaultWorkout: workout1,
+};
+
+export const LogListComparable = Template.bind({});
+LogList.args = {
+  type: 'LOG',
+  defaultWorkout: workout1,
+  comparisonWorkout: workout2,
+};
+
+export const LogListComparableNotEqual = Template.bind({});
+LogListComparableNotEqual.args = {
+  type: 'LOG',
+  defaultWorkout: workout1,
+  comparisonWorkout: workout3,
 };

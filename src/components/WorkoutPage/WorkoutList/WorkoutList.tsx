@@ -35,6 +35,10 @@ export type Props = {
    * additional styling
    */
   className?: string;
+  /**
+   * workout to compare the exercises with
+   */
+  comparisonWorkout?: Workout;
 };
 
 const wt: WorkoutTemplate = {
@@ -51,6 +55,7 @@ const WorkoutList: FC<Props> = ({
   defaultWorkout,
   onChange,
   className,
+  comparisonWorkout,
 }) => {
   const isTemplate = type === 'TEMPLATE';
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
@@ -250,6 +255,9 @@ const WorkoutList: FC<Props> = ({
                       }
                     }}
                     onRemove={() => removeExercise(e.id)}
+                    comparisonExercise={comparisonWorkout?.exercises.find(
+                      (ex) => ex.id === id
+                    )}
                   />
                 );
               })}

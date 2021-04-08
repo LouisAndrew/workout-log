@@ -1,6 +1,6 @@
-// eslint-disable-next-line object-curly-newline
+/* eslint-disable object-curly-newline */
 import React, { FC, useRef, useState } from 'react';
-import { BiDumbbell, BiX } from 'react-icons/bi';
+import { BiDumbbell, BiX, BiShow, BiHide } from 'react-icons/bi';
 
 import { ExerciseInput, LogInput } from '@components/Input';
 import { Button } from '@components/Button';
@@ -45,10 +45,12 @@ const LoggableExerciseInput: FC<Props> = ({
   isLoggable = true,
   className,
   onChange,
+  comparisonExercise,
 }) => {
   const [exercise, setExercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
   const [shouldSaveButtonRender, setShouldSaveButtonRender] = useState(false);
+  const [showComparison, setShowComparison] = useState(!!comparisonExercise);
 
   const logsRef = useRef<ExerciseSetOrdered[]>(cloneDeep(logs));
   const exerciseRef = useRef(cloneDeep(exercise));
@@ -144,59 +146,89 @@ const LoggableExerciseInput: FC<Props> = ({
         }
       }}
     >
-      <ExerciseInput
-        value={exercise.name}
-        defaultReps={stringToRange(exercise.reps)}
-        defaultSets={stringToRange(exercise.sets)}
-        isEditable={isEditable}
-        onChange={handleChangeExercise}
-      />
-      <div className="loggable-exercise-input__log-wrapper">
-        {isLoggable && logs.length === 0 ? (
-          <span className="loggable-exercise-input__indicator">
-            Add some logs to your exercsie 💪
-          </span>
-        ) : null}
-        {logs.map((l, i) => (
-          <div
-            className="loggable-exercise-input__log group"
-            key={`${exercise.id || exercise.name}-${l.order}`}
-          >
-            <LogInput
-              exerciseId={exercise.id || ''}
-              index={l.order}
-              setNum={i + 1}
-              defaultReps={l.reps}
-              defaultWeight={l.weight}
-              defaultReview={l.review}
-              weightMetric={l.metric}
-              onChange={onLogChange}
-              isEditable={isEditable}
-              className="loggable-exercise-input__log-item"
-            />
-            <BiX
-              className="loggable-exercise-input__remove-log"
-              onClick={() => removeLog(l.order)}
-            />
-          </div>
-        ))}
-        {isLoggable && (
-          <div
-            className={`loggable-exercise-input__button-group ${
-              logs.length > 0 ? 'mt-3' : ''
-            }`}
-          >
-            <Button
-              className="loggable-exercise-input__log-button loggable-exercise-input__button"
-              size="s"
-              Icon={BiDumbbell}
-              onClick={createLog}
+      <div className="loggable-exercise-input__main">
+        <ExerciseInput
+          value={exercise.name}
+          defaultReps={stringToRange(exercise.reps)}
+          defaultSets={stringToRange(exercise.sets)}
+          isEditable={isEditable}
+          onChange={handleChangeExercise}
+        />
+        <div className="loggable-exercise-input__log-wrapper">
+          {isLoggable && logs.length === 0 ? (
+            <span className="loggable-exercise-input__indicator">
+              Add some logs to your exercsie 💪
+            </span>
+          ) : null}
+          {logs.map((l, i) => (
+            <div
+              className="loggable-exercise-input__log group"
+              key={`${exercise.id || exercise.name}-${l.order}`}
             >
-              Log Exercise
-            </Button>
-          </div>
-        )}
+              <LogInput
+                exerciseId={exercise.id || ''}
+                index={l.order}
+                setNum={i + 1}
+                defaultReps={l.reps}
+                defaultWeight={l.weight}
+                defaultReview={l.review}
+                weightMetric={l.metric}
+                onChange={onLogChange}
+                isEditable={isEditable}
+                className="loggable-exercise-input__log-item"
+              />
+              {isLoggable && (
+                <BiX
+                  className="loggable-exercise-input__remove-log"
+                  onClick={() => removeLog(l.order)}
+                />
+              )}
+            </div>
+          ))}
+          {isLoggable && (
+            <div
+              className={`loggable-exercise-input__button-group ${
+                logs.length > 0 ? 'mt-3' : ''
+              }`}
+            >
+              <Button
+                className="loggable-exercise-input__log-button loggable-exercise-input__button"
+                size="s"
+                Icon={BiDumbbell}
+                onClick={createLog}
+              >
+                Log Exercise
+              </Button>
+              {comparisonExercise ? (
+                <Button
+                  className="loggable-exercise-input__compare-button loggable-exercise-input__button"
+                  size="s"
+                  Icon={showComparison ? BiHide : BiShow}
+                  onClick={() => setShowComparison((prev) => !prev)}
+                >
+                  {showComparison ? 'Hide Comparison' : 'Show Comparison'}
+                </Button>
+              ) : null}
+            </div>
+          )}
+        </div>
       </div>
+      {isLoggable && comparisonExercise ? (
+        <>
+          <div
+            className={`loggable-exercise-input__comparison-separator ${
+              showComparison ? 'active' : ''
+            }`}
+          />
+          <LoggableExerciseInput
+            defaultExercise={comparisonExercise}
+            className={`loggable-exercise-input__comparison ${
+              showComparison ? 'active' : ''
+            }`}
+            isLoggable={false}
+          />
+        </>
+      ) : null}
     </div>
   );
 };
