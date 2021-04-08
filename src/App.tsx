@@ -1,12 +1,16 @@
 import React from 'react';
-import { Input } from './components/Input';
+
+import { useSupabase } from '@h/useSupabase';
 
 function App() {
+  const { get } = useSupabase();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <Input />
-      </header>
+      <header className="App-header" />
+      <button type="button" onClick={() => console.log(get())}>
+        get supabase
+      </button>
     </div>
   );
 }

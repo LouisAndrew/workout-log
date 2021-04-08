@@ -30,7 +30,7 @@ Filled.args = {
   defaultWeight: 20,
   defaultReps: 12,
   defaultReview: {
-    review: 'UP',
+    indicator: 'UP',
   },
   isEditable: true,
 };
@@ -41,7 +41,7 @@ FilledStay.args = {
   defaultWeight: 20,
   defaultReps: 12,
   defaultReview: {
-    review: 'STAY',
+    indicator: 'STAY',
   },
   isEditable: true,
 };
@@ -52,7 +52,7 @@ FilledDown.args = {
   defaultWeight: 20,
   defaultReps: 12,
   defaultReview: {
-    review: 'DOWN',
+    indicator: 'DOWN',
   },
   isEditable: true,
 };
@@ -63,6 +63,6 @@ FilledNotEditable.args = {
   defaultWeight: 20,
   defaultReps: 12,
   defaultReview: {
-    review: 'UP',
+    indicator: 'UP',
   },
 };
