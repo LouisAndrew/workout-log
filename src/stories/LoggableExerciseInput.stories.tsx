@@ -6,7 +6,7 @@ import LoggableExerciseInput, {
   Props,
 } from '@components/WorkoutPage/LoggableExerciseInput/LoggableExerciseInput';
 
-import { benchPressOrdered } from '@/mocks/exercises';
+import { benchPress, benchPressLog1, benchPressLog2 } from '@/mocks/exercises';
 
 export default {
   title: 'WorkoutPage/LoggableExercise',
@@ -17,18 +17,25 @@ const Template: Story<Props> = (args) => <LoggableExerciseInput {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  defaultExercise: { ...benchPressOrdered, logs: [] },
+  defaultExercise: { ...benchPress, logs: [] },
   isEditable: true,
 };
 
 export const Filled = Template.bind({});
 Filled.args = {
-  defaultExercise: benchPressOrdered,
+  defaultExercise: benchPressLog1,
   isEditable: true,
 };
 
 export const NotEditable = Template.bind({});
 NotEditable.args = {
-  defaultExercise: benchPressOrdered,
+  defaultExercise: benchPressLog1,
   isLoggable: false,
+};
+
+export const Comparing = Template.bind({});
+Comparing.args = {
+  defaultExercise: benchPressLog1,
+  comparisonExercise: benchPressLog2,
+  isEditable: true,
 };

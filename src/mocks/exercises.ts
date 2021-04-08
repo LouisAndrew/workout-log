@@ -1,59 +1,120 @@
-import {
-  Exercise,
-  ExerciseWithLog,
-  ExerciseWithOrder,
-  ExerciseWithTags,
-} from '../types/Exercise';
+import { CompleteExercise, CompleteExerciseNoLog } from '../types/Exercise';
 
-const benchPress: Exercise = {
+const benchPress: CompleteExerciseNoLog = {
   name: 'Bench Press',
   sets: '3-4',
-  reps: '8-12',
-  id: '-1',
+  reps: '6-8',
+  id: 'bench-press',
+  tags: [],
+  order: 0,
 };
 
-const squat: Exercise = {
-  name: 'Squat',
+const frontSquat: CompleteExerciseNoLog = {
+  name: 'Front Squat',
   sets: '2-3',
-  reps: '10',
-  id: '-1',
+  reps: '8-12',
+  id: 'front-squat',
+  tags: [],
+  order: 0,
 };
 
-const benchPressTagged: ExerciseWithTags<Exercise> = {
+const benchPressLog1: CompleteExercise = {
   ...benchPress,
-  tags: [
-    {
-      text: 'Chest',
-      color: '#faa',
-    },
-  ],
-};
-
-const benchPressLogged: ExerciseWithLog<typeof benchPressTagged> = {
-  ...benchPressTagged,
   logs: [
     {
-      weight: 40,
-      reps: 10,
+      reps: 6,
+      weight: 10,
       metric: 'KG',
+      order: 0,
       review: {
         indicator: 'UP',
-        note: 'Keep up',
+        note: 'Warm up',
       },
+    },
+    {
+      reps: 4,
+      weight: 20,
+      metric: 'KG',
       order: 1,
+      review: {
+        indicator: 'DOWN',
+        note: '',
+      },
     },
   ],
 };
 
-const benchPressOrdered: ExerciseWithOrder<typeof benchPressLogged> = {
-  ...benchPressLogged,
-  order: 0,
+const benchPressLog2: CompleteExercise = {
+  ...benchPress,
+  logs: [
+    {
+      reps: 10,
+      weight: 12,
+      metric: 'KG',
+      order: 0,
+      review: {
+        indicator: 'STAY',
+        note: 'Good form.',
+      },
+    },
+    {
+      reps: 12,
+      weight: 8,
+      metric: 'KG',
+      order: 1,
+      review: {
+        indicator: '?',
+      },
+    },
+  ],
+};
+
+const frontSquatLog1: CompleteExercise = {
+  ...frontSquat,
+  logs: [
+    {
+      reps: 15,
+      weight: 20,
+      metric: 'KG',
+      order: 0,
+      review: {
+        indicator: 'STAY',
+        note: 'Good form.',
+      },
+    },
+    {
+      reps: 12,
+      weight: 30,
+      metric: 'KG',
+      order: 1,
+      review: {
+        indicator: '?',
+      },
+    },
+  ],
+};
+
+const frontSquatLog2: CompleteExercise = {
+  ...frontSquat,
+  logs: [
+    {
+      reps: 6,
+      weight: 50,
+      metric: 'KG',
+      order: 0,
+      review: {
+        indicator: 'DOWN',
+        note: 'Ego lifting 👎',
+      },
+    },
+  ],
 };
 
 export {
   benchPress,
-  benchPressLogged,
-  benchPressTagged,
-  benchPressOrdered,
-  squat,
+  frontSquat,
+  frontSquatLog1,
+  frontSquatLog2,
+  benchPressLog1,
+  benchPressLog2,
 };

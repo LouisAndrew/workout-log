@@ -18,6 +18,10 @@ export type Props = {
    */
   defaultExercise: CompleteExercise;
   /**
+   * exercise to compare with
+   */
+  comparisonExercise?: CompleteExercise;
+  /**
    * identifies if the input field is editable
    */
   isEditable?: boolean;
