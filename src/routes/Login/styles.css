@@ -1,2 +1,19 @@
 .login-page {
 }
+
+@keyframes name-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.login-page .name-input {
+  animation: name-in 200ms;
+}
+
+.switch-button {
+  @apply border-transparent;
+}

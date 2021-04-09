@@ -1,5 +1,6 @@
 .checkbox__label {
-  @apply flex items-center font-body text-sm tracking-wider font-light cursor-pointer block;
+  @apply flex items-center font-body text-sm tracking-wider font-light cursor-pointer block rounded
+    focus:outline-none;
 }
 
 .checkbox__input {

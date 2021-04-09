@@ -66,7 +66,7 @@ const BasicInput: FC<Props> = ({
       />
       {children}
     </label>
-    <span className="basic-input_error">{errorMsg}</span>
+    {errorMsg && <span className="basic-input_error">{errorMsg}</span>}
   </>
 );
 
