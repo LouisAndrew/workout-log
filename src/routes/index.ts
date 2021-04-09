@@ -4,7 +4,8 @@ import PrivateRoute from './PrivateRoute';
 enum R {
   DASHBOARD = '/dashboard',
   LOGIN = '/login',
-  VERIFY_EMAIL = '/verify_email'
+  VERIFY_EMAIL = '/verify_email',
+  TEMPLATE = '/template'
 }
 
 export { PrivateRoute, R };

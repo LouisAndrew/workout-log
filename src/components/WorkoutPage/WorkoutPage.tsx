@@ -69,7 +69,7 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type }) => {
       setTemplateId(idFromExerciseName(value));
     }
 
-    if (defaultWorkout?.name !== '') {
+    if (value !== defaultWorkout.name) {
       setIsTemplateChanged(true);
     }
   };

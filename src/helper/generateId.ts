@@ -49,6 +49,7 @@ const generateExerciseId = <E extends Exercise>(
 };
 
 const ID_MAX_LENGTH = 16;
+const WORKOUT_ID_MAX_LENGTH = 8;
 
 const idFromExerciseName = (str: string) => {
   const normalized = str.replaceAll(' ', '-').toLowerCase();
@@ -61,10 +62,14 @@ const idFromExerciseName = (str: string) => {
   return generateUniqueId([], fill, ID_MAX_LENGTH - length);
 };
 
+const generateRandomWorkoutId = (templates: string[]) =>
+  generateUniqueId(templates, (val: string) => val, WORKOUT_ID_MAX_LENGTH);
+
 export {
   generateUniqueId,
   generateSingleId,
   generateExerciseId,
   ID_MAX_LENGTH,
   idFromExerciseName,
+  generateRandomWorkoutId,
 };

@@ -52,7 +52,10 @@ const Login: FC<Props> = () => {
 
   const { signIn, signUp, user } = useAuth();
   const history = useHistory();
-  const { search } = useLocation();
+  const { search, state } = useLocation();
+  const from = (state as any)?.from || R.DASHBOARD;
+
+  console.log(from);
 
   const isAuthError = (value: User | Error) => !(value as any).id;
 
@@ -65,7 +68,7 @@ const Login: FC<Props> = () => {
           const err = res as Error;
           setErrors((prev) => ({ ...prev, password: err.message }));
         } else {
-          history.replace(R.DASHBOARD);
+          history.replace(from);
         }
       } else {
         setErrors((prev) => ({ ...prev, password: 'Oops, something went wrong!' }));
@@ -118,7 +121,7 @@ const Login: FC<Props> = () => {
 
   useEffect(() => {
     if (user) {
-      history.replace(R.DASHBOARD);
+      history.replace(from);
       return;
     }
 

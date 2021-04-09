@@ -29,7 +29,7 @@ export const useProvideAuth = () => {
   const createUserDb = async (id: string, name: string): Promise<void> => {
     const supabase = get();
     if (supabase) {
-      await supabase.from(TABLES.userData).insert([{
+      await supabase.from(TABLES.USER_DATA).insert([{
         uuid: id, name, templates: [], logs: [], settings: {}
       }]);
     }

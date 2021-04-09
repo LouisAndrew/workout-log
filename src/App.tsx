@@ -6,6 +6,7 @@ import { Dashboard } from '@r/Dashboard';
 import { Login } from '@r/Login';
 import { VerifyEmail } from '@r/VerifyEmail';
 import { PrivateRoute, R } from '@r/index';
+import { Template } from '@r/Template';
 
 function App() {
   const history = useHistory();
@@ -21,6 +22,9 @@ function App() {
     <Switch>
       <PrivateRoute path={R.DASHBOARD}>
         <Dashboard />
+      </PrivateRoute>
+      <PrivateRoute path={R.TEMPLATE}>
+        <Template />
       </PrivateRoute>
       <Route path={R.LOGIN} component={Login} />
       <Route path={R.VERIFY_EMAIL} component={VerifyEmail} />
