@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 
 import { useSupabase } from '@h/useSupabase';
+import { TABLES } from '@h/useStorage';
 
 export type AuthFunc = (
   email: string,
   password: string,
-  saveUser?: boolean
+  saveUser?: boolean,
+  name?: string
 ) => Promise<User | Error | null | undefined>;
 
 const localStorageId = 'saved-user';
@@ -24,7 +26,16 @@ export const useProvideAuth = () => {
     return u ? JSON.parse(u) : null;
   };
 
-  const signUp: AuthFunc = async (email, password, saveUser = false) => {
+  const createUserDb = async (id: string, name: string): Promise<void> => {
+    const supabase = get();
+    if (supabase) {
+      await supabase.from(TABLES.userData).insert([{
+        uuid: id, name, templates: [], logs: [], settings: {}
+      }]);
+    }
+  };
+
+  const signUp: AuthFunc = async (email, password, saveUser = false, name) => {
     const supabase = get();
     if (supabase) {
       const { user: signedUpUser, error } = await supabase.auth.signUp({
@@ -37,6 +48,8 @@ export const useProvideAuth = () => {
         if (saveUser) {
           saveLocalUser(signedUpUser);
         }
+
+        await createUserDb(signedUpUser.id, name || '');
         return signedUpUser;
       }
       return error;

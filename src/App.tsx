@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import { Dashboard } from '@r/Dashboard';
 import { Login } from '@r/Login';
+import { VerifyEmail } from '@r/VerifyEmail';
 import { PrivateRoute, R } from '@r/index';
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
       <PrivateRoute path={R.DASHBOARD}>
         <Dashboard />
       </PrivateRoute>
-      <Route path="/login" component={Login} />
+      <Route path={R.LOGIN} component={Login} />
+      <Route path={R.VERIFY_EMAIL} component={VerifyEmail} />
     </Switch>
   );
 }

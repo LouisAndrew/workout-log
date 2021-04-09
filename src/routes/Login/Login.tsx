@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 
-// import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { User } from '@supabase/supabase-js';
+import { R } from '@r/index';
 
 import { BasicInput, PasswordInput } from '@components/Input/BasicInput';
 import { Button } from '@components/Button';
@@ -49,13 +50,9 @@ const Login: FC<Props> = () => {
 
   const [text, setText] = useState<Text>(isSigningIn ? SIGN_IN : SIGN_UP);
 
-  const { signIn, signUp } = useAuth();
-  // const history = useHistory();
-
-  // const su = async () => {
-  //   await signIn('louisandrew3@gmail.com', '123456');
-  //   history.replace('/dashboard');
-  // };
+  const { signIn, signUp, user } = useAuth();
+  const history = useHistory();
+  const { search } = useLocation();
 
   const isAuthError = (value: User | Error) => !(value as any).id;
 
@@ -68,7 +65,7 @@ const Login: FC<Props> = () => {
           const err = res as Error;
           setErrors((prev) => ({ ...prev, password: err.message }));
         } else {
-          console.log(res);
+          history.replace(R.DASHBOARD);
         }
       } else {
         setErrors((prev) => ({ ...prev, password: 'Oops, something went wrong!' }));
@@ -81,14 +78,14 @@ const Login: FC<Props> = () => {
 
   const signUserUp = async () => {
     try {
-      const res = await signUp(email, password, shouldSaveUser);
+      const res = await signUp(email, password, shouldSaveUser, name);
       if (res) {
         // is error is when res.id does not exist
         if (isAuthError(res)) {
           const err = res as Error;
           setErrors((prev) => ({ ...prev, email: err.message }));
         } else {
-          console.log(res);
+          history.replace(R.VERIFY_EMAIL, { email });
         }
       } else {
         setErrors((prev) => ({ ...prev, password: 'Oops, something went wrong!' }));
@@ -119,8 +116,19 @@ const Login: FC<Props> = () => {
     setErrors({ email: '', password: '' });
   }, [isSigningIn]);
 
+  useEffect(() => {
+    if (user) {
+      history.replace(R.DASHBOARD);
+      return;
+    }
+
+    if (search === '?signup') {
+      setIsSigningIn(false);
+    }
+  }, []);
+
   return (
-    <div className=" container h-screen flex items-center justify-center">
+    <div className="container h-screen flex items-center justify-center">
       <div className="w-max">
         <h2 className="heading heading--2">{text.headingText}</h2>
         <form className="w-max pt-7" onSubmit={handleSubmit}>
