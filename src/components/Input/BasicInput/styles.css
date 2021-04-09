@@ -3,8 +3,9 @@
 }
 
 .basic-input__input {
-  @apply block font-display tracking-widest text-lg tracking-widest w-64 bg-gray-100 rounded 
-    px-2 py-1 mt-1 duration-200
+  min-width: 16rem;
+  @apply block font-display tracking-widest text-lg tracking-widest bg-gray-100 rounded 
+    px-2 py-1 mt-1 duration-200 w-full
    focus:outline-none focus:ring-1 focus:ring-black focus:ring-offset-1;
 }
 

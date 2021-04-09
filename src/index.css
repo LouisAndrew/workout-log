@@ -16,3 +16,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.page {
+}
+
+.heading {
+  @apply font-display font-black;
+}
+
+.heading--2 {
+  @apply text-3xl;
+}

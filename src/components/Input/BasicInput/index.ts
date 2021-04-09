@@ -1,4 +1,4 @@
 import BasicInput from './BasicInput';
+import PasswordInput from './PasswordInput';
 
-// eslint-disable-next-line import/prefer-default-export
-export { BasicInput };
+export { BasicInput, PasswordInput };

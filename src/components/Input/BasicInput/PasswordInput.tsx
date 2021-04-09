@@ -9,7 +9,7 @@ const PasswordInput: FC<Props> = (props) => {
   const iconClass = 'basic-input__input-icon';
 
   return (
-    <BasicInput {...props} type={shouldDisplay ? 'text' : 'password'}>
+    <BasicInput {...props} type={shouldDisplay ? 'text' : 'password'} className="pr-8">
       {shouldDisplay ? (
         <BiHide className={iconClass} onClick={() => setShouldDisplay(false)} />
       ) : (
