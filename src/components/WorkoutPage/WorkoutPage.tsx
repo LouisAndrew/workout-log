@@ -51,7 +51,7 @@ const wt: W = {
   exercises: [],
 };
 
-const WorkoutPage: FC<Props> = ({ defaultWorkout, type }) => {
+const WorkoutPage: FC<Props> = ({ defaultWorkout, type, onSave }) => {
   const [workout] = useState(defaultWorkout || wt);
   const [templateId, setTemplateId] = useState(workout.templateId);
   const [workoutName, setWorkoutName] = useState(workout.name);
@@ -93,6 +93,17 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type }) => {
       setIsLogChanged(res);
     }
     exercisesRef.current = exercises;
+  };
+
+  const saveWorkout = () => {
+    const value: W = {
+      ...workout,
+      name: workoutName,
+      templateId,
+      exercises: exercisesRef.current
+    };
+
+    onSave?.(value);
   };
 
   return (
@@ -173,7 +184,7 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type }) => {
             type="primary"
             className="workout-page__save-template-button"
             Icon={BiBookAdd}
-            onClick={() => console.log('save')}
+            onClick={saveWorkout}
           >
             Save Template
           </Button>

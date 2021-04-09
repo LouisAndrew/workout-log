@@ -1,12 +1,16 @@
 import { generateRandomWorkoutId } from '@helper/generateId';
 import { R } from '@r/index';
 import { WorkoutTemplate } from '@t/Workout';
+import { TemplatesTable } from '@t/tables';
 
+import { templateTableToType, templateTypeToTable } from '@helper/helperToType';
 import { useStorage, TABLES } from './useStorage';
+import { useExercises } from './useExercises';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useTemplate = () => {
-  const { create, read } = useStorage(TABLES.TEMPLATES);
+  const { create, read, update } = useStorage(TABLES.TEMPLATES);
+  const { getMultipleExercises, saveMultipleExercises } = useExercises();
 
   const createTemplate = async (uid: string) => {
     // todo: get all templates of the user,then create a new one with random id
@@ -23,11 +27,9 @@ export const useTemplate = () => {
         return `${R.TEMPLATE}?id=${randomTemplateId}&create-new=true`;
       }
       // todo: create page for error route.
-      console.log('err');
       return '/error';
     } catch (e) {
       console.error(e);
-      console.log('err');
       return '/error';
     }
   };
@@ -39,12 +41,9 @@ export const useTemplate = () => {
         return null;
       }
 
-      const data = res.data[0];
-      console.log(res);
-      const template: WorkoutTemplate = {
-        ...data,
-        templateId: (data['template-id'] as string).replace(`${userId}-`, ''),
-      };
+      const data: TemplatesTable = res.data[0];
+      const exercises = await getMultipleExercises(data.exercises);
+      const template = templateTableToType(exercises, data, userId);
 
       return template;
     } catch (e) {
@@ -53,5 +52,25 @@ export const useTemplate = () => {
     }
   };
 
-  return { createTemplate, getTemplate };
+  const updateTemplate = async (
+    newTemplate: WorkoutTemplate,
+    templateId: string,
+    userId: string
+  ) => {
+    try {
+      await saveMultipleExercises(newTemplate.exercises);
+      const templateTable = templateTypeToTable(newTemplate, userId);
+      const res = await update(templateTable, { 'template-id': templateId });
+      if (res) {
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  };
+
+  return { createTemplate, getTemplate, updateTemplate };
 };

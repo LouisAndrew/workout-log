@@ -48,8 +48,9 @@ export const useStorage = (table: TABLES) => {
   const update = async <T>(value: T, constrain: Constrain) => {
     try {
       if (supabase) {
-        await supabase.from(table).update(value).match(constrain);
-        return true;
+        const res = await supabase.from(table).upsert(value).match(constrain);
+        console.log({ res });
+        return !res.error;
       }
       return false;
     } catch (e) {
@@ -61,7 +62,9 @@ export const useStorage = (table: TABLES) => {
   const del = async (constrain: Constrain) => {
     try {
       if (supabase) {
-        await supabase.from(table).delete().match(constrain);
+        const res = await supabase.from(table).delete().match(constrain);
+        console.log({ res });
+        return !res.error;
       } return false;
     } catch (e) {
       console.error(e);
