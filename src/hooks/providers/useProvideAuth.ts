@@ -67,9 +67,7 @@ export const useProvideAuth = () => {
 
   const signIn: AuthFunc = async (email, password, saveUser = false) => {
     const supabase = get();
-    console.log('signing in');
     if (supabase) {
-      console.log('signed');
       const { user: signedInUser, error } = await supabase.auth.signIn({
         email,
         password,

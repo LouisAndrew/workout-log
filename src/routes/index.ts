@@ -5,7 +5,8 @@ enum R {
   DASHBOARD = '/dashboard',
   LOGIN = '/login',
   VERIFY_EMAIL = '/verify_email',
-  TEMPLATE = '/template'
+  TEMPLATE = '/template',
+  LOG = '/log',
 }
 
 export { PrivateRoute, R };

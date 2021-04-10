@@ -36,11 +36,20 @@ export type Props = {
   /**
    * function to save log / template
    */
-  onSave?: (w: W) => void;
+  onSave?: (w: W) => Promise<void>;
   /**
    * additional styling
    */
   className?: string;
+  /**
+   * if the page is editable
+   */
+  isEditable?: boolean;
+  /**
+   * if create log is allowed
+   */
+  isLoggable?: boolean;
+  saveLog?: (w: W, isTemplateChanged: boolean) => Promise<void>
 };
 
 const NEW_TEMPLATE_ID = 'new-workout';
@@ -51,7 +60,14 @@ const wt: W = {
   exercises: [],
 };
 
-const WorkoutPage: FC<Props> = ({ defaultWorkout, type, onSave }) => {
+const WorkoutPage: FC<Props> = ({
+  defaultWorkout,
+  type,
+  onSave,
+  isEditable = true,
+  isLoggable,
+  saveLog
+}) => {
   const [workout] = useState(defaultWorkout || wt);
   const [templateId, setTemplateId] = useState(workout.templateId);
   const [workoutName, setWorkoutName] = useState(workout.name);
@@ -63,14 +79,16 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type, onSave }) => {
   const exercisesRef = useRef<E[]>(cloneDeep(workout.exercises));
 
   const handleChangeWorkoutName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.toUpperCase();
-    setWorkoutName(value);
-    if (value && !userSpecifiedId) {
-      setTemplateId(idFromExerciseName(value));
-    }
+    if (isEditable) {
+      const value = e.target.value.toUpperCase();
+      setWorkoutName(value);
+      if (value && !userSpecifiedId) {
+        setTemplateId(idFromExerciseName(value));
+      }
 
-    if (value !== defaultWorkout.name) {
-      setIsTemplateChanged(true);
+      if (value !== defaultWorkout.name) {
+        setIsTemplateChanged(true);
+      }
     }
   };
 
@@ -96,14 +114,29 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type, onSave }) => {
   };
 
   const saveWorkout = () => {
-    const value: W = {
-      ...workout,
-      name: workoutName,
-      templateId,
-      exercises: exercisesRef.current
-    };
+    if (isEditable) {
+      const value: W = {
+        ...workout,
+        name: workoutName,
+        templateId,
+        exercises: exercisesRef.current,
+      };
 
-    onSave?.(value);
+      onSave?.(value);
+    }
+  };
+
+  const onSaveLog = () => {
+    if (isLoggable) {
+      const value: W = {
+        ...workout,
+        name: workoutName,
+        templateId,
+        exercises: exercisesRef.current,
+      };
+
+      saveLog?.(value, isTemplateChanged);
+    }
   };
 
   return (
@@ -132,9 +165,13 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type, onSave }) => {
           <span
             role="button"
             tabIndex={-1}
-            onClick={() => setIsCreatingNewId(true)}
+            onClick={() => {
+              if (isEditable) {
+                setIsCreatingNewId(true);
+              }
+            }}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (isEditable && e.key === 'Enter') {
                 setIsCreatingNewId(true);
               }
             }}
@@ -176,10 +213,12 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type, onSave }) => {
           defaultWorkout={workout}
           onChange={handleChangeWorkoutList}
           className="workout-page__exercise-list"
+          isEditable={isEditable}
+          isLoggable={isLoggable}
         />
       </div>
       <div className="workout-page__button-group">
-        {isTemplateChanged && (
+        {isTemplateChanged && type !== 'LOG' ? (
           <Button
             type="primary"
             className="workout-page__save-template-button"
@@ -188,11 +227,11 @@ const WorkoutPage: FC<Props> = ({ defaultWorkout, type, onSave }) => {
           >
             Save Template
           </Button>
-        )}
+        ) : null}
         {type === 'LOG' && (isLogChanged || isTemplateChanged) ? (
           <Button
             className="workout-page__save-log-button"
-            onClick={() => console.log('save')}
+            onClick={onSaveLog}
             Icon={BiSave}
           >
             Save Log

@@ -174,7 +174,7 @@ const LoggableExerciseInput: FC<Props> = ({
                 defaultReview={l.review}
                 weightMetric={l.metric}
                 onChange={onLogChange}
-                isEditable={isEditable}
+                isEditable={isLoggable}
                 className="loggable-exercise-input__log-item"
               />
               {isLoggable && (

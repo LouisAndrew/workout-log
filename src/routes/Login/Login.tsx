@@ -57,8 +57,6 @@ const Login: FC<Props> = () => {
   const { search, state } = useLocation();
   const from = (state as any)?.from || R.DASHBOARD;
 
-  console.log(from);
-
   const isAuthError = (value: User | Error) => !(value as any).id;
 
   const signUserIn = async () => {

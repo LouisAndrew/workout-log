@@ -31,7 +31,6 @@ export const useTemplate = () => {
           return `${R.TEMPLATE}?id=${randomTemplateId}&create-new=true`;
         }
       }
-      console.log('error');
       // todo: create page for error route.
       return '/error';
     } catch (e) {
@@ -49,7 +48,9 @@ export const useTemplate = () => {
 
       const data: TemplatesTable = res.data[0];
       const exercises = await getMultipleExercises(data.exercises);
+      console.log({ exercises });
       const template = templateTableToType(exercises, data, userId);
+      console.log({ template });
 
       return template;
     } catch (e) {

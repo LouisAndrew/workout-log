@@ -47,9 +47,14 @@ export const useStorage = (table: TABLES) => {
     }
   };
 
-  const update = async <T>(value: T, constrain: Constrain) => {
+  const update = async <T>(value: T, constrain: Constrain, strictUpdate: boolean = false) => {
     try {
       if (supabase) {
+        if (strictUpdate) {
+          const res = await supabase.from(table).update(value).match(constrain);
+          console.log({ res });
+          return !res.error;
+        }
         const res = await supabase.from(table).upsert(value).match(constrain);
         console.log({ res });
         return !res.error;

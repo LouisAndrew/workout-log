@@ -10,7 +10,6 @@ export const useUserData = () => {
       templates
     `;
     const res = await read(query, { uuid: uid });
-    console.log({ res });
     if (res) {
       return (res.data as any)[0].templates;
     }

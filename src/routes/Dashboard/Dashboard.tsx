@@ -18,9 +18,7 @@ const Dashboard: FC<Props> = () => {
 
   const handleCreateTemplate = async () => {
     const { id } = user() as User;
-    console.log(id);
     const route = await createTemplate(id);
-    console.log(route);
     replace(route);
   };
 

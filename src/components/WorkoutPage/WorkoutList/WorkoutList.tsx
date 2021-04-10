@@ -39,6 +39,14 @@ export type Props = {
    * workout to compare the exercises with
    */
   comparisonWorkout?: Workout;
+  /**
+   * if list is editable
+   */
+  isEditable?: boolean
+  /**
+   * if logging is
+   */
+  isLoggable?: boolean
 };
 
 const wt: WorkoutTemplate = {
@@ -56,6 +64,8 @@ const WorkoutList: FC<Props> = ({
   onChange,
   className,
   comparisonWorkout,
+  isEditable = true,
+  isLoggable = true
 }) => {
   const isTemplate = type === 'TEMPLATE';
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
@@ -130,9 +140,10 @@ const WorkoutList: FC<Props> = ({
         .map((e: { id: string }) => e.id)
         .includes(exerciseId) || false;
 
-    const { logs, ...restA } = exercise;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { logs: logsB, ...restB } = temp[exerciseIndex];
+    const { logs, logId, ...restA } = exercise;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { logs: logsB, logId: logIdB, ...restB } = temp[exerciseIndex];
 
     const shouldChangeId = exerciseDefinedBefore && !deepEqual(restA, restB);
     temp[exerciseIndex] = {
@@ -219,8 +230,7 @@ const WorkoutList: FC<Props> = ({
     setIds(workoutToIds(workout));
   }, [workout]);
 
-  const getWorkoutById = (id: string) =>
-    workout.exercises.filter((e) => e.id === id)[0];
+  const getWorkoutById = (id: string) => workout.exercises.filter((e) => e.id === id)[0];
 
   const debouncedSave = debounce(saveWorkoutList, 500);
 
@@ -239,7 +249,7 @@ const WorkoutList: FC<Props> = ({
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {ids.map((id, index) => {
+              {ids.length > 0 && ids.map((id, index) => {
                 const e = getWorkoutById(id);
                 return (
                   <WorkoutListItem
@@ -258,6 +268,8 @@ const WorkoutList: FC<Props> = ({
                     comparisonExercise={comparisonWorkout?.exercises.find(
                       (ex) => ex.id === id
                     )}
+                    isEditable={isEditable}
+                    isLoggable={isLoggable}
                   />
                 );
               })}
@@ -266,6 +278,7 @@ const WorkoutList: FC<Props> = ({
           )}
         </Droppable>
       </DragDropContext>
+      {isEditable && (
       <div
         className={`workout-list__button-group ${
           ids.length === 0 ? 'no-margin' : ''
@@ -280,6 +293,7 @@ const WorkoutList: FC<Props> = ({
           Add Exercise
         </Button>
       </div>
+      )}
     </div>
   );
 };
