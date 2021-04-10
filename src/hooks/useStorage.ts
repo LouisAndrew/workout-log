@@ -33,9 +33,11 @@ export const useStorage = (table: TABLES) => {
       if (supabase) {
         if (constrain) {
           const res = await supabase.from(table).select(query).match(constrain);
+          console.log({ res });
           return !res.error ? res : false;
         }
         const res = await supabase.from(table).select(query);
+        console.log({ res });
         return !res.error ? res : false;
       }
       return false;

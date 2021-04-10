@@ -13,6 +13,10 @@ export type WorkoutTemplate = {
    * exercises of the workout (should already have tag and order)
    */
   exercises: CompleteExerciseNoLog[];
+  /**
+   * tags for the workout
+   */
+  // tags: string[]
 };
 
 export type Workout = {
@@ -32,4 +36,8 @@ export type Workout = {
    * date of the workout
    */
   date: Date;
+  /**
+   * tag for the workout
+   */
+  // tags: string[]
 };

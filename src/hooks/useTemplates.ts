@@ -6,11 +6,13 @@ import { TemplatesTable } from '@t/tables';
 import { templateTableToType, templateTypeToTable } from '@helper/helperToType';
 import { useStorage, TABLES } from './useStorage';
 import { useExercises } from './useExercises';
+import { useUserData } from './useUserData';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useTemplate = () => {
   const { create, read, update } = useStorage(TABLES.TEMPLATES);
   const { getMultipleExercises, saveMultipleExercises } = useExercises();
+  const { updateUserTemplate } = useUserData();
 
   const createTemplate = async (uid: string) => {
     // todo: get all templates of the user,then create a new one with random id
@@ -24,8 +26,12 @@ export const useTemplate = () => {
     try {
       const isSuccessful = await create(template);
       if (isSuccessful) {
-        return `${R.TEMPLATE}?id=${randomTemplateId}&create-new=true`;
+        const updatedUserTemplate = await updateUserTemplate(uid, randomTemplateId);
+        if (updatedUserTemplate) {
+          return `${R.TEMPLATE}?id=${randomTemplateId}&create-new=true`;
+        }
       }
+      console.log('error');
       // todo: create page for error route.
       return '/error';
     } catch (e) {

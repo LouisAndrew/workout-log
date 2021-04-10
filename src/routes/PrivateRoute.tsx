@@ -14,7 +14,7 @@ const PrivateRoute: FC<RouteProps> = ({ children, ...rest }) => {
 
   return (
     <Route {...rest}>
-      {user ? children : <Redirect to={{ pathname: '/login', state: { from: `${pathname}${search}` } }} />}
+      {user() ? children : <Redirect to={{ pathname: '/login', state: { from: `${pathname}${search}` } }} />}
     </Route>
   );
 };

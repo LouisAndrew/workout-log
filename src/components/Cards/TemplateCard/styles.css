@@ -1,0 +1,25 @@
+.template-card__wrapper {
+  @apply bg-gray-50 p-3 rounded border-2 border-gray-100 w-full max-w-xs;
+}
+
+.template-card__name {
+  @apply font-display tracking-widest font-bold text-xl;
+}
+
+.template-card__button {
+  @apply mt-4;
+}
+
+.template-card__button svg {
+  transform: scale(1.5);
+  @apply ml-1;
+}
+
+.template-card__data-wrapper {
+  @apply font-body text-xs even:mt-2 mt-0;
+}
+
+.template-card__data {
+  @apply font-display text-sm font-bold tracking-widest
+    inline-block ml-2;
+}

@@ -15,6 +15,7 @@ const template: WorkoutTemplate = {
   templateId,
   name: 'Sample Workout',
   exercises: [benchPress, frontSquat],
+  // tags: []
 };
 
 const workout1: Workout = {

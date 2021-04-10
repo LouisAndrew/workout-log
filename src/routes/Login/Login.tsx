@@ -120,7 +120,7 @@ const Login: FC<Props> = () => {
   }, [isSigningIn]);
 
   useEffect(() => {
-    if (user) {
+    if (user()) {
       history.replace(from);
       return;
     }

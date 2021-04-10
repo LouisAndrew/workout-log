@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
+
+import { SHA256 } from 'crypto-js';
 
 import { useSupabase } from '@h/useSupabase';
 import { TABLES } from '@h/useStorage';
@@ -15,16 +17,16 @@ const localStorageId = 'saved-user';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useProvideAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
   const { get } = useSupabase();
 
-  const saveLocalUser = (u : User) => {
-    window.localStorage.setItem(localStorageId, JSON.stringify(u));
+  const saveLocalUser = (email: string, password: string) => {
+    const text = `email=${email};password=${password}`;
+    window.localStorage.setItem(localStorageId, SHA256(text).toString());
   };
-  const loadLocalUser = (): User | null => {
-    const u = window.localStorage.getItem(localStorageId);
-    return u ? JSON.parse(u) : null;
-  };
+  // const loadLocalUser = (): User | null => {
+  //   const u = window.localStorage.getItem(localStorageId);
+  //   return u ? JSON.parse(u) : null;
+  // };
 
   const createUserDb = async (id: string, name: string): Promise<void> => {
     const supabase = get();
@@ -44,9 +46,8 @@ export const useProvideAuth = () => {
       });
 
       if (!error && signedUpUser) {
-        setUser(signedUpUser);
         if (saveUser) {
-          saveLocalUser(signedUpUser);
+          saveLocalUser(email, password);
         }
 
         await createUserDb(signedUpUser.id, name || '');
@@ -66,9 +67,8 @@ export const useProvideAuth = () => {
       });
 
       if (!error && signedInUser) {
-        setUser(signedInUser);
         if (saveUser) {
-          saveLocalUser(signedInUser);
+          saveLocalUser(email, password);
         }
         return signedInUser;
       }
@@ -77,12 +77,7 @@ export const useProvideAuth = () => {
     return null;
   };
 
-  useEffect(() => {
-    const u = loadLocalUser();
-    if (u) {
-      setUser(u);
-    }
-  }, []);
+  const user = () => get()?.auth.user();
 
   return { signIn, signUp, user };
 };

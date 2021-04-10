@@ -21,7 +21,7 @@ const Template: FC = () => {
 
   const fetchData = async (id: string) => {
     try {
-      const template = await getTemplate(id, (user as User).id);
+      const template = await getTemplate(id, (user() as User).id);
       if (template) {
         setT(template);
       }
@@ -33,7 +33,7 @@ const Template: FC = () => {
   const saveTemplate = async (w: WorkoutTemplate) => {
     if (t) {
       setError('');
-      const saveSuccesful = await updateTemplate(w, t.templateId, (user as User).id);
+      const saveSuccesful = await updateTemplate(w, t.templateId, (user() as User).id);
       if (!saveSuccesful) {
         setError('Error while saving changes');
       } else {

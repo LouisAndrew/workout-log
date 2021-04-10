@@ -5,14 +5,14 @@ import { User } from '@supabase/supabase-js';
 import { useProvideAuth, AuthFunc } from '@h/providers/useProvideAuth';
 
 export const AuthContext = createContext<{
-  user: User | null;
+  user:() => User | null | undefined;
   signIn: AuthFunc;
   signUp: AuthFunc;
-}>({
-  user: null,
-  signIn: async (e, p) => null,
-  signUp: async (e, p) => null,
-});
+    }>({
+      user: () => null,
+      signIn: async (e, p) => null,
+      signUp: async (e, p) => null,
+    });
 
 const AuthProvider: FC = ({ children }) => {
   const auth = useProvideAuth();
