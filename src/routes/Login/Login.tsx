@@ -50,7 +50,9 @@ const Login: FC<Props> = () => {
 
   const [text, setText] = useState<Text>(isSigningIn ? SIGN_IN : SIGN_UP);
 
-  const { signIn, signUp, user } = useAuth();
+  const {
+    signIn, signUp, user, loadUser
+  } = useAuth();
   const history = useHistory();
   const { search, state } = useLocation();
   const from = (state as any)?.from || R.DASHBOARD;
@@ -114,17 +116,21 @@ const Login: FC<Props> = () => {
     }
   };
 
+  const checkForUser = async () => {
+    await loadUser();
+    if (user()) {
+      history.replace(from);
+      return;
+    }
+  };
+
   useEffect(() => {
     setText(isSigningIn ? SIGN_IN : SIGN_UP);
     setErrors({ email: '', password: '' });
   }, [isSigningIn]);
 
   useEffect(() => {
-    if (user()) {
-      history.replace(from);
-      return;
-    }
-
+    checkForUser();
     if (search === '?signup') {
       setIsSigningIn(false);
     }

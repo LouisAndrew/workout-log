@@ -8,10 +8,12 @@ export const AuthContext = createContext<{
   user:() => User | null | undefined;
   signIn: AuthFunc;
   signUp: AuthFunc;
+  loadUser: () => Promise<void>
     }>({
       user: () => null,
       signIn: async (e, p) => null,
       signUp: async (e, p) => null,
+      loadUser: async () => {}
     });
 
 const AuthProvider: FC = ({ children }) => {
