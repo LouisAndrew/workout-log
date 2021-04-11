@@ -1,5 +1,5 @@
 .workout-list__wrapper {
-  @apply duration-200;
+  @apply duration-200 max-w-xl;
 }
 
 .workout-list__exercises-wrapper {

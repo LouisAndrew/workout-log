@@ -248,17 +248,18 @@ const WorkoutPage: FC<Props> = ({
       <div className="workout-page__exercises workout-page__text">
         <div className="workout-page__exercises-heading">
           EXERCISES:
+          {isLoggable && (
           <Button className="workout-page__compare-btn" size="s" onClick={() => setDisplayComparatorSelect(true)}>
             {compareWith ? `Comparing With: ${compareWith.name} - ${getReadableDate(compareWith.date)}` : 'COMPARE WITH...'}
             {compareWith && (
-              <Button
-                Icon={BiX}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCompareWith(null);
-                }}
-                className="workout-page__remove-comparison"
-              />
+            <Button
+              Icon={BiX}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCompareWith(null);
+              }}
+              className="workout-page__remove-comparison"
+            />
             )}
             {
               displayComparatorSelect && (
@@ -274,6 +275,7 @@ const WorkoutPage: FC<Props> = ({
               )
             }
           </Button>
+          )}
         </div>
         <WorkoutList
           type={type}

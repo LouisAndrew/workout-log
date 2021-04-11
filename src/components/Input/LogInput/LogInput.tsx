@@ -10,6 +10,7 @@ import {
 import { parseInt } from 'lodash';
 import { ReviewSelect } from '@components/Select/ReviewSelect';
 import { Metric, Review } from '@t/Set';
+import { colors } from '@t/Colors';
 
 import './styles.css';
 
@@ -136,7 +137,7 @@ const LogInput: FC<Props> = ({
     const length = getLength(val);
     const multiplicator = 2;
     const width = length >= 5 ? 20 : 8 + (length - 2) * multiplicator;
-    return `w-${width}`;
+    return width;
   };
 
   const getReviewIcon = ({ indicator }: Review) => {
@@ -169,6 +170,8 @@ const LogInput: FC<Props> = ({
   useEffect(() => {
     firstRender.current = false;
   }, []);
+
+  const width = 4;
 
   const ReviewIcon = (args: any) => {
     const Icon = getReviewIcon(review);
@@ -210,9 +213,8 @@ const LogInput: FC<Props> = ({
             value={reps === -1 ? '' : reps}
             onChange={handleChangeReps}
             id={`${exerciseId}-reps`}
-            className={`log-input__reps-input log-input__input ${
-              getLength(reps) > 2 ? getCustomWidth(reps) : 'w-8'
-            }`}
+            className="log-input__reps-input log-input__input"
+            style={{ width: getLength(reps) > 2 ? getCustomWidth(reps) * width : 32 }}
           />
         </label>
         <label
@@ -226,14 +228,12 @@ const LogInput: FC<Props> = ({
             placeholder="##"
             onChange={handleChangeWeight}
             id={`${exerciseId}-reps`}
-            className={`log-input__weight-input log-input__input ${
-              getLength(weight) > 2 ? getCustomWidth(weight) : 'w-8'
-            }`}
+            className="log-input__weight-input log-input__input"
+            style={{ width: getLength(weight) > 2 ? getCustomWidth(weight) * width : 32 }}
           />
           <span
-            className={`log-input__weight-metric duration-200 text-${
-              weight === -1 ? 'gray-400' : 'black'
-            }`}
+            className="log-input__weight-metric duration-200"
+            style={{ color: weight === -1 ? colors.gray : 'black' }}
           >
             {weightMetric}
           </span>

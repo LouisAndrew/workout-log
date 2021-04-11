@@ -3,6 +3,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { parseInt } from 'lodash';
 
 import './styles.css';
+import { colors } from '@/types/Colors';
 
 export type Props = {
   /**
@@ -208,6 +209,7 @@ const RangedInput: FC<Props> = ({
   }, [start, end]);
 
   const widthMultiplier = 6;
+  const width = 4;
   const inputPlaceholder = Array.from(new Array(maxDigit).keys())
     .map(() => '#')
     .join('');
@@ -229,7 +231,8 @@ const RangedInput: FC<Props> = ({
           value={start === -1 ? '' : start}
           onChange={handleChangeStart}
           onKeyDown={handleKeyDownStart}
-          className={`ranged-input__input w-${widthMultiplier * maxDigit}`}
+          className="ranged-input__input"
+          style={{ width: widthMultiplier * maxDigit * width }}
           placeholder={inputPlaceholder}
           required
         />
@@ -239,20 +242,23 @@ const RangedInput: FC<Props> = ({
           placeholder="-"
           onChange={handleChangeSeparator}
           onKeyDown={handleKeyDownSeparator}
-          className={`ranged-input__input ranged-input__input-separator w-${
-            shouldSeparatorRender ? '6' : '0'
-          } opacity-${shouldSeparatorRender ? '1' : '0'}`}
+          className="ranged-input__input ranged-input__input-separator"
+          style={{
+            width: shouldSeparatorRender ? widthMultiplier * width : 0,
+            opacity: shouldSeparatorRender ? 1 : 0,
+          }}
         />
         <input
           value={end === -1 ? '' : end}
           ref={endInput}
           onChange={handleChangeEnd}
           onKeyDown={handleKeyDownEnd}
-          className={`ranged-input__input w-${
-            shouldEndRender ? `${widthMultiplier * maxDigit}` : '0'
-          } opacity-${shouldEndRender ? '1' : '0'} ${
-            shouldEndShowError ? 'text-red-400' : ''
-          }`}
+          className="ranged-input__input"
+          style={{
+            width: shouldEndRender ? widthMultiplier * maxDigit * width : 0,
+            opacity: shouldEndRender ? 1 : 0,
+            color: shouldEndShowError ? colors.red : 'black'
+          }}
           placeholder={inputPlaceholder}
         />
       </div>
