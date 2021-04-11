@@ -28,29 +28,33 @@ export type Props = {
 };
 
 const TemplateCard: FC<Props> = ({
-  template, className, timesDone, lastWorkout
+  template, className, timesDone, lastWorkout, useTemplate
 }) => (
   <div className={`template-card__wrapper ${className}`}>
     <div className="template-card__name">{template.name}</div>
-    {timesDone && (
-      <div className="template-card__times-done template-card__data-wrapper">
-        TIMES DONE:
-        {' '}
-        <span className="template-card__data">
-          {timesDone}
-        </span>
-      </div>
-    )}
-    {lastWorkout && (
-      <div className="template-card__last-workout template-card__data-wrapper">
-        LAST WORKOUT:
-        {' '}
-        <span className="template-card__data">
-          {getReadableDate(lastWorkout, true)}
-        </span>
-      </div>
-    )}
-    <Button className="template-card__button" type="ghost" size="s" Icon={BiPencil}>Use Template</Button>
+    <div className="template-card__times-done template-card__data-wrapper">
+      TIMES DONE:
+      {' '}
+      <span className="template-card__data">
+        {timesDone}
+      </span>
+    </div>
+    <div className="template-card__last-workout template-card__data-wrapper">
+      LAST WORKOUT:
+      {' '}
+      <span className="template-card__data">
+        {lastWorkout ? getReadableDate(lastWorkout, true) : (
+          <>
+            <span className="mr-3 inline-block">
+              😞
+
+            </span>
+            No Log Available
+          </>
+        )}
+      </span>
+    </div>
+    <Button onClick={useTemplate} className="template-card__button" type="primary" size="s" Icon={BiPencil}>Use Template</Button>
   </div>
 );
 export default TemplateCard;

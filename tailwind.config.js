@@ -25,7 +25,7 @@ module.exports = {
       borderColor: ['active'],
       padding: ['hover', 'focus', 'active'],
       maxWidth: ['group-hover'],
-      margin: ['even']
+      margin: ['even', 'first']
     },
   },
   plugins: [],

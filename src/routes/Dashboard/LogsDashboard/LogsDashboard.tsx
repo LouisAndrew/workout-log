@@ -1,43 +1,61 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
-import { useAuth } from '@h/useAuth';
-import { useExerciseLogs } from '@h/useExerciseLogs';
-import { Button } from '@components/Button';
-import { R } from '@r/index';
 import { useHistory } from 'react-router-dom';
 
-type Props = {}
+import { useAuth } from '@h/useAuth';
+import { useUserData } from '@h/useUserData';
+import { R } from '@r/index';
+import LogItem from './LogItem';
+
+import './styles.css';
+
+type Props = {};
 
 const LogsDashboard: FC<Props> = () => {
   const { user: userData } = useAuth();
-  const { createLogs, getAllExerciseLog } = useExerciseLogs();
+  const { getUserLogs } = useUserData();
   const user = userData() as User;
   const { replace } = useHistory();
 
-  // push-workout-ad
-  const templateId = 'push-workout-ad';
+  const [logsData, setLogsData] = useState<[string, number][]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const create = async () => {
-    const tableTemplateId = `${user.id}-${templateId}`;
-    const date = await createLogs(tableTemplateId, user.id);
-    console.log({ date });
-    if (date) {
-      const route = `${R.LOG}?template=${tableTemplateId}&date=${date.getTime()}&createNew=true`;
-      replace(route);
-    }
+  const getAllLogs = async () => {
+    const userId = user.id;
+    const logs = (await getUserLogs(userId, true)) as [string, number][];
+    setLogsData(
+      logs.map(([id, timestamp]) => [id.replace(`${userId}-`, ''), timestamp])
+    );
+    setIsLoading(false);
   };
 
-  const getAll = async () => {
-    console.log(await getAllExerciseLog(user.id));
-  };
+  const sortLogsData = (data: [string, number][]) =>
+    [...data].sort(([, timestampA], [, timestampB]) => timestampB - timestampA);
 
   useEffect(() => {
-    getAll();
+    getAllLogs();
   }, []);
 
-  return (
-    <Button onClick={create}>create log!</Button>
-  );
+  if (!isLoading) {
+    return (
+      <>
+        {sortLogsData(logsData).map(([id, timestamp]) => (
+          <LogItem
+            key={`${id}--${timestamp}`}
+            templateId={id}
+            timestamp={timestamp}
+            onViewLog={() => {
+              replace(
+                `${R.LOG}?template=${`${user.id}-${id}`}&date=${timestamp}`
+              );
+            }}
+          />
+        ))}
+      </>
+    );
+  }
+
+  return <div className="is-loading">Loading</div>;
 };
 
 export default LogsDashboard;

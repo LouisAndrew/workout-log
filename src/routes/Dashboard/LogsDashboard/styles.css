@@ -1,0 +1,9 @@
+.log-item__wrapper {
+  @apply flex items-center justify-between font-display tracking-widest px-2 py-1 rounded duration-200 
+    max-w-md
+    hover:bg-gray-100;
+}
+
+.right-side .button--secondary {
+  @apply border-transparent;
+}

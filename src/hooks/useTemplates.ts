@@ -26,7 +26,10 @@ export const useTemplate = () => {
     try {
       const isSuccessful = await create(template);
       if (isSuccessful) {
-        const updatedUserTemplate = await updateUserTemplate(uid, randomTemplateId);
+        const updatedUserTemplate = await updateUserTemplate(
+          uid,
+          randomTemplateId
+        );
         if (updatedUserTemplate) {
           return `${R.TEMPLATE}?id=${randomTemplateId}&create-new=true`;
         }
@@ -48,9 +51,7 @@ export const useTemplate = () => {
 
       const data: TemplatesTable = res.data[0];
       const exercises = await getMultipleExercises(data.exercises);
-      console.log({ exercises });
       const template = templateTableToType(exercises, data, userId);
-      console.log({ template });
 
       return template;
     } catch (e) {
@@ -79,5 +80,24 @@ export const useTemplate = () => {
     }
   };
 
-  return { createTemplate, getTemplate, updateTemplate };
+  const getTemplateName = async (templateId: string) =>
+    read(
+      `
+    name
+  `,
+      { 'template-id': templateId }
+    );
+
+  const getMultipleTemplates = async (ids: string[], userId: string) => {
+    const templates = await Promise.all(ids.map((id) => getTemplate(id, userId)));
+    return templates.filter((value) => !!value) as WorkoutTemplate[];
+  };
+
+  return {
+    createTemplate,
+    getTemplate,
+    updateTemplate,
+    getTemplateName,
+    getMultipleTemplates
+  };
 };

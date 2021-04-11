@@ -7,6 +7,7 @@ import { useAuth } from '@h/useAuth';
 import { WorkoutTemplate } from '@t/Workout';
 import { R } from '@r/index';
 import { WorkoutPage } from '@components/WorkoutPage';
+import { useUserData } from '@h/useUserData';
 
 const Template: FC = () => {
   const [t, setT] = useState<WorkoutTemplate | null>(null);
@@ -17,11 +18,13 @@ const Template: FC = () => {
   const location = useLocation();
   const history = useHistory();
   const { getTemplate, updateTemplate } = useTemplate();
-  const { user } = useAuth();
+  const { updateUserTemplate } = useUserData();
+  const { user: authUser } = useAuth();
+  const user = authUser() as User;
 
   const fetchData = async (id: string) => {
     try {
-      const template = await getTemplate(id, (user() as User).id);
+      const template = await getTemplate(id, user.id);
       if (template) {
         setT(template);
       }
@@ -33,10 +36,17 @@ const Template: FC = () => {
   const saveTemplate = async (w: WorkoutTemplate) => {
     if (t) {
       setError('');
-      const saveSuccesful = await updateTemplate(w, t.templateId, (user() as User).id);
+      const uid = user.id;
+      const saveSuccesful = await updateTemplate(
+        w,
+        t.templateId,
+        uid
+      );
       if (!saveSuccesful) {
         setError('Error while saving changes');
       } else {
+        const tableId = `${uid}-${w.templateId}`;
+        await updateUserTemplate(uid, tableId, t.templateId);
         history.replace(R.DASHBOARD);
       }
     }
@@ -71,9 +81,7 @@ const Template: FC = () => {
         </h2>
         <WorkoutPage type="TEMPLATE" defaultWorkout={t} onSave={saveTemplate} />
         {error && (
-        <h4 className="text-right font-body pt-3 text-red-600">
-          {error}
-        </h4>
+          <h4 className="text-right font-body pt-3 text-red-600">{error}</h4>
         )}
       </div>
     </div>

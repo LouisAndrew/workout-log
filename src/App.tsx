@@ -17,7 +17,7 @@ function App() {
     if (location.pathname === '/') {
       history.push(R.DASHBOARD);
     }
-  }, []);
+  });
 
   return (
     <Switch>
