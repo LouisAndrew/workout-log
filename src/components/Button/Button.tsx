@@ -27,7 +27,7 @@ export type Props = {
   /**
    * click handle function
    */
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   /**
    * icon to render with the children
    */

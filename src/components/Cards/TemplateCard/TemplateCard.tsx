@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
-import { BiPencil } from 'react-icons/bi';
-
-import { Button } from '@/components/Button';
 import { WorkoutTemplate } from '@/types/Workout';
 
 import './styles.css';
 import { getReadableDate } from '@/helper/date';
+import { Button } from '@/components/Button';
+import { BiDotsHorizontalRounded } from 'react-icons/bi';
 
 export type Props = {
   /**
@@ -30,8 +29,18 @@ export type Props = {
 const TemplateCard: FC<Props> = ({
   template, className, timesDone, lastWorkout, useTemplate
 }) => (
-  <div className={`template-card__wrapper ${className}`}>
-    <div className="template-card__name">{template.name}</div>
+  <button type="button" className={`template-card__wrapper ${className}`} onClick={useTemplate}>
+    <Button
+      onClick={(e) => {
+        e.stopPropagation();
+        console.log('click setting');
+      }}
+      className="template-card__settings"
+      Icon={BiDotsHorizontalRounded}
+    />
+    <div className="template-card__name">
+      {template.name}
+    </div>
     <div className="template-card__times-done template-card__data-wrapper">
       TIMES DONE:
       {' '}
@@ -54,7 +63,6 @@ const TemplateCard: FC<Props> = ({
         )}
       </span>
     </div>
-    <Button onClick={useTemplate} className="template-card__button" type="primary" size="s" Icon={BiPencil}>Use Template</Button>
-  </div>
+  </button>
 );
 export default TemplateCard;

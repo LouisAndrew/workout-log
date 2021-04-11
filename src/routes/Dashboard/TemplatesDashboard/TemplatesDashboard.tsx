@@ -11,6 +11,7 @@ import { R } from '@r/index';
 import { TemplateCard } from '@components/Cards/TemplateCard';
 
 import './styles.css';
+import { BiPlus } from 'react-icons/bi';
 
 type TemplateDashboard = WorkoutTemplate & {
   logCount: number;
@@ -21,7 +22,7 @@ const TemplatesDashboard: FC = () => {
   const { replace } = useHistory();
   const { getUserTemplate, getLogsDataDashboard } = useUserData();
   const { user: authUser } = useAuth();
-  const { getMultipleTemplates } = useTemplate();
+  const { getMultipleTemplates, createTemplate } = useTemplate();
   const { createLogs } = useExerciseLogs();
   const user = authUser() as User;
 
@@ -57,41 +58,58 @@ const TemplatesDashboard: FC = () => {
   const create = async (templateId: string) => {
     const tableTemplateId = `${user.id}-${templateId}`;
     const date = await createLogs(tableTemplateId, user.id);
-    console.log('a');
     if (date) {
       const route = `${
         R.LOG
       }?template=${tableTemplateId}&date=${date.getTime()}&createNew=true`;
       replace(route);
-    } else {
-      console.log('error');
     }
+  };
+
+  const handleCreateTemplate = async () => {
+    const { id } = user;
+    const route = await createTemplate(id);
+    replace(route);
   };
 
   useEffect(() => {
     fetchTemplates();
   }, []);
 
-  if (!isLoading) {
-    return (
-      <div className="templates-dashboard__wrapper">
-        {templateData.map((template) => (
-          <TemplateCard
-            key={template.templateId}
-            template={template}
-            timesDone={template.logCount}
-            lastWorkout={template.lastWorkout !== 0 ? new Date(template.lastWorkout) : undefined}
-            useTemplate={() => {
-              create(template.templateId);
-            }}
-            className="ml-3 first:ml-0"
-          />
-        ))}
-      </div>
-    );
-  }
-
-  return <div className="is-loading">Loading</div>;
+  return (
+    <div className="templates-dashboard__wrapper">
+      <h3>Templates</h3>
+      {!isLoading ? (
+        <div className="templates-dashboard__template-wrapper">
+          {templateData.map((template) => (
+            <TemplateCard
+              key={template.templateId}
+              template={template}
+              timesDone={template.logCount}
+              lastWorkout={
+                template.lastWorkout !== 0
+                  ? new Date(template.lastWorkout)
+                  : undefined
+              }
+              useTemplate={() => {
+                create(template.templateId);
+              }}
+              className="mr-3"
+            />
+          ))}
+          <button
+            type="button"
+            onClick={handleCreateTemplate}
+            className="templates-dashboard__create-new"
+          >
+            <BiPlus />
+          </button>
+        </div>
+      ) : (
+        <div className="is-loading">Loading</div>
+      )}
+    </div>
+  );
 };
 
 export default TemplatesDashboard;

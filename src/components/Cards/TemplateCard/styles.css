@@ -1,9 +1,26 @@
 .template-card__wrapper {
-  @apply bg-gray-50 p-3 rounded border-2 border-gray-100 w-full max-w-xs;
+  @apply bg-gray-100 p-4 rounded flex flex-col w-full max-w-xs border-l-4
+    relative duration-200 hover:border-l-8;
+}
+
+.template-card__settings.button {
+  @apply border-transparent p-0.5 self-end absolute top-2 right-2;
+}
+
+.template-card__settings.button svg {
+  @apply h-5 w-5;
+}
+
+.template-card__settings .button__icon-wrapper {
+  @apply mr-0;
 }
 
 .template-card__name {
-  @apply font-display tracking-widest font-bold text-xl;
+  @apply font-display tracking-widest font-bold text-xl flex items-center;
+}
+
+.id {
+  @apply w-2 h-2 rounded-full ml-2 border-4 border-red-400;
 }
 
 .template-card__button {
@@ -16,7 +33,7 @@
 }
 
 .template-card__data-wrapper {
-  @apply font-body text-xs even:mt-2 mt-0;
+  @apply font-body text-xs mt-2 even:mt-0;
 }
 
 .template-card__data {

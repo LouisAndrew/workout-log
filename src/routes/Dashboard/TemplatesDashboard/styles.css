@@ -1,3 +1,15 @@
-.templates-dashboard__wrapper {
-  @apply flex;
+templates-dashboard__wrapper {
+}
+
+.templates-dashboard__template-wrapper {
+  @apply flex items-center my-5;
+}
+
+.templates-dashboard__create-new {
+  @apply bg-gray-100 p-1 rounded duration-200
+    hover:bg-gray-200;
+}
+
+.templates-dashboard__create-new svg {
+  @apply h-8 w-8;
 }
