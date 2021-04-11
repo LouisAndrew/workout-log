@@ -1,6 +1,12 @@
 .template-card__wrapper {
-  @apply bg-gray-100 p-4 rounded flex flex-col w-full max-w-xs border-l-4
-    relative duration-200 hover:border-l-8;
+  border-left-style: solid;
+  border-left-width: 4px;
+  @apply bg-gray-100 p-4 rounded flex flex-col w-full max-w-xs
+    relative duration-200;
+}
+
+.template-card__wrapper:hover {
+  border-left-width: 8px;
 }
 
 .template-card__settings.button {

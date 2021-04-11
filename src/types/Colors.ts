@@ -1,10 +1,11 @@
+// https://tailwindcss.com/docs/customizing-colors
 // eslint-disable-next-line import/prefer-default-export, no-shadow
 export enum Colors {
-  RED = 'red-400',
-  BLUE = 'blue-400',
-  GREEN = 'green-400',
-  GRAY = 'gray-400',
-  INDIGO = 'indigo-400',
+  RED = '#F87171',
+  BLUE = '#60A5FA',
+  GREEN = '#34D399',
+  GRAY = '#9CA3AF',
+  INDIGO = '#818CF8',
 }
 
 export const colors = {

@@ -4,6 +4,7 @@ import { WorkoutTemplate } from '@t/Workout';
 import { TemplatesTable } from '@t/tables';
 
 import { templateTableToType, templateTypeToTable } from '@helper/helperToType';
+import { colors } from '@t/Colors';
 import { useStorage, TABLES } from './useStorage';
 import { useExercises } from './useExercises';
 import { useUserData } from './useUserData';
@@ -21,7 +22,7 @@ export const useTemplate = () => {
       name: '',
       'template-id': randomTemplateId,
       exercises: [],
-      color: 'grey-400'
+      color: colors.gray
     };
 
     try {

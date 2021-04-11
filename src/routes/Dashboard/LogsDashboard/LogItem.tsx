@@ -39,7 +39,7 @@ const LogItem: FC<Props> = ({
 
   const getNameFromDb = async () => {
     const res = await getTemplateNameAndColor(`${user.id}-${templateId}`);
-    if (!res || res.error) {
+    if (!res || res.error || res.data.length === 0) {
       setErr(true);
       return;
     }
@@ -67,7 +67,7 @@ const LogItem: FC<Props> = ({
       className={`log-item__wrapper ${className}`}
       onClick={onViewLog}
     >
-      <div className={`log-item__color bg-${color}`} />
+      <div className="log-item__color" style={{ backgroundColor: color }} />
       {name}
       <span className="log-item__date">
         {getReadableDate(new Date(timestamp))}

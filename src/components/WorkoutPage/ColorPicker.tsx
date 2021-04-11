@@ -26,7 +26,8 @@ const ColorPicker: FC<Props> = ({ onClick, close, className }) => {
               onClick(color);
             }}
             type="button"
-            className={`color-picker__color-id bg-${color}`}
+            className="color-picker__color-id"
+            style={{ backgroundColor: color }}
           />
         ))}
       </div>

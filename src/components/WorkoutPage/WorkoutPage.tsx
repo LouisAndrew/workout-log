@@ -217,7 +217,8 @@ const WorkoutPage: FC<Props> = ({
         <span className="workout-page__color-placeholder workout-page__placeholder ">
           <button
             type="button"
-            className={`workout-page__color-id bg-${color}`}
+            className="workout-page__color-id "
+            style={{ backgroundColor: color }}
             onClick={() => {
               if (isEditable) {
                 setDisplayColorPicker(true);

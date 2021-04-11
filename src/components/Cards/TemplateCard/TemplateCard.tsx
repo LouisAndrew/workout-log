@@ -3,8 +3,9 @@ import { WorkoutTemplate } from '@/types/Workout';
 
 import './styles.css';
 import { getReadableDate } from '@/helper/date';
-import { Button } from '@/components/Button';
+import { Button } from '@components/Button';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
+// import { colors } from '@t/Colors';
 
 export type Props = {
   /**
@@ -29,7 +30,7 @@ export type Props = {
 const TemplateCard: FC<Props> = ({
   template, className, timesDone, lastWorkout, useTemplate
 }) => (
-  <button type="button" className={`template-card__wrapper border-${template.color || 'gray-500'} ${className}`} onClick={useTemplate}>
+  <button type="button" className={`template-card__wrapper ${className}`} style={{ borderColor: template.color }} onClick={useTemplate}>
     <Button
       onClick={(e) => {
         e.stopPropagation();
