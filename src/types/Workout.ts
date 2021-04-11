@@ -17,6 +17,10 @@ export type WorkoutTemplate = {
    * tags for the workout
    */
   // tags: string[]
+  /**
+   * color code of the template
+   */
+   color?: string
 };
 
 export type Workout = {
@@ -40,4 +44,8 @@ export type Workout = {
    * tag for the workout
    */
   // tags: string[]
+  /**
+   * color code of the template
+   */
+   color?: string
 };

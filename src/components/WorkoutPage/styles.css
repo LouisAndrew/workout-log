@@ -41,7 +41,7 @@
 
 .template-id {
   @apply py-0.5 px-2 duration-200 rounded
-  cursor-pointer hover:bg-gray-900 hover:text-white;
+  cursor-pointer hover:bg-gray-200 focus:outline-none;
 }
 
 .workout-page__exercise-list {
@@ -60,6 +60,18 @@
   @apply ml-24;
 }
 
+.workout-page__color {
+  @apply pb-3 flex items-center;
+}
+
+.workout-page__color-placeholder {
+  @apply ml-20 flex justify-center items-center p-1 rounded duration-200 hover:bg-gray-200 cursor-pointer relative;
+}
+
+.workout-page__color-id {
+  @apply h-3 w-3 inline-block rounded-full focus:outline-none;
+}
+
 .workout-page__button-group {
   @apply flex flex-row-reverse pt-5;
 }
@@ -70,4 +82,25 @@
 
 .workout-page__save-log-button {
   @apply mr-2;
+}
+
+.color-picker__wrapper {
+  @apply text-sm font-body tracking-wider font-bold bg-gray-100 px-4 py-3 rounded
+  border-2 border-gray-200 shadow-lg relative;
+}
+
+.color-picker__colors-wrapper {
+  @apply flex mt-2;
+}
+
+.color-picker__heading {
+  @apply whitespace-nowrap;
+}
+
+.color-picker__color-id {
+  @apply h-4 w-4 rounded-full block ml-2 first:ml-0 cursor-pointer focus:outline-none;
+}
+
+.workout-page__color-picker {
+  @apply absolute z-10 top-1 left-0;
 }

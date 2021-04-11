@@ -80,10 +80,11 @@ export const useTemplate = () => {
     }
   };
 
-  const getTemplateName = async (templateId: string) =>
+  const getTemplateNameAndColor = async (templateId: string) =>
     read(
       `
-    name
+    name,
+    color
   `,
       { 'template-id': templateId }
     );
@@ -97,7 +98,7 @@ export const useTemplate = () => {
     createTemplate,
     getTemplate,
     updateTemplate,
-    getTemplateName,
+    getTemplateNameAndColor,
     getMultipleTemplates
   };
 };

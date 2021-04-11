@@ -41,6 +41,7 @@ const ExerciseLog: FC = () => {
           }),
           templateId: workoutTemplateId,
           date: new Date(parseInt(date, 10)),
+          color: t.color
         };
 
         setWorkout(wt);

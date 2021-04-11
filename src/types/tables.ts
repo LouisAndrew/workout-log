@@ -2,6 +2,7 @@ export type TemplatesTable = {
   name: string;
   exercises: string[]; // ref to exercise-id
   'template-id': string;
+  color?: string
 };
 
 export type UserDataTable = {

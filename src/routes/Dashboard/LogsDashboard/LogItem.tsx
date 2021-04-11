@@ -27,23 +27,25 @@ const LogItem: FC<Props> = ({
   className,
   onViewLog,
 }) => {
-  const { getTemplateName } = useTemplate();
+  const { getTemplateNameAndColor } = useTemplate();
   const { user: userAuth } = useAuth();
 
   const user = userAuth() as User;
 
   const [name, setName] = useState('');
+  const [color, setColor] = useState('gray-400');
   const [isLoading, setIsLoading] = useState(true);
   const [err, setErr] = useState(false);
 
   const getNameFromDb = async () => {
-    const res = await getTemplateName(`${user.id}-${templateId}`);
+    const res = await getTemplateNameAndColor(`${user.id}-${templateId}`);
     if (!res || res.error) {
       setErr(true);
       return;
     }
 
     setName(res.data[0].name);
+    setColor(res.data[0].color || 'gray-400');
     setIsLoading(false);
   };
 
@@ -65,8 +67,9 @@ const LogItem: FC<Props> = ({
       className={`log-item__wrapper ${className}`}
       onClick={onViewLog}
     >
+      <div className={`log-item__color bg-${color}`} />
       {name}
-      <span className="date font-body tracking-wide">
+      <span className="log-item__date">
         {getReadableDate(new Date(timestamp))}
       </span>
     </button>

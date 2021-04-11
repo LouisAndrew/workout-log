@@ -52,8 +52,6 @@ export const areLogsChanged = (a: CompleteExercise, b: CompleteExercise) => {
   const logsA = a.logs;
   const logsB = b.logs;
 
-  console.log({ logsA, logsB });
-
   if (logsA.length !== logsB.length) return true;
   return logsA.some((log, index) => !deepEqual(log, logsB[index]));
 };

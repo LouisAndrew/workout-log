@@ -29,7 +29,7 @@ export type Props = {
 const TemplateCard: FC<Props> = ({
   template, className, timesDone, lastWorkout, useTemplate
 }) => (
-  <button type="button" className={`template-card__wrapper ${className}`} onClick={useTemplate}>
+  <button type="button" className={`template-card__wrapper border-${template.color || 'gray-500'} ${className}`} onClick={useTemplate}>
     <Button
       onClick={(e) => {
         e.stopPropagation();

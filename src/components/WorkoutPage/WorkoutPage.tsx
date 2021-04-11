@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable function-paren-newline */
 import React, { FC, useRef, useState } from 'react';
 import { BiBookAdd, BiSave } from 'react-icons/bi';
@@ -14,11 +15,13 @@ import { E } from '@helper/exercises-helper';
 import { cloneDeep } from 'lodash';
 import { areLogsChanged } from '@helper/comparator';
 
+import { colors, Colors } from '@t/Colors';
 import { WorkoutList } from './WorkoutList';
 import { TemplateMaker } from './TemplateMaker';
 
 import './styles.css';
 import { Button } from '../Button';
+import ColorPicker from './ColorPicker';
 
 // import { cloneDeep } from 'lodash';
 
@@ -49,7 +52,7 @@ export type Props = {
    * if create log is allowed
    */
   isLoggable?: boolean;
-  saveLog?: (w: W, isTemplateChanged: boolean) => Promise<void>
+  saveLog?: (w: W, isTemplateChanged: boolean) => Promise<void>;
 };
 
 const NEW_TEMPLATE_ID = 'new-workout';
@@ -66,7 +69,7 @@ const WorkoutPage: FC<Props> = ({
   onSave,
   isEditable = true,
   isLoggable,
-  saveLog
+  saveLog,
 }) => {
   const [workout] = useState(defaultWorkout || wt);
   const [templateId, setTemplateId] = useState(workout.templateId);
@@ -75,6 +78,8 @@ const WorkoutPage: FC<Props> = ({
   const [isCreatingNewId, setIsCreatingNewId] = useState(false);
   const [userSpecifiedId, setUserSpecifiedId] = useState(false);
   const [isLogChanged, setIsLogChanged] = useState(false);
+  const [displayColorPicker, setDisplayColorPicker] = useState(false);
+  const [color, setColor] = useState<Colors>(defaultWorkout.color as Colors || colors.gray);
 
   const exercisesRef = useRef<E[]>(cloneDeep(workout.exercises));
 
@@ -120,6 +125,7 @@ const WorkoutPage: FC<Props> = ({
         name: workoutName,
         templateId,
         exercises: exercisesRef.current,
+        color
       };
 
       onSave?.(value);
@@ -197,6 +203,30 @@ const WorkoutPage: FC<Props> = ({
             />
           )}
         </div>
+      </div>
+      <div className="workout-page__color workout-page__text">
+        COLOR:
+        <span className="workout-page__color-placeholder workout-page__placeholder ">
+          <button
+            type="button"
+            className={`workout-page__color-id bg-${color}`}
+            onClick={() => {
+              if (isEditable) {
+                setDisplayColorPicker(true);
+              }
+            }}
+          />
+          {displayColorPicker && (
+            <ColorPicker
+              className="workout-page__color-picker"
+              onClick={(c) => {
+                setColor(c);
+                setDisplayColorPicker(false);
+              }}
+              close={() => setDisplayColorPicker(false)}
+            />
+          )}
+        </span>
       </div>
       {type === 'LOG' && (
         <div className="workout-page__date workout-page__text">
