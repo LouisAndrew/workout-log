@@ -81,6 +81,15 @@ export const useUserData = () => {
     return false;
   };
 
+  const getUserLogsByTemplate = async (templateId: string, uid: string) => {
+    const res = await getUserLogs(uid, true);
+    if (!res) {
+      return [];
+    }
+
+    return (res as [string, number][]).filter(([id]: [string, number]) => id.includes(templateId));
+  };
+
   const updateUserLogs = async (
     templateId: string,
     timestamp: number,
@@ -145,6 +154,7 @@ export const useUserData = () => {
     getUserLogs,
     updateUserLogs,
     getLogCount,
-    getLogsDataDashboard
+    getLogsDataDashboard,
+    getUserLogsByTemplate
   };
 };

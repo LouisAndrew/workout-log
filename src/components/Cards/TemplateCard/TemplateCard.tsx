@@ -52,15 +52,7 @@ const TemplateCard: FC<Props> = ({
       LAST WORKOUT:
       {' '}
       <span className="template-card__data">
-        {lastWorkout ? getReadableDate(lastWorkout, true) : (
-          <>
-            <span className="mr-3 inline-block">
-              😞
-
-            </span>
-            No Log Available
-          </>
-        )}
+        {lastWorkout ? getReadableDate(lastWorkout, true) : '-'}
       </span>
     </div>
   </button>

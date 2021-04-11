@@ -84,9 +84,14 @@
   @apply mr-2;
 }
 
-.color-picker__wrapper {
+.color-picker__wrapper,
+.comparator-select__wrapper {
   @apply text-sm font-body tracking-wider font-bold bg-gray-100 px-4 py-3 rounded
   border-2 border-gray-200 shadow-lg relative;
+}
+
+.comparator-select__wrapper {
+  @apply max-h-48 overflow-y-scroll;
 }
 
 .color-picker__colors-wrapper {
@@ -103,4 +108,46 @@
 
 .workout-page__color-picker {
   @apply absolute z-10 top-1 left-0;
+}
+
+.workout-page__exercises-heading {
+  @apply flex items-center;
+}
+
+.workout-page__compare-btn.button {
+  transform: translateX(0.2rem);
+  @apply py-0 border-transparent ml-10;
+}
+
+.comparator-select__workouts-wrapper {
+  @apply pt-1;
+}
+
+.comparator-select__heading {
+  @apply text-left;
+}
+
+.comparator-select__workout {
+  @apply flex font-body font-medium items-center justify-between py-0.5 duration-200 w-full
+    hover:bg-gray-200 px-1 rounded;
+}
+
+.workout-page__comparator-select {
+  @apply absolute z-20 w-96 top-0;
+}
+
+.workout-page__compare-btn:hover .workout-page__remove-comparison.button {
+  @apply opacity-100;
+}
+
+.workout-page__remove-comparison.button {
+  @apply ml-2 p-0 opacity-0 hover:border-red-400 hover:text-red-400;
+}
+
+.workout-page__remove-comparison.button .button__icon-wrapper {
+  @apply mr-0;
+}
+
+.workout-page__remove-comparison.button svg {
+  transform: scale(1.2);
 }

@@ -38,20 +38,23 @@ const LogsDashboard: FC<Props> = () => {
 
   if (!isLoading) {
     return (
-      <>
-        {sortLogsData(logsData).map(([id, timestamp]) => (
-          <LogItem
-            key={`${id}--${timestamp}`}
-            templateId={id}
-            timestamp={timestamp}
-            onViewLog={() => {
-              replace(
-                `${R.LOG}?template=${`${user.id}-${id}`}&date=${timestamp}`
-              );
-            }}
-          />
-        ))}
-      </>
+      <div className="logs-dashboard__wrapper">
+        <h3 className="logs-dashboard__heading">EXERCISE LOGS</h3>
+        <div className="logs-dashboard__logs-wrapper">
+          {sortLogsData(logsData).map(([id, timestamp]) => (
+            <LogItem
+              key={`${id}--${timestamp}`}
+              templateId={id}
+              timestamp={timestamp}
+              onViewLog={() => {
+                replace(
+                  `${R.LOG}?template=${`${user.id}-${id}`}&date=${timestamp}`
+                );
+              }}
+            />
+          ))}
+        </div>
+      </div>
     );
   }
 

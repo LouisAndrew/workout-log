@@ -12,6 +12,7 @@ import { TemplateCard } from '@components/Cards/TemplateCard';
 
 import './styles.css';
 import { BiPlus } from 'react-icons/bi';
+import { Button } from '@/components/Button';
 
 type TemplateDashboard = WorkoutTemplate & {
   logCount: number;
@@ -78,7 +79,17 @@ const TemplatesDashboard: FC = () => {
 
   return (
     <div className="templates-dashboard__wrapper">
-      <h3>Templates</h3>
+      <h3 className="templates-dashboard__heading">
+        TEMPLATES
+        <Button
+          size="s"
+          Icon={BiPlus}
+          onClick={handleCreateTemplate}
+          className="templates-dashboard__create-new"
+        >
+          ADD NEW TEMPLATE
+        </Button>
+      </h3>
       {!isLoading ? (
         <div className="templates-dashboard__template-wrapper">
           {templateData.map((template) => (
@@ -94,16 +105,9 @@ const TemplatesDashboard: FC = () => {
               useTemplate={() => {
                 create(template.templateId);
               }}
-              className="mr-3"
+              className="mr-3 flex-shrink-0"
             />
           ))}
-          <button
-            type="button"
-            onClick={handleCreateTemplate}
-            className="templates-dashboard__create-new"
-          >
-            <BiPlus />
-          </button>
         </div>
       ) : (
         <div className="is-loading">Loading</div>

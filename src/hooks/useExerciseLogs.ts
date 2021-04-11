@@ -69,7 +69,7 @@ export const useExerciseLogs = () => {
 
             return {
               ...exercise,
-              logs
+              logs,
             };
           })
           .filter((e) => !!e)
@@ -83,12 +83,14 @@ export const useExerciseLogs = () => {
   };
 
   const getAllExerciseLog = async (userId: string) => {
-    const logs = await getUserLogs(userId, true) as [string, number][];
+    const logs = (await getUserLogs(userId, true)) as [string, number][];
     if (!logs) {
       return [];
     }
 
-    return Promise.all(logs.map(([templateId, timestamp]) => getLogs(templateId, timestamp)));
+    return Promise.all(
+      logs.map(([templateId, timestamp]) => getLogs(templateId, timestamp))
+    );
   };
 
   const saveLogs = async (
@@ -132,6 +134,9 @@ export const useExerciseLogs = () => {
   };
 
   return {
-    createLogs, getLogs, saveLogs, getAllExerciseLog
+    createLogs,
+    getLogs,
+    saveLogs,
+    getAllExerciseLog,
   };
 };

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable function-paren-newline */
 import React, { FC, useRef, useState } from 'react';
-import { BiBookAdd, BiSave } from 'react-icons/bi';
+import { BiBookAdd, BiSave, BiX } from 'react-icons/bi';
 
 import { Workout, WorkoutTemplate } from '@t/Workout';
 import { CompleteExercise } from '@t/Exercise';
@@ -22,6 +22,7 @@ import { TemplateMaker } from './TemplateMaker';
 import './styles.css';
 import { Button } from '../Button';
 import ColorPicker from './ColorPicker';
+import ComparatorSelect from './ComparatorSelect';
 
 // import { cloneDeep } from 'lodash';
 
@@ -53,6 +54,7 @@ export type Props = {
    */
   isLoggable?: boolean;
   saveLog?: (w: W, isTemplateChanged: boolean) => Promise<void>;
+  comparisonWorkouts?: Workout[];
 };
 
 const NEW_TEMPLATE_ID = 'new-workout';
@@ -70,6 +72,7 @@ const WorkoutPage: FC<Props> = ({
   isEditable = true,
   isLoggable,
   saveLog,
+  comparisonWorkouts,
 }) => {
   const [workout] = useState(defaultWorkout || wt);
   const [templateId, setTemplateId] = useState(workout.templateId);
@@ -79,7 +82,12 @@ const WorkoutPage: FC<Props> = ({
   const [userSpecifiedId, setUserSpecifiedId] = useState(false);
   const [isLogChanged, setIsLogChanged] = useState(false);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  const [color, setColor] = useState<Colors>(defaultWorkout.color as Colors || colors.gray);
+  const [color, setColor] = useState<Colors>(
+    (defaultWorkout.color as Colors) || colors.gray
+  );
+
+  const [compareWith, setCompareWith] = useState<Workout | null>(null);
+  const [displayComparatorSelect, setDisplayComparatorSelect] = useState(false);
 
   const exercisesRef = useRef<E[]>(cloneDeep(workout.exercises));
 
@@ -125,7 +133,7 @@ const WorkoutPage: FC<Props> = ({
         name: workoutName,
         templateId,
         exercises: exercisesRef.current,
-        color
+        color,
       };
 
       onSave?.(value);
@@ -237,7 +245,35 @@ const WorkoutPage: FC<Props> = ({
         </div>
       )}
       <div className="workout-page__exercises workout-page__text">
-        EXERCISES:
+        <div className="workout-page__exercises-heading">
+          EXERCISES:
+          <Button className="workout-page__compare-btn" size="s" onClick={() => setDisplayComparatorSelect(true)}>
+            {compareWith ? `Comparing With: ${compareWith.name} - ${getReadableDate(compareWith.date)}` : 'COMPARE WITH...'}
+            {compareWith && (
+              <Button
+                Icon={BiX}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCompareWith(null);
+                }}
+                className="workout-page__remove-comparison"
+              />
+            )}
+            {
+              displayComparatorSelect && (
+              <ComparatorSelect
+                close={() => setDisplayComparatorSelect(false)}
+                onClick={(w) => {
+                  setCompareWith(w);
+                  setDisplayComparatorSelect(false);
+                }}
+                comparisonWorkouts={comparisonWorkouts || []}
+                className="workout-page__comparator-select"
+              />
+              )
+            }
+          </Button>
+        </div>
         <WorkoutList
           type={type}
           defaultWorkout={workout}
@@ -245,6 +281,7 @@ const WorkoutPage: FC<Props> = ({
           className="workout-page__exercise-list"
           isEditable={isEditable}
           isLoggable={isLoggable}
+          comparisonWorkout={compareWith ?? undefined}
         />
       </div>
       <div className="workout-page__button-group">

@@ -2,14 +2,17 @@ templates-dashboard__wrapper {
 }
 
 .templates-dashboard__template-wrapper {
-  @apply flex items-center my-5;
+  @apply flex items-center my-3 overflow-x-scroll;
 }
 
 .templates-dashboard__create-new {
-  @apply bg-gray-100 p-1 rounded duration-200
-    hover:bg-gray-200;
+  @apply border-transparent ml-5 text-xs;
 }
 
 .templates-dashboard__create-new svg {
-  @apply h-8 w-8;
+  transform: scale(1.3) translateY(-5%);
+}
+
+.templates-dashboard__heading {
+  @apply font-body text-xl font-medium tracking-wide flex items-center;
 }
