@@ -1,6 +1,17 @@
 import { UserDataTable } from '@/types/tables';
 import { useStorage, TABLES } from './useStorage';
 
+const createLogId = (templateId: string, timestamp: number) =>
+  `${templateId}--${timestamp}`;
+const subtractLogId = (logId: string): [string, number] => {
+  const splitted = logId.split('--');
+  if (splitted.length === 2) {
+    return [splitted[0], parseInt(splitted[1], 10)];
+  }
+
+  return [splitted[0], new Date().getTime()];
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export const useUserData = () => {
   const { read, update } = useStorage(TABLES.USER_DATA);
@@ -41,9 +52,56 @@ export const useUserData = () => {
       templateString,
     ];
 
-    const res = await update({ ...userData, templates: newTemplates }, { uuid: uid });
+    const res = await update(
+      { ...userData, templates: newTemplates },
+      { uuid: uid }
+    );
     return res;
   };
 
-  return { getUserTemplate, updateUserTemplate };
+  const getUserLogs = async (
+    userId: string,
+    splitted: boolean = false
+  ): Promise<[string, number][] | string[] | false> => {
+    const query = `
+      logs
+    `;
+
+    const res = await read(query, { uuid: userId });
+    if (res) {
+      if (splitted) {
+        return res.data[0].logs.map((s: string) => subtractLogId(s));
+      }
+      return res.data[0].logs;
+    }
+    return false;
+  };
+
+  const updateUserLogs = async (
+    templateId: string,
+    timestamp: number,
+    userId: string,
+    remove?: string
+  ): Promise<boolean> => {
+    const logs = await getUserLogs(userId) as (string[] | false);
+    if (!logs) {
+      return false;
+    }
+
+    const userData = await getUserData(userId);
+    const newLogs = [
+      ...logs.filter((l) => (remove ? l !== remove : l)),
+      createLogId(templateId, timestamp),
+    ];
+
+    const res = await update({ ...userData, logs: newLogs }, { uuid: userId });
+    return res;
+  };
+
+  return {
+    getUserTemplate,
+    updateUserTemplate,
+    getUserLogs,
+    updateUserLogs,
+  };
 };

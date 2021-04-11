@@ -1,8 +1,9 @@
 import { sortByOrder } from '@/helper/exercises-helper';
 import { ExerciseLogTableItem } from '@t/tables';
 
-import { CompleteExercise } from '@/types/Exercise';
-import { Workout } from '@/types/Workout';
+import { CompleteExercise } from '@t/Exercise';
+import { Workout } from '@t/Workout';
+import { useUserData } from './useUserData';
 import { useStorage, TABLES } from './useStorage';
 import { useTemplate } from './useTemplates';
 import { useExercises } from './useExercises';
@@ -12,6 +13,7 @@ export const useExerciseLogs = () => {
   const { create, read, update } = useStorage(TABLES.LOGS);
   const { getTemplate } = useTemplate();
   const { getExercise } = useExercises();
+  const { updateUserLogs, getUserLogs } = useUserData();
 
   const createSingleLogDocument = async (data: ExerciseLogTableItem) =>
     create(data);
@@ -25,20 +27,23 @@ export const useExerciseLogs = () => {
 
       const { exercises } = template;
       const date = new Date();
+      const timestamp = date.getTime();
       const arr = await Promise.all(
         sortByOrder(exercises).map(({ id }) => {
           const tableItem: ExerciseLogTableItem = {
             'template-id': templateId,
             'exercise-id': id,
             logs: {},
-            date: date.getTime(),
+            date: timestamp,
           };
 
           return createSingleLogDocument(tableItem);
         })
       );
 
-      return arr.every((bool) => bool) ? date : false;
+      const isUserUpdated = await updateUserLogs(templateId, timestamp, userId);
+
+      return arr.every((bool) => bool) && isUserUpdated ? date : false;
     } catch (e) {
       return false;
     }
@@ -55,14 +60,12 @@ export const useExerciseLogs = () => {
         (data as ExerciseLogTableItem[])
           .map(async (dt, index) => {
             const exercise = await getExercise(dt['exercise-id'], index);
-            console.log({ exercise });
             if (!exercise) {
               return null;
             }
 
             const logsData = JSON.parse(dt.logs);
             const logs = Object.keys(logsData).map((key) => logsData[key]);
-            console.log({ logs, logsData });
 
             return {
               ...exercise,
@@ -71,13 +74,21 @@ export const useExerciseLogs = () => {
           })
           .filter((e) => !!e)
       );
-      console.log(exercises);
 
       return exercises as CompleteExercise[];
     } catch (e) {
       console.error(e);
       return null;
     }
+  };
+
+  const getAllExerciseLog = async (userId: string) => {
+    const logs = await getUserLogs(userId, true) as [string, number][];
+    if (!logs) {
+      return [];
+    }
+
+    return Promise.all(logs.map(([templateId, timestamp]) => getLogs(templateId, timestamp)));
   };
 
   const saveLogs = async (
@@ -120,5 +131,7 @@ export const useExerciseLogs = () => {
     return false;
   };
 
-  return { createLogs, getLogs, saveLogs };
+  return {
+    createLogs, getLogs, saveLogs, getAllExerciseLog
+  };
 };

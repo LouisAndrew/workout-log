@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
 import { useAuth } from '@h/useAuth';
 import { useExerciseLogs } from '@h/useExerciseLogs';
@@ -10,7 +10,7 @@ type Props = {}
 
 const LogsDashboard: FC<Props> = () => {
   const { user: userData } = useAuth();
-  const { createLogs } = useExerciseLogs();
+  const { createLogs, getAllExerciseLog } = useExerciseLogs();
   const user = userData() as User;
   const { replace } = useHistory();
 
@@ -26,6 +26,14 @@ const LogsDashboard: FC<Props> = () => {
       replace(route);
     }
   };
+
+  const getAll = async () => {
+    console.log(await getAllExerciseLog(user.id));
+  };
+
+  useEffect(() => {
+    getAll();
+  }, []);
 
   return (
     <Button onClick={create}>create log!</Button>

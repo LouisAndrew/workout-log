@@ -34,7 +34,7 @@ const WorkoutListItem: FC<Props> = ({
   isEditable = true,
   isLoggable
 }) => (
-  <Draggable draggableId={exercise.id} index={index}>
+  <Draggable isDragDisabled={!isEditable} draggableId={exercise.id} index={index}>
     {(provided, snapshot) => {
       const dragHandler = provided.dragHandleProps;
 

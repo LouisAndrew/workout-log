@@ -9,7 +9,6 @@ import { Workout, WorkoutTemplate } from '@t/Workout';
 import { WorkoutPage } from '@components/WorkoutPage';
 import { R } from '@r/index';
 
-// /log?template=4612188d-fbb3-40a4-84ed-a130a1004698-push-workout-ad&date=1618079569982
 const ExerciseLog: FC = () => {
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,8 +26,6 @@ const ExerciseLog: FC = () => {
       const [templateId, date, createNew] = search.substr(1).split('&').map((str) => str.split('=')[1]);
       const exercises = await getLogs(templateId, parseInt(date, 10));
       const t = await getTemplate(templateId, (user() as User).id);
-
-      console.log({ exercises });
 
       if (exercises && t) {
         setIsLogAllowed(!!createNew);
@@ -66,8 +63,6 @@ const ExerciseLog: FC = () => {
     extractDataFromUrl();
   }, []);
 
-  console.log(workout);
-
   if (workout) {
     return (
       <div className="container min-h-screen flex justify-center py-6">
@@ -77,7 +72,7 @@ const ExerciseLog: FC = () => {
           </h2>
           <WorkoutPage type="LOG" defaultWorkout={workout} isLoggable={isLogAllowed} isEditable={false} saveLog={handleSave} />
           {err && (
-            <div className="error-msg">
+            <div className="error-msg font-body font-medium text-red-500">
               {err}
             </div>
           )}
