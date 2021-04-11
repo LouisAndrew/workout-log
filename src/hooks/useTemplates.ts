@@ -21,6 +21,7 @@ export const useTemplate = () => {
       name: '',
       'template-id': randomTemplateId,
       exercises: [],
+      color: 'grey-400'
     };
 
     try {
