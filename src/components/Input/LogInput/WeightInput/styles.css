@@ -3,17 +3,19 @@
 }
 
 .log-input__weight-metric {
-  @apply font-display text-base ml-1 font-black;
+  @apply font-display text-base ml-1 font-black px-1 py-0.5 rounded duration-200 hover:bg-gray-200 relative inline-block z-0;
 }
 
 .color-weight-input__wrapper {
   transform: translateY(0.1rem);
-  @apply inline-flex items-center justify-end ml-8 relative
+  @apply inline-flex items-center justify-end ml-2 relative z-20
     duration-200 hover:bg-gray-200 p-1 rounded cursor-pointer;
 }
 
-.color-weight-input__wrapper .color-picker__wrapper {
-  @apply absolute top-0 left-0;
+.weight-color-picker__wrapper,
+.log-input__metric-select {
+  @apply absolute text-sm font-body tracking-wider font-bold bg-gray-100 px-4 py-3
+  border-2 border-gray-200 shadow-lg top-0 left-0 z-50;
 }
 
 .color-picker__colors-wrapper {
@@ -27,4 +29,8 @@
 
 .color-picker__color-select:hover svg {
   opacity: 0.5;
+}
+
+.log-input__metric-select-button.button {
+  @apply text-left border-transparent;
 }

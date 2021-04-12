@@ -10,6 +10,7 @@ import {
 import { parseInt } from 'lodash';
 import { ReviewSelect } from '@components/Select/ReviewSelect';
 import { Metric, Review } from '@t/Set';
+import { ColorData } from '@t/ColorData';
 
 import { WeightInput } from './WeightInput';
 
@@ -63,6 +64,10 @@ export type Props = {
     review?: Review
   ) => void;
   /**
+   * color data
+   */
+  colorData?: ColorData[]
+  /**
    * additional props
    */
   [key: string]: any;
@@ -79,6 +84,7 @@ const LogInput: FC<Props> = ({
   className,
   onChange,
   setNum,
+  colorData = [],
   ...rest
 }) => {
   const [weight, setWeight] = useState(defaultWeight || -1);
@@ -225,16 +231,16 @@ const LogInput: FC<Props> = ({
         </label>
         <WeightInput
           exerciseId={exerciseId}
-          colorData={[]}
+          colorData={colorData}
           metric={metric}
           weight={weight}
           handleChangeWeight={handleChangeWeight}
-          handleChangeMetric={(m) => {
-            console.log({ m, setMetric });
-          }}
+          handleChangeMetric={(m) => setMetric(m)}
+          setWeightDirectly={(w) => setWeight(w)}
           style={{
             width: getLength(weight) > 2 ? getCustomWidth(weight) * width : 32,
           }}
+          isLoggable={isEditable}
         />
       </div>
     </div>

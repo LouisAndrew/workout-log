@@ -3,6 +3,7 @@ import React from 'react';
 import { Story } from '@storybook/react';
 
 import LogInput, { Props } from '@components/Input/LogInput/LogInput';
+import { mockColorData } from '@t/ColorData';
 
 export default {
   title: 'Components/Input/LogInput',
@@ -33,6 +34,19 @@ Filled.args = {
     indicator: 'UP',
   },
   isEditable: true,
+};
+
+export const FilledColor = Template.bind({});
+FilledColor.args = {
+  index: 1,
+  defaultWeight: 10002000,
+  defaultReps: 12,
+  defaultReview: {
+    indicator: 'STAY',
+  },
+  isEditable: true,
+  colorData: mockColorData,
+  weightMetric: 'BAND'
 };
 
 export const FilledStay = Template.bind({});

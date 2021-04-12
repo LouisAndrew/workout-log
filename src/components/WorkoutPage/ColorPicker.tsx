@@ -15,7 +15,7 @@ const ColorPicker: FC<Props> = ({ onClick, close, className }) => {
   const ref = useRef(null);
   useClickOutside(ref, close);
   return (
-    <div ref={ref} className={`color-picker__wrapper ${className}`}>
+    <div ref={ref} className={`color-picker__wrapper  ${className}`}>
       <h4 className="color-picker__heading">PICK A COLOR</h4>
       <div className="color-picker__colors-wrapper">
         {availableColors.map((color) => (

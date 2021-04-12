@@ -1,7 +1,7 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Story } from '@storybook/react';
-import { ColorData } from '@t/ColorData';
+import { mockColorData } from '@t/ColorData';
 
 import WeightInput, { Props } from '@components/Input/LogInput/WeightInput/WeightInput';
 
@@ -9,22 +9,6 @@ export default {
   title: 'Components/Input/LogInput/WeightInput',
   component: WeightInput
 };
-
-// tailwindcolors
-const mockColorData: ColorData[] = [
-  {
-    color: '#10B981',
-    weight: 40,
-    metric: 'LBS',
-    identifier: 1
-  },
-  {
-    color: '#EF4444',
-    weight: 30,
-    metric: 'LBS',
-    identifier: 2
-  }
-];
 
 const Template: Story<Props> = (args) => <WeightInput {...args} />;
 
@@ -47,5 +31,6 @@ export const ColorInput = Template.bind({});
 ColorInput.args = {
   colorData: mockColorData,
   metric: 'BAND',
-  weight: 1000
+  weight: 1000,
+  setWeightDirectly: (w) => console.log(w)
 };

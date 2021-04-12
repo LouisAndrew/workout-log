@@ -1,12 +1,15 @@
-import React, { FC, useRef, useState } from 'react';
+import React, {
+  FC, useEffect, useRef, useState
+} from 'react';
 import { ColorData } from '@t/ColorData';
 import { generateSingleId } from '@/helper';
-import { BiCheck } from 'react-icons/bi';
+import { BiCheck, BiPlus } from 'react-icons/bi';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 export type Props = {
   colorData: ColorData[];
   weight: number;
+  isLoggable: boolean
   handleChange: (weight: number) => void;
 };
 
@@ -17,7 +20,7 @@ export type Props = {
 const getWeightFromData = (datas: ColorData[], colors: string[]) =>
   colors
     .map(
-      (colorCode) => datas.find((data) => data.color === colorCode)?.weight || 0
+      (colorCode) => datas.find((data) => data.color === colorCode)?.identifier || 0
     )
     .map((codedWeight) => codedWeight * 1000)
     .reduce((a, b) => parseInt(`${a}${b}`, 10), 0);
@@ -33,24 +36,31 @@ const getColorsFromWeight = (datas: ColorData[], weight: number): string[] =>
     )
     .filter((color) => !!color) as string[];
 
-const ColoredWeightInput: FC<Props> = ({ colorData, weight, handleChange }) => {
+const ColoredWeightInput: FC<Props> = ({
+  colorData, weight, handleChange, isLoggable
+}) => {
   const [colors, setColors] = useState<string[]>(
     getColorsFromWeight(colorData, weight) || null
   );
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
 
   const handleChangeColor = (c: string) => {
-    if (colors.includes(c)) {
-      setColors((prev) => prev.filter((color) => color !== c));
-    } else {
-      setColors((prev) => [...prev, c]);
+    if (isLoggable) {
+      if (colors.includes(c)) {
+        setColors((prev) => prev.filter((color) => color !== c));
+      } else {
+        setColors((prev) => [...prev, c]);
+      }
     }
   };
 
   const handleCloseColorPicker = () => {
     setDisplayColorPicker(false);
-    handleChange(getWeightFromData(colorData, colors));
   };
+
+  useEffect(() => {
+    handleChange(getWeightFromData(colorData, colors));
+  }, [colors]);
 
   return (
     <button
@@ -58,6 +68,11 @@ const ColoredWeightInput: FC<Props> = ({ colorData, weight, handleChange }) => {
       className="color-weight-input__wrapper"
       onClick={() => setDisplayColorPicker(true)}
     >
+      {colors.length === 0 && (
+        <div className="color-weight-input__color-placeholder bg-gray-200">
+          <BiPlus />
+        </div>
+      )}
       {colors.map((color) => (
         <div
           key={`${generateSingleId(10)}-${color}`}
@@ -65,14 +80,14 @@ const ColoredWeightInput: FC<Props> = ({ colorData, weight, handleChange }) => {
           style={{ backgroundColor: color }}
         />
       ))}
-      {displayColorPicker && (
+      {displayColorPicker && isLoggable ? (
         <ColorPicker
           colorData={colorData}
           colors={colors}
           handleClick={handleChangeColor}
           close={handleCloseColorPicker}
         />
-      )}
+      ) : null}
     </button>
   );
 };
@@ -94,7 +109,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
   useClickOutside(ref, close);
 
   return (
-    <div className="color-picker__wrapper" ref={ref}>
+    <div className="weight-color-picker__wrapper" ref={ref}>
       <h4 className="whitespace-nowrap">PICK BAND COLORS</h4>
       <div className="color-picker__colors-wrapper">
         {colorData.map(({ color }) => (
