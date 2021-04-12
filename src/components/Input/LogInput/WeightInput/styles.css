@@ -1,0 +1,30 @@
+.log-input__weight-input-label {
+  @apply ml-4;
+}
+
+.log-input__weight-metric {
+  @apply font-display text-base ml-1 font-black;
+}
+
+.color-weight-input__wrapper {
+  transform: translateY(0.1rem);
+  @apply inline-flex items-center justify-end ml-8 relative
+    duration-200 hover:bg-gray-200 p-1 rounded cursor-pointer;
+}
+
+.color-weight-input__wrapper .color-picker__wrapper {
+  @apply absolute top-0 left-0;
+}
+
+.color-picker__colors-wrapper {
+  @apply flex;
+}
+
+.color-weight-input__color-placeholder,
+.color-picker__color-select {
+  @apply h-4 w-4 flex items-center justify-center rounded mx-0.5;
+}
+
+.color-picker__color-select:hover svg {
+  opacity: 0.5;
+}

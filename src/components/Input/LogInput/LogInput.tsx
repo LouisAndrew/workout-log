@@ -10,7 +10,8 @@ import {
 import { parseInt } from 'lodash';
 import { ReviewSelect } from '@components/Select/ReviewSelect';
 import { Metric, Review } from '@t/Set';
-import { colors } from '@t/Colors';
+
+import { WeightInput } from './WeightInput';
 
 import './styles.css';
 
@@ -58,6 +59,7 @@ export type Props = {
     weight: number,
     reps: number,
     index: number,
+    metric: Metric,
     review?: Review
   ) => void;
   /**
@@ -87,6 +89,7 @@ const LogInput: FC<Props> = ({
   const [shouldDisplayReviewSelect, setShouldDisplayReviewSelect] = useState(
     false
   );
+  const [metric, setMetric] = useState(weightMetric);
 
   const firstRender = useRef(true);
   const reviewRef = useRef(review);
@@ -161,6 +164,7 @@ const LogInput: FC<Props> = ({
           weight,
           reps,
           index,
+          metric,
           review.indicator !== '?' ? review : undefined
         );
       }
@@ -214,30 +218,24 @@ const LogInput: FC<Props> = ({
             onChange={handleChangeReps}
             id={`${exerciseId}-reps`}
             className="log-input__reps-input log-input__input"
-            style={{ width: getLength(reps) > 2 ? getCustomWidth(reps) * width : 32 }}
+            style={{
+              width: getLength(reps) > 2 ? getCustomWidth(reps) * width : 32,
+            }}
           />
         </label>
-        <label
-          htmlFor={`${exerciseId}-weight`}
-          className="log-input__weight-input-label log-input__label"
-        >
-          WEIGHT
-          <input
-            type="number"
-            value={weight === -1 ? '' : weight}
-            placeholder="##"
-            onChange={handleChangeWeight}
-            id={`${exerciseId}-reps`}
-            className="log-input__weight-input log-input__input"
-            style={{ width: getLength(weight) > 2 ? getCustomWidth(weight) * width : 32 }}
-          />
-          <span
-            className="log-input__weight-metric duration-200"
-            style={{ color: weight === -1 ? colors.gray : 'black' }}
-          >
-            {weightMetric}
-          </span>
-        </label>
+        <WeightInput
+          exerciseId={exerciseId}
+          colorData={[]}
+          metric={metric}
+          weight={weight}
+          handleChangeWeight={handleChangeWeight}
+          handleChangeMetric={(m) => {
+            console.log({ m, setMetric });
+          }}
+          style={{
+            width: getLength(weight) > 2 ? getCustomWidth(weight) * width : 32,
+          }}
+        />
       </div>
     </div>
   );

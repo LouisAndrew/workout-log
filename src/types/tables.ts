@@ -24,5 +24,5 @@ export type ExerciseLogTableItem = {
   'template-id': string;
   date: number; // timestamp
   'exercise-id': string; // ref to exercise id
-  logs: any; // JSON object
+  logs: string; // JSON object
 };

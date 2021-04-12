@@ -1,4 +1,4 @@
-export type Metric = 'KG' | 'LBS' | '';
+export type Metric = 'KG' | 'LBS' | 'BAND';
 export type ReviewIndicator = 'UP' | 'DOWN' | 'STAY' | '?';
 
 export type SetAndReps = {
