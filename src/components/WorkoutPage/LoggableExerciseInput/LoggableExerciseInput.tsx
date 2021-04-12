@@ -5,7 +5,7 @@ import { BiDumbbell, BiX, BiShow, BiHide } from 'react-icons/bi';
 import { ExerciseInput, LogInput } from '@components/Input';
 import { Button } from '@components/Button';
 import { CompleteExercise } from '@t/Exercise';
-import { ExerciseSetOrdered, Review } from '@t/Set';
+import { ExerciseSetOrdered, Metric, Review } from '@t/Set';
 import { rangeToString, stringToRange, Range } from '@helper/ranges';
 import { deepEqual } from '@helper/comparator';
 
@@ -77,6 +77,7 @@ const LoggableExerciseInput: FC<Props> = ({
     weight: number,
     reps: number,
     index: number,
+    metric: Metric,
     review?: Review
   ) => {
     const temp = logsRef.current;
@@ -88,7 +89,7 @@ const LoggableExerciseInput: FC<Props> = ({
       weight,
       reps,
       review,
-      metric: 'KG',
+      metric,
       order: index,
     };
 
