@@ -27,3 +27,7 @@ code {
 .heading--2 {
   @apply text-3xl;
 }
+
+.page {
+  @apply container min-h-screen py-6;
+}

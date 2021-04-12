@@ -74,7 +74,7 @@ const Template: FC = () => {
 
   // eslint-disable-next-line no-nested-ternary
   return t ? (
-    <div className="container min-h-screen flex justify-center pt-6">
+    <div className="page">
       <div className="w-full">
         <h2 className="font-body font-bold pb-3 text-right">
           {isCreatingNew ? 'CREATE NEW TEMPLATE' : 'EDIT TEMPLATE'}

@@ -25,12 +25,13 @@ export type Props = {
    */
   lastWorkout?: Date;
   useTemplate: () => void;
+  viewTemplate: () => void
 };
 
 const TemplateCard: FC<Props> = ({
-  template, className, timesDone, lastWorkout, useTemplate
+  template, className, timesDone, lastWorkout, viewTemplate
 }) => (
-  <button type="button" className={`template-card__wrapper ${className}`} style={{ borderColor: template.color }} onClick={useTemplate}>
+  <button type="button" className={`template-card__wrapper ${className}`} style={{ borderColor: template.color }} onClick={viewTemplate}>
     <Button
       onClick={(e) => {
         e.stopPropagation();
