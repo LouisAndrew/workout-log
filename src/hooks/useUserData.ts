@@ -51,7 +51,7 @@ export const useUserData = () => {
     }
 
     const userData = await getUserData(uid);
-    const newTemplates = [
+    const newTemplates = templates.includes(templateString) ? templates : [
       ...templates.filter((id) => (remove ? id !== remove : id)),
       templateString,
     ];

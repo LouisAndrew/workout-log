@@ -62,7 +62,7 @@ const TemplatesDashboard: FC = () => {
     if (date) {
       const route = `${
         R.LOG
-      }?template=${tableTemplateId}&date=${date.getTime()}&createNew=true`;
+      }?template=${tableTemplateId}&date=${date.getTime()}&state=create`;
       replace(route);
     }
   };
