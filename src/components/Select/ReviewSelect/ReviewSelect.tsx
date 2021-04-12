@@ -47,7 +47,7 @@ const ReviewSelect: FC<Props> = ({
   const [reviewIndicator, setReviewIndicator] = useState<ReviewIndicator>(
     defaultReview.indicator || '?'
   );
-  const [note, setNote] = useState(defaultReview.note || '');
+  // const [note, setNote] = useState(defaultReview.note || '');
   const [shouldExpandSelection, setShouldExpandSelection] = useState(
     isEditable && defaultReview.indicator === '?'
   );
@@ -77,11 +77,11 @@ const ReviewSelect: FC<Props> = ({
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (isEditable) {
-      setNote(e.target.value);
-    }
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   if (isEditable) {
+  //     setNote(e.target.value);
+  //   }
+  // };
 
   // ⚠️ same function as in LogInput.tsx
   const getIcon = (r: ReviewIndicator) => {
@@ -105,9 +105,9 @@ const ReviewSelect: FC<Props> = ({
 
   useEffect(() => {
     if (!firstRender.current) {
-      onChange({ indicator: reviewIndicator, note });
+      onChange({ indicator: reviewIndicator });
     }
-  }, [reviewIndicator, note]);
+  }, [reviewIndicator]);
 
   useEffect(() => {
     firstRender.current = false;
@@ -149,7 +149,7 @@ const ReviewSelect: FC<Props> = ({
           />
         ))}
       </div>
-      {reviewIndicator !== '?' && (
+      {/* {reviewIndicator !== '?' && (
         <div className="review-select__note">
           <label
             htmlFor="review-select__note-input"
@@ -165,7 +165,7 @@ const ReviewSelect: FC<Props> = ({
             />
           </label>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

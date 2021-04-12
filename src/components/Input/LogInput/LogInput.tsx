@@ -93,7 +93,7 @@ const LogInput: FC<Props> = ({
 
   const handleChangeWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditable) {
-      const val = parseInt(e.target.value, 10);
+      const val = parseFloat(e.target.value);
       if (val > 0) {
         setWeight(val);
       }
