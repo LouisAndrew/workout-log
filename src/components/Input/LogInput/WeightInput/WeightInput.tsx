@@ -89,7 +89,7 @@ const WeightInput: FC<Props> = ({
       >
         {metric}
         {displaySelectMetric && isLoggable ? (
-          <div className="log-input__metric-select" ref={ref}>
+          <div className="log-input__metric-select popper" ref={ref}>
             <Button
               onClick={(e) => {
                 e.stopPropagation();

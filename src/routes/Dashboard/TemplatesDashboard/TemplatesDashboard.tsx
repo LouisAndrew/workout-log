@@ -62,7 +62,7 @@ const TemplatesDashboard: FC = () => {
     if (date) {
       const route = `${
         R.LOG
-      }?template=${tableTemplateId}&date=${date.getTime()}&createNew=true`;
+      }?template=${tableTemplateId}&date=${date.getTime()}&state=create`;
       replace(route);
     }
   };
@@ -71,6 +71,14 @@ const TemplatesDashboard: FC = () => {
     const { id } = user;
     const route = await createTemplate(id);
     replace(route);
+  };
+
+  const viewTemplate = (templateId: string) => {
+    replace(`${R.TEMPLATE}?id=${user.id}-${templateId}`);
+  };
+
+  const editTemplate = (templateId: string) => {
+    replace(`${R.TEMPLATE}?id=${user.id}-${templateId}&state=edit`);
   };
 
   useEffect(() => {
@@ -105,6 +113,8 @@ const TemplatesDashboard: FC = () => {
               useTemplate={() => {
                 create(template.templateId);
               }}
+              viewTemplate={() => viewTemplate(template.templateId)}
+              editTemplate={() => editTemplate(template.templateId)}
               className="mr-3 flex-shrink-0"
             />
           ))}

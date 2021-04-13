@@ -135,7 +135,7 @@ const Login: FC<Props> = () => {
   }, []);
 
   return (
-    <div className="container h-screen flex items-center justify-center">
+    <div className="page login-page">
       <div className="w-max">
         <h2 className="heading heading--2">{text.headingText}</h2>
         <form className="w-max pt-7" onSubmit={handleSubmit}>

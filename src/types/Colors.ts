@@ -5,7 +5,7 @@ export enum Colors {
   BLUE = '#60A5FA',
   GREEN = '#34D399',
   GRAY = '#9CA3AF',
-  INDIGO = '#818CF8',
+  YELLOW = '#FBBF24',
 }
 
 export const colors = {
@@ -13,5 +13,5 @@ export const colors = {
   blue: Colors.BLUE,
   green: Colors.GREEN,
   gray: Colors.GRAY,
-  indigo: Colors.INDIGO
+  yellow: Colors.YELLOW
 };

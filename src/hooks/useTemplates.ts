@@ -33,7 +33,7 @@ export const useTemplate = () => {
           randomTemplateId
         );
         if (updatedUserTemplate) {
-          return `${R.TEMPLATE}?id=${randomTemplateId}&create-new=true`;
+          return `${R.TEMPLATE}?id=${randomTemplateId}&state=create`;
         }
       }
       // todo: create page for error route.

@@ -109,7 +109,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
   useClickOutside(ref, close);
 
   return (
-    <div className="weight-color-picker__wrapper" ref={ref}>
+    <div className="weight-color-picker__wrapper poppper" ref={ref}>
       <h4 className="whitespace-nowrap">PICK BAND COLORS</h4>
       <div className="color-picker__colors-wrapper">
         {colorData.map(({ color }) => (

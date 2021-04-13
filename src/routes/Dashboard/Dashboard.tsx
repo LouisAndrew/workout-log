@@ -6,7 +6,7 @@ import { TemplatesDashboard } from './TemplatesDashboard';
 export type Props = {};
 
 const Dashboard: FC<Props> = () => (
-  <div className="container min-h-screen flex justify-center flex-col">
+  <div className="page">
     <TemplatesDashboard />
     <LogsDashboard />
   </div>

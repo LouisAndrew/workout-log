@@ -119,9 +119,7 @@ const WorkoutList: FC<Props> = ({
       order: exerciseDefinedBefore
         ? ids.indexOf(exerciseId)
         : temp[exerciseIndex].order,
-      id: exerciseDefinedBefore
-        ? generateExerciseId(temp, workout.templateId)
-        : exerciseId,
+      id: exerciseId
     };
 
     exercisesRef.current = temp;
@@ -149,9 +147,7 @@ const WorkoutList: FC<Props> = ({
     temp[exerciseIndex] = {
       ...restA,
       order: shouldChangeId ? ids.indexOf(exerciseId) : restA.order,
-      id: shouldChangeId
-        ? generateExerciseId(temp, workout.templateId)
-        : exerciseId,
+      id: exerciseId,
       logs,
     };
 
