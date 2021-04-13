@@ -10,7 +10,7 @@ import { useExerciseLogs } from '@h/useExerciseLogs';
 import { R } from '@r/index';
 import { TemplateCard } from '@components/Cards/TemplateCard';
 
-import './styles.css';
+import './styles.scss';
 import { BiPlus } from 'react-icons/bi';
 import { Button } from '@/components/Button';
 

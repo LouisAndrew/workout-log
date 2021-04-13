@@ -1,0 +1,18 @@
+.templates-dashboard {
+  &__template-wrapper {
+    @apply flex items-center my-3 overflow-x-scroll;
+  }
+
+  &__create-new {
+    @apply border-transparent ml-5 text-xs;
+
+    & svg {
+      transform: scale(1.3) translateY(-5%);
+    }
+  }
+
+  &__heading {
+    @apply font-body text-xl font-medium tracking-wide flex items-center;
+  }
+}
+
