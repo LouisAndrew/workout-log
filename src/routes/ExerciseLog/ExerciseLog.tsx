@@ -87,7 +87,7 @@ const ExerciseLog: FC = () => {
 
   if (workout) {
     return (
-      <div className="container min-h-screen flex justify-center py-6">
+      <div className="page">
         <div className="w-full">
           <h2 className="font-body font-bold pb-3 text-right">
             {isLogAllowed ? 'CREATE NEW EXERCISE LOG' : 'VIEW EXERCISE LOG'}

@@ -19,8 +19,7 @@
 }
 
 .button--secondary {
-  @apply border-black 
-    hover:bg-gray-200 active:bg-gray-200
+  @apply border-transparent hover:bg-gray-200 active:bg-gray-200
     focus:ring-black;
 }
 

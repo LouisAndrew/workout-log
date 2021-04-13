@@ -56,11 +56,3 @@
   -webkit-appearance: none;
   margin: 0;
 }
-
-.log-input__weight-input-label {
-  @apply ml-4;
-}
-
-.log-input__weight-metric {
-  @apply font-display text-base ml-1 font-black;
-}

@@ -58,7 +58,8 @@ export const logTableToType = (l: ExerciseLogTableItem):CompleteExercise => {
   } = l;
 
   // const logsCasted = (logs as unknown) as ExerciseSetOrdered[];
-  const logsCasted = Object.keys(logs).map((key) => ({ [key]: logs[key] }));
+  const logsParsed = JSON.parse(logs);
+  const logsCasted = Object.keys(logsParsed).map((key) => ({ [key]: logs[parseInt(key, 10)] }));
 
   // @ts-ignore
   return {

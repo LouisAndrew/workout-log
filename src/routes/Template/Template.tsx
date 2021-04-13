@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { FC, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
@@ -14,6 +15,7 @@ const Template: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isCreatingNew, setIsCreatingNew] = useState(true);
   const [error, setError] = useState('');
+  const [isEditable, setIsEditable] = useState(false);
 
   const location = useLocation();
   const history = useHistory();
@@ -37,11 +39,7 @@ const Template: FC = () => {
     if (t) {
       setError('');
       const uid = user.id;
-      const saveSuccesful = await updateTemplate(
-        w,
-        t.templateId,
-        uid
-      );
+      const saveSuccesful = await updateTemplate(w, t.templateId, uid);
       if (!saveSuccesful) {
         setError('Error while saving changes');
       } else {
@@ -66,20 +64,31 @@ const Template: FC = () => {
       .flat();
 
     const templateId = params[1];
-    const isCreating = params[3];
+    const state = params[3];
 
-    setIsCreatingNew(!!isCreating);
+    setIsCreatingNew(state === 'create');
+    setIsEditable(state === 'create' || state === 'edit');
     fetchData(templateId);
   }, []);
 
   // eslint-disable-next-line no-nested-ternary
   return t ? (
-    <div className="container min-h-screen flex justify-center pt-6">
+    <div className="page">
       <div className="w-full">
         <h2 className="font-body font-bold pb-3 text-right">
-          {isCreatingNew ? 'CREATE NEW TEMPLATE' : 'EDIT TEMPLATE'}
+          {isCreatingNew
+            ? 'CREATE NEW TEMPLATE'
+            : isEditable
+              ? 'EDIT TEMPLATE'
+              : 'VIEW TEMPLATE'}
         </h2>
-        <WorkoutPage type="TEMPLATE" defaultWorkout={t} onSave={saveTemplate} />
+        <WorkoutPage
+          type="TEMPLATE"
+          isEditable={isEditable}
+          isCreatingNew={isCreatingNew}
+          defaultWorkout={t}
+          onSave={saveTemplate}
+        />
         {error && (
           <h4 className="text-right font-body pt-3 text-red-600">{error}</h4>
         )}

@@ -33,7 +33,7 @@ export const useExerciseLogs = () => {
           const tableItem: ExerciseLogTableItem = {
             'template-id': templateId,
             'exercise-id': id,
-            logs: {},
+            logs: '{}',
             date: timestamp,
           };
 

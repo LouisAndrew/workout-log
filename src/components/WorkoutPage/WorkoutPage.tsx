@@ -1,3 +1,5 @@
+// todo: remove 👇
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable function-paren-newline */
 import React, { FC, useRef, useState } from 'react';
@@ -53,6 +55,7 @@ export type Props = {
    * if create log is allowed
    */
   isLoggable?: boolean;
+  isCreatingNew?: boolean;
   saveLog?: (w: W, isTemplateChanged: boolean) => Promise<void>;
   comparisonWorkouts?: Workout[];
 };
@@ -72,6 +75,7 @@ const WorkoutPage: FC<Props> = ({
   isEditable = true,
   isLoggable,
   saveLog,
+  isCreatingNew,
   comparisonWorkouts,
 }) => {
   const [workout] = useState(defaultWorkout || wt);
@@ -95,7 +99,7 @@ const WorkoutPage: FC<Props> = ({
     if (isEditable) {
       const value = e.target.value.toUpperCase();
       setWorkoutName(value);
-      if (value && !userSpecifiedId) {
+      if (value && !userSpecifiedId && isCreatingNew) {
         setTemplateId(idFromExerciseName(value));
       }
 
@@ -106,15 +110,9 @@ const WorkoutPage: FC<Props> = ({
   };
 
   const handleChangeWorkoutList = ({ exercises }: W, t: boolean) => {
-    if (t) {
-      setIsTemplateChanged(true);
-      if (type === 'LOG') {
-        setIsLogChanged(true);
-      }
-    } else {
-      if (isTemplateChanged) {
-        setIsTemplateChanged(false);
-      }
+    setIsTemplateChanged(t);
+
+    if (type === 'LOG') {
       const res = exercises.some((e, index) =>
         areLogsChanged(
           e as CompleteExercise,
@@ -124,6 +122,7 @@ const WorkoutPage: FC<Props> = ({
       setIsLogChanged(res);
     }
     exercisesRef.current = exercises;
+    console.log({ exercises, t });
   };
 
   const saveWorkout = () => {
@@ -193,7 +192,7 @@ const WorkoutPage: FC<Props> = ({
           >
             {templateId}
           </span>
-          {isCreatingNewId && (
+          {isCreatingNewId && isCreatingNew ? (
             <TemplateMaker
               defaultId={templateId}
               onSubmitId={(id) => {
@@ -209,21 +208,29 @@ const WorkoutPage: FC<Props> = ({
               }}
               className="template-maker"
             />
-          )}
+          ) : null}
         </div>
       </div>
       <div className="workout-page__color workout-page__text">
         COLOR:
-        <span className="workout-page__color-placeholder workout-page__placeholder ">
-          <button
-            type="button"
+        <span
+          role="button"
+          tabIndex={-1}
+          className="workout-page__color-placeholder workout-page__placeholder"
+          onKeyDown={(e) => {
+            if (isEditable && e.key === 'Enter') {
+              setDisplayColorPicker(true);
+            }
+          }}
+          onClick={() => {
+            if (isEditable) {
+              setDisplayColorPicker(true);
+            }
+          }}
+        >
+          <div
             className="workout-page__color-id "
             style={{ backgroundColor: color }}
-            onClick={() => {
-              if (isEditable) {
-                setDisplayColorPicker(true);
-              }
-            }}
           />
           {displayColorPicker && (
             <ColorPicker
@@ -249,32 +256,38 @@ const WorkoutPage: FC<Props> = ({
         <div className="workout-page__exercises-heading">
           EXERCISES:
           {isLoggable && (
-          <Button className="workout-page__compare-btn" size="s" onClick={() => setDisplayComparatorSelect(true)}>
-            {compareWith ? `Comparing With: ${compareWith.name} - ${getReadableDate(compareWith.date)}` : 'COMPARE WITH...'}
-            {compareWith && (
             <Button
-              Icon={BiX}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCompareWith(null);
-              }}
-              className="workout-page__remove-comparison"
-            />
-            )}
-            {
-              displayComparatorSelect && (
-              <ComparatorSelect
-                close={() => setDisplayComparatorSelect(false)}
-                onClick={(w) => {
-                  setCompareWith(w);
-                  setDisplayComparatorSelect(false);
-                }}
-                comparisonWorkouts={comparisonWorkouts || []}
-                className="workout-page__comparator-select"
-              />
-              )
-            }
-          </Button>
+              className="workout-page__compare-btn"
+              size="s"
+              onClick={() => setDisplayComparatorSelect(true)}
+            >
+              {compareWith
+                ? `Comparing With: ${compareWith.name} - ${getReadableDate(
+                  compareWith.date
+                )}`
+                : 'COMPARE WITH...'}
+              {compareWith && (
+                <Button
+                  Icon={BiX}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCompareWith(null);
+                  }}
+                  className="workout-page__remove-comparison"
+                />
+              )}
+              {displayComparatorSelect && (
+                <ComparatorSelect
+                  close={() => setDisplayComparatorSelect(false)}
+                  onClick={(w) => {
+                    setCompareWith(w);
+                    setDisplayComparatorSelect(false);
+                  }}
+                  comparisonWorkouts={comparisonWorkouts || []}
+                  className="workout-page__comparator-select"
+                />
+              )}
+            </Button>
           )}
         </div>
         <WorkoutList

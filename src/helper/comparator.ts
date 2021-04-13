@@ -38,6 +38,12 @@ export const isTemplateChanged = (a: E[], b: E[]) => {
   const idsB = getIds(b);
   if (!idsA.every((id) => idsB.includes(id))) return true;
 
+  const getNames = (e: E[]) => e.map((exercise) => exercise.name);
+
+  const namesA = getNames(a);
+  const namesB = getNames(b);
+  if (!namesA.every((e) => namesB.includes(e))) return true;
+
   // check if order is changed
   const ordersA = getIds(sortByOrder(a));
   const ordersB = getIds(sortByOrder(b));
