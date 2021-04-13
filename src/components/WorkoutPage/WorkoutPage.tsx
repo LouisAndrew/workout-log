@@ -1,3 +1,5 @@
+// todo: remove 👇
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable function-paren-newline */
 import React, { FC, useRef, useState } from 'react';
@@ -108,15 +110,9 @@ const WorkoutPage: FC<Props> = ({
   };
 
   const handleChangeWorkoutList = ({ exercises }: W, t: boolean) => {
-    if (t) {
-      setIsTemplateChanged(true);
-      if (type === 'LOG') {
-        setIsLogChanged(true);
-      }
-    } else {
-      if (isTemplateChanged) {
-        setIsTemplateChanged(false);
-      }
+    setIsTemplateChanged(t);
+
+    if (type === 'LOG') {
       const res = exercises.some((e, index) =>
         areLogsChanged(
           e as CompleteExercise,
@@ -126,6 +122,7 @@ const WorkoutPage: FC<Props> = ({
       setIsLogChanged(res);
     }
     exercisesRef.current = exercises;
+    console.log({ exercises, t });
   };
 
   const saveWorkout = () => {

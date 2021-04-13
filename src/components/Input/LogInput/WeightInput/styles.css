@@ -12,12 +12,6 @@
     duration-200 hover:bg-gray-200 p-1 rounded cursor-pointer;
 }
 
-.weight-color-picker__wrapper,
-.log-input__metric-select {
-  @apply absolute text-sm font-body tracking-wider font-bold bg-gray-100 px-4 py-3
-  border-2 border-gray-200 shadow-lg top-0 left-0 z-50;
-}
-
 .color-picker__colors-wrapper {
   @apply flex;
 }

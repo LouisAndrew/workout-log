@@ -77,6 +77,10 @@ const TemplatesDashboard: FC = () => {
     replace(`${R.TEMPLATE}?id=${user.id}-${templateId}`);
   };
 
+  const editTemplate = (templateId: string) => {
+    replace(`${R.TEMPLATE}?id=${user.id}-${templateId}&state=edit`);
+  };
+
   useEffect(() => {
     fetchTemplates();
   }, []);
@@ -110,6 +114,7 @@ const TemplatesDashboard: FC = () => {
                 create(template.templateId);
               }}
               viewTemplate={() => viewTemplate(template.templateId)}
+              editTemplate={() => editTemplate(template.templateId)}
               className="mr-3 flex-shrink-0"
             />
           ))}
