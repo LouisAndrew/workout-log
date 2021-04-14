@@ -45,6 +45,12 @@ Small.args = {
   size: 's',
 };
 
+export const ExtraSmall = Template.bind({});
+ExtraSmall.args = {
+  children: defaultText,
+  size: 'xs',
+};
+
 export const Large = Template.bind({});
 Large.args = {
   children: defaultText,
@@ -57,9 +63,7 @@ WithIcon.args = {
   Icon: AiFillPlaySquare,
 };
 
-export const PrimaryWithIcon = Template.bind({});
-PrimaryWithIcon.args = {
-  children: defaultText,
-  type: 'primary',
-  Icon: AiFillPlaySquare,
+export const IconOnly = Template.bind({});
+IconOnly.args = {
+  Icon: AiFillPlaySquare
 };

@@ -12,6 +12,10 @@
     line-height: 0.75rem;
 
     @apply px-1 py-1;
+
+    & svg {
+      transform: scale(2);
+    }
   }
 
   &--s {
