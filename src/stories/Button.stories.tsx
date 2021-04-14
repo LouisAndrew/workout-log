@@ -16,6 +16,12 @@ const Template: Story<Props> = ({ children, ...args }) => (
   <Button {...args}>{children}</Button>
 );
 
+const TemplateDarkMode: Story<Props> = (props) => (
+  <div className="dark">
+    <Template {...props} />
+  </div>
+);
+
 export const Primary = Template.bind({});
 Primary.args = {
   children: defaultText,
@@ -66,4 +72,15 @@ WithIcon.args = {
 export const IconOnly = Template.bind({});
 IconOnly.args = {
   Icon: AiFillPlaySquare
+};
+
+export const PrimaryDark = TemplateDarkMode.bind({});
+PrimaryDark.args = {
+  children: defaultText,
+  type: 'primary'
+};
+
+export const SecondaryDark = TemplateDarkMode.bind({});
+SecondaryDark.args = {
+  children: defaultText,
 };

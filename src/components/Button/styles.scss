@@ -33,10 +33,12 @@
   &--primary {
     @apply bg-black text-white border-black
     active:bg-gray-700 hover:bg-gray-700
+    dark:bg-white dark:text-gray-800 dark:hover:bg-gray-200 dark:border-white;
   }
 
   &--secondary {
     @apply border-transparent hover:bg-gray-200 active:bg-gray-200
+      dark:hover:bg-gray-700;
   }
 
   &--remove {
