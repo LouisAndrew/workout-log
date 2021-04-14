@@ -15,3 +15,9 @@ export const Default = Template.bind({});
 Default.args = {
   ids: [1]
 };
+
+export const DefaultDarkMode = () => (
+  <div className="dark">
+    <BandInput ids={[1]} onSubmit={() => {}} close={() => {}} />
+  </div>
+);

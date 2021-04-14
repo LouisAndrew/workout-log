@@ -46,5 +46,6 @@ code {
 
 .popper {
   @apply absolute text-sm font-body tracking-wider font-bold bg-gray-100 px-4 py-3
-  border-2 border-gray-200 shadow-lg top-0 left-0 z-50;
+    order-2 border-gray-200 shadow-lg top-0 left-0 z-50
+    dark:bg-gray-700 dark:border-gray-800;
 }

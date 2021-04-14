@@ -7,14 +7,14 @@
   &__color {
     @apply inline-flex items-center mb-4;
     &-value {
-      @apply ml-4 p-1 duration-200 hover:bg-gray-200 inline-flex items-center rounded relative;
+      @apply ml-4 p-1 duration-200 hover:bg-gray-200 inline-flex items-center rounded relative dark:hover:bg-gray-600;
      &-placeholder {
       @apply h-4 w-4 inline-block rounded-full duration-200
      }
     }
 
     &-picker.color-picker__wrapper {
-      @apply absolute top-0 -left-1;
+      @apply absolute -top-1 -left-1;
     }
   }
 
@@ -23,10 +23,11 @@
       @apply inline-block font-display ml-2;
     }
     &-input { 
-    @apply inline-flex items-center;
-    & input {
-      @apply w-16 min-w-0 inline-block ml-5;
+      @apply inline-flex items-center;
+      
+      & input {
+        @apply w-16 min-w-0 inline-block ml-5 bg-gray-200 top-0 left-0 dark:bg-gray-600;
+      }
     }
-  }
   }
 }

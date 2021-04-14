@@ -1,5 +1,8 @@
 
 .band-list {
+  &__wrapper {
+    @apply relative;
+  }
   &__heading {
     @apply inline-flex items-end;
 
@@ -13,6 +16,6 @@
   }
 
   &__band {
-    @apply mr-6 even:mr-0;
+    @apply ml-6 first:ml-0;
   }
 }

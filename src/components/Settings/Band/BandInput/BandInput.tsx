@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import ColorPicker from '@components/WorkoutPage/ColorPicker';
 import { BasicInput } from '@components/Input/BasicInput';
 import { Button } from '@components/Button';
@@ -8,6 +8,7 @@ import { Band } from '@t/UserSettings';
 import { Colors, colors } from '@t/Colors';
 
 import './styles.scss';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 export type Props = {
   /**
@@ -18,6 +19,7 @@ export type Props = {
    * ids of existing bands
    */
   ids: number[];
+  close: () => void
 };
 
 /**
@@ -30,7 +32,7 @@ const generateBandId = (ids: number[]) => {
   return sorted[sorted.length] + 1;
 };
 
-const BandInput: FC<Props> = ({ ids, onSubmit }) => {
+const BandInput: FC<Props> = ({ ids, onSubmit, close }) => {
   const [inputValue, setInputValue] = useState<Band>({
     color: colors.gray,
     weight: 0,
@@ -38,6 +40,9 @@ const BandInput: FC<Props> = ({ ids, onSubmit }) => {
     id: generateBandId(ids),
   });
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
+
+  const ref = useRef(null);
+  useClickOutside(ref, close);
 
   const closeColorPicker = () => setDisplayColorPicker(false);
   const handleChangeColor = (color: Colors) => {
@@ -50,7 +55,7 @@ const BandInput: FC<Props> = ({ ids, onSubmit }) => {
   };
 
   return (
-    <div className="band-input__wrapper">
+    <div className="band-input__wrapper popper" ref={ref}>
       <div className="band-input__weight">
         <BasicInput
           inputId="band-weight"
@@ -60,7 +65,7 @@ const BandInput: FC<Props> = ({ ids, onSubmit }) => {
           placeholder="0"
           labelText="BAND RESISTANCE"
           onChange={(s) => {
-            setInputValue((prev) => ({ ...prev, weight: parseInt(s, 10) }));
+            setInputValue((prev) => ({ ...prev, weight: Math.abs(parseInt(s, 10)) }));
           }}
         />
         <span className="band-input__weight-placeholder">
