@@ -2,11 +2,11 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Story } from '@storybook/react';
 
-import BandItem, { Props } from '@components/Settings/BandInput/BandItem/BandItem';
+import BandItem, { Props } from '@/components/Settings/Band/BandList/BandItem/BandItem';
 import { mockBand1 } from '@/mocks/bands';
 
 export default {
-  title: 'Settings Page/Band Input/Band Item',
+  title: 'Settings Page/Band List/Band Item',
   component: BandItem
 };
 

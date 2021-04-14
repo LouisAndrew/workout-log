@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Band } from '@t/UserSettings';
 import { Button } from '@components/Button';
 
-import './index.scss';
+import './styles.scss';
 import { BiX } from 'react-icons/bi';
 
 export type Props = {
@@ -14,10 +14,11 @@ export type Props = {
    * handler function to handle if remove button is clicked
    */
   onRemove: () => void;
+  className?: string
 };
 
-const BandItem: FC<Props> = ({ item }) => (
-  <div className="band-item__wrapper">
+const BandItem: FC<Props> = ({ item, className, onRemove }) => (
+  <div className={`band-item__wrapper ${className}`}>
     <div
       className="band-item__color-placeholder"
       style={{ backgroundColor: item.color }}
@@ -27,7 +28,7 @@ const BandItem: FC<Props> = ({ item }) => (
       {item.weight}
       {item.metric}
     </div>
-    <Button className="band-item__remove-btn" Icon={BiX} type="remove" size="xs" />
+    <Button onClick={onRemove} className="band-item__remove-btn" Icon={BiX} type="remove" size="xs" />
   </div>
 );
 

@@ -4,6 +4,7 @@ import AuthProvider from '@h/context/AuthContext';
 import SupabaseProvider from '@h/context/SupabaseContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
+import './main.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
