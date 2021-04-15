@@ -5,6 +5,7 @@ import { DES, enc } from 'crypto-js';
 
 import { useSupabase } from '@h/useSupabase';
 import { TABLES } from '@h/useStorage';
+import { defaultUserSettings } from '@t/UserSettings';
 
 export type AuthFunc = (
   email: string,
@@ -39,7 +40,7 @@ export const useProvideAuth = () => {
     const supabase = get();
     if (supabase) {
       await supabase.from(TABLES.USER_DATA).insert([{
-        uuid: id, name, templates: [], logs: [], settings: '{}'
+        uuid: id, name, templates: [], logs: [], settings: JSON.stringify(defaultUserSettings)
       }]);
     }
   };

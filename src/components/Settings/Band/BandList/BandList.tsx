@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { Band } from '@t/UserSettings';
 // import { Colors } from '@t/Colors';
@@ -23,7 +23,7 @@ export type Props = {
   onSave: (bands: Band[]) => void;
 };
 
-const BandList: FC<Props> = ({ defaultBands = [] }) => {
+const BandList: FC<Props> = ({ defaultBands = [], className, onSave }) => {
   const [bands, setBands] = useState(defaultBands);
   const [displayBandInput, setDisplayBandInput] = useState(false);
 
@@ -34,8 +34,12 @@ const BandList: FC<Props> = ({ defaultBands = [] }) => {
     closeBandInput();
   };
 
+  useEffect(() => {
+    onSave(bands);
+  }, [bands]);
+
   return (
-    <div className="band-list__wrapper">
+    <div className={`band-list__wrapper ${className}`}>
       {displayBandInput && (
         <BandInput
           onSubmit={handeSaveBand}
@@ -50,16 +54,18 @@ const BandList: FC<Props> = ({ defaultBands = [] }) => {
         </Button>
       </h3>
       <div className="band-list__bands-wrapper">
-        {bands.map((band) => (
-          <BandItem
-            className="band-list__band"
-            item={band}
-            key={`band-${band.id}`}
-            onRemove={() => {
-              setBands((prev) => prev.filter((b) => b.id !== band.id));
-            }}
-          />
-        ))}
+        {[...bands]
+          .sort((a, b) => a.weight - b.weight)
+          .map((band) => (
+            <BandItem
+              className="band-list__band"
+              item={band}
+              key={`band-${band.id}`}
+              onRemove={() => {
+                setBands((prev) => prev.filter((b) => b.id !== band.id));
+              }}
+            />
+          ))}
       </div>
     </div>
   );

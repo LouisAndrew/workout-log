@@ -25,3 +25,7 @@ export type UserSettings = {
    */
   bands?: Band[]
 }
+
+export const defaultUserSettings: UserSettings = {
+  bands: []
+};

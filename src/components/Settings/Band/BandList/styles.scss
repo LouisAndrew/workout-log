@@ -1,7 +1,7 @@
 
 .band-list {
   &__wrapper {
-    @apply relative;
+    @apply relative w-max;
   }
   &__heading {
     @apply inline-flex items-end;
@@ -12,10 +12,6 @@
   }
 
   &__bands-wrapper {
-    @apply mt-3 flex flex-wrap;
-  }
-
-  &__band {
-    @apply ml-6 first:ml-0;
+    @apply mt-3 flex flex-col flex-wrap max-w-md;
   }
 }

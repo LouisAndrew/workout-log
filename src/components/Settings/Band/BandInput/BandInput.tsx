@@ -19,7 +19,7 @@ export type Props = {
    * ids of existing bands
    */
   ids: number[];
-  close: () => void
+  close: () => void;
 };
 
 /**
@@ -28,8 +28,9 @@ export type Props = {
  * @returns max id number / new id number
  */
 const generateBandId = (ids: number[]) => {
-  const sorted = [...ids].sort((a, b) => b - a);
-  return sorted[sorted.length] + 1;
+  const sorted = [...ids].sort((a, b) => a - b);
+  const num = sorted[sorted.length - 1] + 1;
+  return Number.isNaN(num) ? 0 : num;
 };
 
 const BandInput: FC<Props> = ({ ids, onSubmit, close }) => {
@@ -65,19 +66,24 @@ const BandInput: FC<Props> = ({ ids, onSubmit, close }) => {
           placeholder="0"
           labelText="BAND RESISTANCE"
           onChange={(s) => {
-            setInputValue((prev) => ({ ...prev, weight: Math.abs(parseInt(s, 10)) }));
+            setInputValue((prev) => ({
+              ...prev,
+              weight: Math.abs(parseInt(s, 10)),
+            }));
           }}
         />
-        <span className="band-input__weight-placeholder">
-          KG
-        </span>
+        <span className="band-input__weight-placeholder">KG</span>
       </div>
       <div className="band-input__color band-input__label">
         COLOR:
-        <button
-          type="button"
+        <div
+          role="button"
           className="band-input__color-value"
           onClick={() => setDisplayColorPicker(true)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') setDisplayColorPicker(true);
+          }}
+          tabIndex={-1}
         >
           <div
             className="band-input__color-value-placeholder"
@@ -90,9 +96,11 @@ const BandInput: FC<Props> = ({ ids, onSubmit, close }) => {
               close={closeColorPicker}
             />
           )}
-        </button>
+        </div>
       </div>
-      <Button onClick={handleSubmit} size="s" Icon={BiSave} type="primary">SAVE BAND</Button>
+      <Button onClick={handleSubmit} size="s" Icon={BiSave} type="primary">
+        SAVE BAND
+      </Button>
     </div>
   );
 };
