@@ -18,6 +18,7 @@ import { cloneDeep } from 'lodash';
 import { areLogsChanged } from '@helper/comparator';
 
 import { colors, Colors } from '@t/Colors';
+import { ColorData } from '@t/ColorData';
 import { WorkoutList } from './WorkoutList';
 import { TemplateMaker } from './TemplateMaker';
 
@@ -56,6 +57,10 @@ export type Props = {
    */
   isLoggable?: boolean;
   isCreatingNew?: boolean;
+  /**
+   * colors (bands?)
+   */
+  colorData?: ColorData[]
   saveLog?: (w: W, isTemplateChanged: boolean) => Promise<void>;
   comparisonWorkouts?: Workout[];
 };
@@ -77,6 +82,7 @@ const WorkoutPage: FC<Props> = ({
   saveLog,
   isCreatingNew,
   comparisonWorkouts,
+  colorData = []
 }) => {
   const [workout] = useState(defaultWorkout || wt);
   const [templateId, setTemplateId] = useState(workout.templateId);
@@ -297,6 +303,7 @@ const WorkoutPage: FC<Props> = ({
           isEditable={isEditable}
           isLoggable={isLoggable}
           comparisonWorkout={compareWith ?? undefined}
+          colorData={colorData}
         />
       </div>
       <div className="workout-page__button-group">

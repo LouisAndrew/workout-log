@@ -20,7 +20,7 @@ export type Props = {
 const getWeightFromData = (datas: ColorData[], colors: string[]) =>
   colors
     .map(
-      (colorCode) => datas.find((data) => data.color === colorCode)?.identifier || 0
+      (colorCode) => datas.find((data) => data.color === colorCode)?.id || 0
     )
     .map((codedWeight) => codedWeight * 1000)
     .reduce((a, b) => parseInt(`${a}${b}`, 10), 0);
@@ -31,7 +31,7 @@ const getColorsFromWeight = (datas: ColorData[], weight: number): string[] =>
     .split('000')
     .map(
       (id) =>
-        datas.find((data) => data.identifier === parseInt(id, 10))?.color
+        datas.find((data) => data.id === parseInt(id, 10))?.color
         || null
     )
     .filter((color) => !!color) as string[];
@@ -109,7 +109,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
   useClickOutside(ref, close);
 
   return (
-    <div className="weight-color-picker__wrapper poppper" ref={ref}>
+    <div className="weight-color-picker__wrapper popper" ref={ref}>
       <h4 className="whitespace-nowrap">PICK BAND COLORS</h4>
       <div className="color-picker__colors-wrapper">
         {colorData.map(({ color }) => (

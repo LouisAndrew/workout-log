@@ -9,18 +9,20 @@ import { useUserData } from '@h/useUserData';
 import { Workout, WorkoutTemplate } from '@t/Workout';
 import { WorkoutPage } from '@components/WorkoutPage';
 import { R } from '@r/index';
+import { ColorData } from '@/types/ColorData';
 
 const ExerciseLog: FC = () => {
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLogAllowed, setIsLogAllowed] = useState(false);
   const [err, setErr] = useState('');
+  const [colorData, setColorData] = useState<ColorData[]>([]);
 
   const { search } = useLocation();
   const history = useHistory();
   const { getLogs, saveLogs } = useExerciseLogs();
   const { getTemplate } = useTemplate();
-  const { getUserLogsByTemplate } = useUserData();
+  const { getUserLogsByTemplate, getUserBands } = useUserData();
   const { user: authUser } = useAuth();
   const user = authUser() as User;
   const [comparisonWorkouts, setComparisonWorkouts] = useState<Workout[]>([]);
@@ -49,6 +51,8 @@ const ExerciseLog: FC = () => {
           color: t.color
         };
 
+        const bands = await getUserBands(user.id);
+        setColorData(bands);
         setWorkout(wt);
         if (allowLog) {
           await getAllWorkouts(templateId, t);
@@ -92,7 +96,7 @@ const ExerciseLog: FC = () => {
           <h2 className="font-body font-bold pb-3 text-right">
             {isLogAllowed ? 'CREATE NEW EXERCISE LOG' : 'VIEW EXERCISE LOG'}
           </h2>
-          <WorkoutPage type="LOG" defaultWorkout={workout} isLoggable={isLogAllowed} isEditable={false} saveLog={handleSave} comparisonWorkouts={comparisonWorkouts} />
+          <WorkoutPage type="LOG" defaultWorkout={workout} isLoggable={isLogAllowed} isEditable={false} saveLog={handleSave} comparisonWorkouts={comparisonWorkouts} colorData={colorData} />
           {err && (
             <div className="error-msg font-body font-medium text-red-500">
               {err}
