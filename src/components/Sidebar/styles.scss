@@ -1,0 +1,25 @@
+.sidebar {
+
+  &__wrapper {
+    @apply  w-max h-screen px-2 py-2;
+  }
+
+  &__links-wrapper {
+    @apply h-full bg-gray-100 rounded px-5 py-4;
+  }
+
+  &__link {
+    @apply first:mt-0 mt-1;
+
+    &-content {
+      padding-top: 0.5rem;
+      @apply flex items-center font-body font-medium pl-4 pr-6 pb-2 rounded duration-200
+        text-gray-600 hover:bg-gray-200  hover:text-black;
+    }
+
+    &-icon {
+      transform: translateY(-5%);
+      @apply h-5 w-5 mr-3;
+    }
+  }
+}
