@@ -3,7 +3,7 @@
 }
 
 .loggable-exercise-input__wrapper.main {
-  @apply w-full;
+  @apply w-full duration-200;
 }
 
 .loggable-exercise-input__comparison {
