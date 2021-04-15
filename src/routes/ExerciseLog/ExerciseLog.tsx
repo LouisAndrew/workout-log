@@ -27,7 +27,10 @@ const ExerciseLog: FC = () => {
 
   const extractDataFromUrl = async () => {
     try {
-      const [templateId, date, createNew] = search.substr(1).split('&').map((str) => str.split('=')[1]);
+      const [templateId, date, createNew] = search
+        .substr(1)
+        .split('&')
+        .map((str) => str.split('=')[1]);
       const exercises = await getLogs(templateId, parseInt(date, 10));
       const t = await getTemplate(templateId, user.id);
 
@@ -41,12 +44,13 @@ const ExerciseLog: FC = () => {
             const index = t.exercises.findIndex((ex) => ex.id === e.id);
             return {
               ...e,
-              order: index !== -1 ? t.exercises[index].order : exercises.length - 1
+              order:
+                index !== -1 ? t.exercises[index].order : exercises.length - 1,
             };
           }),
           templateId: workoutTemplateId,
           date: new Date(parseInt(date, 10)),
-          color: t.color
+          color: t.color,
         };
 
         setWorkout(wt);
@@ -61,18 +65,25 @@ const ExerciseLog: FC = () => {
 
   const getAllWorkouts = async (templateId: string, t: WorkoutTemplate) => {
     const res = await getUserLogsByTemplate(templateId, user.id);
-    const promises = await Promise.all(res.map(async (result) => {
-      const log = await getLogs(result[0], result[1]);
-      return {
-        ...t,
-        date: new Date(result[1]),
-        exercises: log || []
-      };
-    }));
-    setComparisonWorkouts(promises || []);
+    const promises = await Promise.all(
+      res.map(async (result) => {
+        const log = await getLogs(result[0], result[1]);
+        return {
+          ...t,
+          date: new Date(result[1]),
+          exercises: log || [],
+        };
+      })
+    );
+    setComparisonWorkouts(
+      promises.filter((p) => p.date.getTime() !== workout?.date.getTime()) || []
+    );
   };
 
-  const handleSave = async (w: Workout | WorkoutTemplate, isTemplateChanged: boolean) => {
+  const handleSave = async (
+    w: Workout | WorkoutTemplate,
+    isTemplateChanged: boolean
+  ) => {
     const res = await saveLogs(w as Workout, isTemplateChanged, user.id);
     if (res) {
       history.replace(R.DASHBOARD);
@@ -92,7 +103,14 @@ const ExerciseLog: FC = () => {
           <h2 className="font-body font-bold pb-3 text-right">
             {isLogAllowed ? 'CREATE NEW EXERCISE LOG' : 'VIEW EXERCISE LOG'}
           </h2>
-          <WorkoutPage type="LOG" defaultWorkout={workout} isLoggable={isLogAllowed} isEditable={false} saveLog={handleSave} comparisonWorkouts={comparisonWorkouts} />
+          <WorkoutPage
+            type="LOG"
+            defaultWorkout={workout}
+            isLoggable={isLogAllowed}
+            isEditable={false}
+            saveLog={handleSave}
+            comparisonWorkouts={comparisonWorkouts}
+          />
           {err && (
             <div className="error-msg font-body font-medium text-red-500">
               {err}
@@ -104,11 +122,7 @@ const ExerciseLog: FC = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="is-loading">
-        Is loading
-      </div>
-    );
+    return <div className="is-loading">Is loading</div>;
   }
 
   return <div className="error">error</div>;
