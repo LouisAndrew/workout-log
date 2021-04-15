@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { R } from '@r/index';
 
 import './styles.scss';
+// import { Button } from '../Button';
 
 export type Props = {
   /**
@@ -45,6 +46,11 @@ const Sidebar: FC<Props> = ({ location }) => (
           </Link>
         </li>
       ))}
+      {/* <li className="sidebar__link sidebar__link--logout">
+        <Button type="remove" className="sidebar__logout">
+          LOG OUT
+        </Button>
+      </li> */}
     </ul>
   </nav>
 );

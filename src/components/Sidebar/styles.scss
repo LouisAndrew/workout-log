@@ -25,5 +25,13 @@
       transform: translateY(-5%);
       @apply h-5 w-5 mr-3;
     }
+
+    &--logout {
+      @apply mt-auto;
+    }
+  }
+
+  &__logout {
+    @apply mt-auto w-full;
   }
 }
