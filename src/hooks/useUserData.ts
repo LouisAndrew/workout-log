@@ -179,6 +179,25 @@ export const useUserData = () => {
     return data.bands || [];
   };
 
+  /**
+   * function to update user's settings
+   * @param uid user id
+   * @param settings setting object (to be stringified)
+   */
+  const updateSettings = async (uid: string, settings: UserSettings): Promise<boolean> => {
+    const userData = await getUserData(uid);
+    if (!userData) {
+      return false;
+    }
+
+    const userDataModified = {
+      ...userData,
+      settings: JSON.stringify(settings)
+    };
+
+    return update(userDataModified, { uuid: uid });
+  };
+
   return {
     getUserTemplate,
     updateUserTemplate,
@@ -188,6 +207,7 @@ export const useUserData = () => {
     getLogsDataDashboard,
     getUserLogsByTemplate,
     getUserSettings,
-    getUserBands
+    getUserBands,
+    updateSettings
   };
 };
