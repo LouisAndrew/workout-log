@@ -23,5 +23,5 @@ export type UserSettings = {
   /**
    * bands owned by the user
    */
-  bands: Band[]
+  bands?: Band[]
 }

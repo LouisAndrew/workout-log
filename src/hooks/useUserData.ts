@@ -1,4 +1,5 @@
-import { UserDataTable } from '@/types/tables';
+import { UserDataTable } from '@t/tables';
+import { UserSettings, Band } from '@t/UserSettings';
 import { useStorage, TABLES } from './useStorage';
 
 const createLogId = (templateId: string, timestamp: number) =>
@@ -148,6 +149,55 @@ export const useUserData = () => {
     lastWorkout: await getLastWorkout(uid, templateId),
   });
 
+  /**
+   * get user's settings
+   * @param uid user id
+   */
+  const getUserSettings = async (uid: string) => {
+    const query = `
+      settings
+    `;
+    const response = await read(query, { uuid: uid });
+    if (!response || response.error || !response.data[0]) {
+      return null;
+    }
+
+    const data = response.data[0].settings;
+    return JSON.parse(data) as UserSettings;
+  };
+
+  /**
+   * get user's added bands
+   * @param uid user id
+   */
+  const getUserBands = async (uid: string): Promise<Band[]> => {
+    const data = await getUserSettings(uid);
+    if (!data) {
+      return [];
+    }
+
+    return data.bands || [];
+  };
+
+  /**
+   * function to update user's settings
+   * @param uid user id
+   * @param settings setting object (to be stringified)
+   */
+  const updateSettings = async (uid: string, settings: UserSettings): Promise<boolean> => {
+    const userData = await getUserData(uid);
+    if (!userData) {
+      return false;
+    }
+
+    const userDataModified = {
+      ...userData,
+      settings: JSON.stringify(settings)
+    };
+
+    return update(userDataModified, { uuid: uid });
+  };
+
   return {
     getUserTemplate,
     updateUserTemplate,
@@ -155,6 +205,9 @@ export const useUserData = () => {
     updateUserLogs,
     getLogCount,
     getLogsDataDashboard,
-    getUserLogsByTemplate
+    getUserLogsByTemplate,
+    getUserSettings,
+    getUserBands,
+    updateSettings
   };
 };

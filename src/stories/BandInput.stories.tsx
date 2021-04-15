@@ -13,7 +13,8 @@ const Template: Story<Props> = (args) => <BandInput {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  ids: [1]
+  ids: [1],
+  close: () => {}
 };
 
 export const DefaultDarkMode = () => (

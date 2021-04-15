@@ -21,7 +21,7 @@ type TemplateDashboard = WorkoutTemplate & {
 
 const TemplatesDashboard: FC = () => {
   const { replace } = useHistory();
-  const { getUserTemplate, getLogsDataDashboard } = useUserData();
+  const { getUserTemplate, getLogsDataDashboard, getUserBands } = useUserData();
   const { user: authUser } = useAuth();
   const { getMultipleTemplates, createTemplate } = useTemplate();
   const { createLogs } = useExerciseLogs();
@@ -30,10 +30,14 @@ const TemplatesDashboard: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [templateData, setTemplateData] = useState<TemplateDashboard[]>([]);
 
+  /**
+   * fetch user's default template
+   */
   const fetchTemplates = async () => {
     try {
       const uid = user.id;
       const templates = await getUserTemplate(uid);
+      console.log(await getUserBands(uid));
       if (templates) {
         const req = await getMultipleTemplates(templates, uid);
         const templatesModified = await Promise.all(
