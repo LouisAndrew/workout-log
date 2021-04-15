@@ -11,6 +11,7 @@ import { deepEqual } from '@helper/comparator';
 
 import './styles.css';
 import { cloneDeep } from 'lodash';
+import { ColorData } from '@/types/ColorData';
 
 export type Props = {
   /**
@@ -37,6 +38,10 @@ export type Props = {
    * handler function to handle change
    */
   onChange?: (e: CompleteExercise) => void;
+  /**
+   * color data (bands?)
+   */
+  colorData?: ColorData[]
 };
 
 const LoggableExerciseInput: FC<Props> = ({
@@ -46,6 +51,7 @@ const LoggableExerciseInput: FC<Props> = ({
   className,
   onChange,
   comparisonExercise,
+  colorData
 }) => {
   const [exercise, setExercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
@@ -177,6 +183,7 @@ const LoggableExerciseInput: FC<Props> = ({
                 onChange={onLogChange}
                 isEditable={isLoggable}
                 className="loggable-exercise-input__log-item"
+                colorData={colorData}
               />
               {isLoggable && (
                 <BiX

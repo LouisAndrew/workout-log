@@ -1,0 +1,32 @@
+.band-item {
+
+  &__wrapper {
+    @apply flex items-center w-max px-2 py-1 rounded
+      dark:text-white;
+
+    &:hover {
+      @apply bg-gray-100 dark:bg-gray-700;
+      .band-item__remove-btn {
+        @apply opacity-100 w-max ml-7;
+      }
+    }
+  }
+
+  &__color-placeholder {
+    @apply w-5 h-5 rounded-full;
+  }
+
+  &__placeholder-separator {
+    width: 2px;
+    @apply h-4 bg-black ml-3 mr-4
+      dark:bg-white;
+  }
+
+  &__weight-placeholder {
+    @apply font-body font-bold;
+  }
+
+  &__remove-btn {
+    @apply opacity-0 w-0 overflow-hidden duration-200;
+  }
+}

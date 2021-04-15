@@ -8,6 +8,8 @@ import { VerifyEmail } from '@r/VerifyEmail';
 import { PrivateRoute, R } from '@r/index';
 import { Template } from '@r/Template';
 import { ExerciseLog } from '@r/ExerciseLog';
+import { Settings } from '@r/Settings';
+import { Sidebar } from '@components/Sidebar';
 
 function App() {
   const history = useHistory();
@@ -20,19 +22,27 @@ function App() {
   });
 
   return (
-    <Switch>
-      <PrivateRoute path={R.DASHBOARD}>
-        <Dashboard />
-      </PrivateRoute>
-      <PrivateRoute path={R.TEMPLATE}>
-        <Template />
-      </PrivateRoute>
-      <PrivateRoute path={R.LOG}>
-        <ExerciseLog />
-      </PrivateRoute>
-      <Route path={R.LOGIN} component={Login} />
-      <Route path={R.VERIFY_EMAIL} component={VerifyEmail} />
-    </Switch>
+    <div className="app__wrapper">
+      {location.pathname !== '/login' && (
+        <Sidebar location={location.pathname} />
+      )}
+      <Switch>
+        <PrivateRoute path={R.DASHBOARD}>
+          <Dashboard />
+        </PrivateRoute>
+        <PrivateRoute path={R.TEMPLATE}>
+          <Template />
+        </PrivateRoute>
+        <PrivateRoute path={R.LOG}>
+          <ExerciseLog />
+        </PrivateRoute>
+        <PrivateRoute path={R.SETTINGS}>
+          <Settings />
+        </PrivateRoute>
+        <Route path={R.LOGIN} component={Login} />
+        <Route path={R.VERIFY_EMAIL} component={VerifyEmail} />
+      </Switch>
+    </div>
   );
 }
 

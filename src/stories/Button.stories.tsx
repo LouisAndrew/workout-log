@@ -16,6 +16,12 @@ const Template: Story<Props> = ({ children, ...args }) => (
   <Button {...args}>{children}</Button>
 );
 
+const TemplateDarkMode: Story<Props> = (props) => (
+  <div className="dark">
+    <Template {...props} />
+  </div>
+);
+
 export const Primary = Template.bind({});
 Primary.args = {
   children: defaultText,
@@ -45,6 +51,12 @@ Small.args = {
   size: 's',
 };
 
+export const ExtraSmall = Template.bind({});
+ExtraSmall.args = {
+  children: defaultText,
+  size: 'xs',
+};
+
 export const Large = Template.bind({});
 Large.args = {
   children: defaultText,
@@ -57,9 +69,18 @@ WithIcon.args = {
   Icon: AiFillPlaySquare,
 };
 
-export const PrimaryWithIcon = Template.bind({});
-PrimaryWithIcon.args = {
+export const IconOnly = Template.bind({});
+IconOnly.args = {
+  Icon: AiFillPlaySquare
+};
+
+export const PrimaryDark = TemplateDarkMode.bind({});
+PrimaryDark.args = {
   children: defaultText,
-  type: 'primary',
-  Icon: AiFillPlaySquare,
+  type: 'primary'
+};
+
+export const SecondaryDark = TemplateDarkMode.bind({});
+SecondaryDark.args = {
+  children: defaultText,
 };
