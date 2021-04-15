@@ -30,6 +30,7 @@
       }
     }
   }
+
   &__link {
     @apply first:mt-0 mt-1;
 
@@ -56,6 +57,13 @@
       &--shrinked {
         @apply overflow-hidden w-0 mx-0;
       }
+    }
+  }
+
+  &__logout.button {
+    @apply mt-auto justify-center p-1;
+    & .button__icon-wrapper {
+      @apply mr-0;
     }
   }
 }

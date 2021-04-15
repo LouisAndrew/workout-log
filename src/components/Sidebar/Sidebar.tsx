@@ -3,6 +3,7 @@ import {
   BiChevronsLeft,
   BiChevronsRight,
   BiHome,
+  BiLogOutCircle,
   BiMoon,
   BiSun,
   BiWrench,
@@ -29,6 +30,10 @@ export type Props = {
    * function to toggle dark mode
    */
   setDarkMode: (on: boolean) => void;
+  /**
+   * log the user out
+   */
+  logOut: () => Promise<void>
 };
 
 type Routes = { path: R; Icon: IconType; text: string }[];
@@ -46,7 +51,9 @@ const ROUTES: Routes = [
   },
 ];
 
-const Sidebar: FC<Props> = ({ location, darkMode, setDarkMode }) => {
+const Sidebar: FC<Props> = ({
+  location, darkMode, setDarkMode, logOut
+}) => {
   const [shrinkText, setShrinkText] = useState(false);
 
   return (
@@ -96,12 +103,21 @@ const Sidebar: FC<Props> = ({ location, darkMode, setDarkMode }) => {
               </Link>
             </li>
           ))}
-          {/* <li className="sidebar__link sidebar__link--logout">
-        <Button type="remove" className="sidebar__logout">
-          LOG OUT
-        </Button>
-      </li> */}
         </ul>
+        <Button
+          className="sidebar__logout"
+          type="remove"
+          Icon={BiLogOutCircle}
+          onClick={logOut}
+        >
+          <div
+            className={`sidebar__link-text ${
+              shrinkText ? 'sidebar__link-text--shrinked' : ''
+            }`}
+          >
+            Log Out
+          </div>
+        </Button>
       </nav>
     </div>
   );
