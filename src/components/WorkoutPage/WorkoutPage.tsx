@@ -122,7 +122,6 @@ const WorkoutPage: FC<Props> = ({
       setIsLogChanged(res);
     }
     exercisesRef.current = exercises;
-    console.log({ exercises, t });
   };
 
   const saveWorkout = () => {

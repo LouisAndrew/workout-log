@@ -64,7 +64,7 @@ export type Props = {
     review?: Review
   ) => void;
   /**
-   * color data
+   * color data (for example bands!)
    */
   colorData?: ColorData[]
   /**
