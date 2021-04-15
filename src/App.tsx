@@ -22,7 +22,7 @@ function App() {
   });
 
   return (
-    <div className="flex">
+    <div className="app__wrapper">
       {location.pathname !== '/login' && (
         <Sidebar location={location.pathname} />
       )}
