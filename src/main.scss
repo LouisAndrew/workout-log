@@ -23,8 +23,12 @@ code {
 .heading {
   @apply font-display font-black tracking-widest;
 
-  &--2 {
+  &--1 {
     @apply text-3xl;
+  }
+
+  &--2 {
+    @apply text-2xl;
   }
 
   &--3 {

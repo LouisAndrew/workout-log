@@ -8,6 +8,7 @@ import { VerifyEmail } from '@r/VerifyEmail';
 import { PrivateRoute, R } from '@r/index';
 import { Template } from '@r/Template';
 import { ExerciseLog } from '@r/ExerciseLog';
+import { Settings } from '@r/Settings';
 
 function App() {
   const history = useHistory();
@@ -29,6 +30,9 @@ function App() {
       </PrivateRoute>
       <PrivateRoute path={R.LOG}>
         <ExerciseLog />
+      </PrivateRoute>
+      <PrivateRoute path={R.SETTINGS}>
+        <Settings />
       </PrivateRoute>
       <Route path={R.LOGIN} component={Login} />
       <Route path={R.VERIFY_EMAIL} component={VerifyEmail} />

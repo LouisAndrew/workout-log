@@ -7,6 +7,7 @@ enum R {
   VERIFY_EMAIL = '/verify_email',
   TEMPLATE = '/template',
   LOG = '/log',
+  SETTINGS = '/settings'
 }
 
 export { PrivateRoute, R };
