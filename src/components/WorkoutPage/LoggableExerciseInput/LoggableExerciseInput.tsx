@@ -214,7 +214,7 @@ const LoggableExerciseInput: FC<Props> = ({
           )}
         </div>
       </div>
-      {isLoggable && comparisonExercise ? (
+      {isLoggable && comparisonExercise && showComparison ? (
         <>
           <div
             className={`loggable-exercise-input__comparison-separator ${
