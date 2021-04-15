@@ -37,7 +37,7 @@ module.exports = {
       '@helper': path.resolve(__dirname, '../src/helper/'),
       '@t': path.resolve(__dirname, '../src/types/'),
       '@h': path.resolve(__dirname, '../src/hooks/'),
-      "@r": path.resolve(__dirname, '../scr/routes/')
+      "@r": path.resolve(__dirname, '../src/routes/')
     };
     return config;
   },

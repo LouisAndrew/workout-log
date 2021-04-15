@@ -8,6 +8,7 @@ import { Workout, WorkoutTemplate } from '@t/Workout';
 
 import { Button } from '@components/Button';
 import { CompleteExercise, CompleteExerciseNoLog } from '@t/Exercise';
+import { ColorData } from '@t/ColorData';
 
 import { generateExerciseId } from '@helper/generateId';
 import { deepEqual, isTemplateChanged } from '@helper/comparator';
@@ -47,6 +48,10 @@ export type Props = {
    * if logging is
    */
   isLoggable?: boolean
+  /**
+   * color data (bands?)
+   */
+  colorData?: ColorData[]
 };
 
 const wt: WorkoutTemplate = {
@@ -65,7 +70,8 @@ const WorkoutList: FC<Props> = ({
   className,
   comparisonWorkout,
   isEditable = true,
-  isLoggable = true
+  isLoggable = true,
+  colorData = []
 }) => {
   const isTemplate = type === 'TEMPLATE';
   const [workout, setWorkout] = useState<W>(defaultWorkout || wt);
@@ -266,6 +272,7 @@ const WorkoutList: FC<Props> = ({
                     )}
                     isEditable={isEditable}
                     isLoggable={isLoggable}
+                    colorData={colorData}
                   />
                 );
               })}

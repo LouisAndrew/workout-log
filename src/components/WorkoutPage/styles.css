@@ -87,7 +87,8 @@
 .color-picker__wrapper,
 .comparator-select__wrapper {
   @apply text-sm font-body tracking-wider font-bold bg-gray-100 px-4 py-3 rounded
-  border-2 border-gray-200 shadow-lg relative;
+  border-2 border-gray-200 shadow-lg relative
+  dark:bg-gray-700 dark:border-gray-800;
 }
 
 .comparator-select__wrapper {

@@ -4,10 +4,11 @@ import { ColorData } from '@t/ColorData';
 import { Metric } from '@t/Set';
 import { colors } from '@t/Colors';
 
-import './styles.css';
-import { Button } from '@/components/Button';
-import { useClickOutside } from '@/hooks/useClickOutside';
+import { Button } from '@components/Button';
+import { useClickOutside } from '@h/useClickOutside';
 import ColoredWeightInput from './ColoredWeightInput';
+
+import './styles.css';
 
 export type Props = {
   /**

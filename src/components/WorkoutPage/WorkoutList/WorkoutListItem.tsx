@@ -5,6 +5,8 @@ import { BiGridVertical, BiX } from 'react-icons/bi';
 import { CompleteExercise, CompleteExerciseNoLog } from '@t/Exercise';
 import { ExerciseInput } from '@components/Input';
 import { rangeToString, stringToRange } from '@helper/ranges';
+import { ColorData } from '@t/ColorData';
+
 import { LoggableExerciseInput } from '../LoggableExerciseInput';
 
 type Props = {
@@ -22,6 +24,10 @@ type Props = {
    * if logging is allowd
    */
   isLoggable?: boolean
+  /**
+   * color data (bands?)
+   */
+  colorData?: ColorData[]
 };
 
 const WorkoutListItem: FC<Props> = ({
@@ -32,7 +38,8 @@ const WorkoutListItem: FC<Props> = ({
   index,
   comparisonExercise,
   isEditable = true,
-  isLoggable
+  isLoggable,
+  colorData
 }) => (
   <Draggable isDragDisabled={!isEditable} draggableId={exercise.id} index={index}>
     {(provided, snapshot) => {
@@ -80,6 +87,7 @@ const WorkoutListItem: FC<Props> = ({
               isLoggable={isLoggable}
               onChange={onChange}
               comparisonExercise={comparisonExercise}
+              colorData={colorData}
             />
           )}
           {isEditable && <BiX className="workout-list__remove-exercise" onClick={onRemove} />}

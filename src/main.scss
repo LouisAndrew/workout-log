@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=PT+Sans:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.heading {
+  @apply font-display font-black tracking-widest;
+
+  &--top-heading {
+    @apply mt-5 mb-4;
+  }
+
+  &--1 {
+    @apply text-3xl;
+  }
+
+  &--2 {
+    @apply text-2xl;
+  }
+
+  &--3 {
+    @apply text-xl;
+  }
+}
+
+.dark {
+  @apply bg-gray-800 text-white;
+}
+
+.page {
+  @apply container min-h-screen py-6;
+}
+
+.login-page {
+  @apply flex items-center justify-center;
+}
+
+.popper {
+  @apply absolute text-sm font-body tracking-wider font-bold bg-gray-100 px-4 py-3
+    order-2 border-gray-200 shadow-lg top-0 left-0 z-50
+    dark:bg-gray-700 dark:border-gray-800;
+}
