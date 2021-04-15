@@ -1,7 +1,7 @@
 .sidebar {
 
   &__wrapper {
-    @apply  w-max h-screen px-2 py-2;
+    @apply  w-max h-screen p-4;
   }
 
   &__links-wrapper {
@@ -14,7 +14,11 @@
     &-content {
       padding-top: 0.5rem;
       @apply flex items-center font-body font-medium pl-4 pr-6 pb-2 rounded duration-200
-        text-gray-600 hover:bg-gray-200  hover:text-black;
+        text-gray-500 hover:bg-gray-200  border-2 border-transparent;
+
+      &--active {
+        @apply text-black border-gray-400 bg-gray-200;
+      }
     }
 
     &-icon {

@@ -3,8 +3,8 @@ import React from 'react';
 import { Story } from '@storybook/react';
 
 import Sidebar, { Props } from '@components/Sidebar/Sidebar';
-import { R } from '@r/index';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { R } from '@r/index';
 
 export default {
   title: 'Components/Sidebar',
@@ -18,6 +18,6 @@ const Template: Story<Props> = (args) => (
 );
 
 export const Default = Template.bind({});
-Template.args = {
+Default.args = {
   location: R.DASHBOARD
 };

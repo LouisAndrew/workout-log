@@ -25,20 +25,23 @@ const ROUTES: Routes = [
   {
     path: R.SETTINGS,
     Icon: BiWrench,
-    text: 'Settings'
-  }
+    text: 'Settings',
+  },
 ];
 
-const Sidebar: FC<Props> = () => (
+const Sidebar: FC<Props> = ({ location }) => (
   <nav className="sidebar__wrapper">
     <ul className="sidebar__links-wrapper">
       {ROUTES.map(({ path, Icon, text }) => (
         <li className="sidebar__link" key={`link-${path}`}>
-          <Link to={path} className="sidebar__link-content">
+          <Link
+            to={path}
+            className={`sidebar__link-content ${
+              location === path ? 'sidebar__link-content--active' : ''
+            }`}
+          >
             <Icon className="sidebar__link-icon" />
-            <div className="siebar__link-text">
-              {text}
-            </div>
+            <div className="siebar__link-text">{text}</div>
           </Link>
         </li>
       ))}
