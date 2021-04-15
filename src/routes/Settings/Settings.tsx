@@ -65,7 +65,7 @@ const Settings: FC = () => {
 
   return (
     <div className="page">
-      <h1 className="heading heading--1">Settings</h1>
+      <h1 className="heading heading--1 heading--top-heading">Settings</h1>
       {!isLoading ? (
         <div className="settings-page__content">
           <BandList className="settings-page__band-list" defaultBands={userSettings?.bands} onSave={saveBands} />

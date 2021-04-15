@@ -20,6 +20,10 @@ code {
 .heading {
   @apply font-display font-black tracking-widest;
 
+  &--top-heading {
+    @apply mt-5 mb-4;
+  }
+
   &--1 {
     @apply text-3xl;
   }
