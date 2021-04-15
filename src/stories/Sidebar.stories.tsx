@@ -19,5 +19,13 @@ const Template: Story<Props> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  location: R.DASHBOARD
+  location: R.DASHBOARD,
+  setDarkMode: () => {},
+  darkMode: false
 };
+
+export const DarkMode = () => (
+  <div className="dark">
+    <Template location={R.DASHBOARD} setDarkMode={() => {}} darkMode />
+  </div>
+);
