@@ -14,7 +14,7 @@ import { ColorData } from '@t/ColorData';
 
 import { WeightInput } from './WeightInput';
 
-import './styles.css';
+import './styles.scss';
 
 export type Props = {
   /**

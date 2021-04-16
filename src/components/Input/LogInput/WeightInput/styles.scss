@@ -27,7 +27,7 @@
   &-weight-input {
     &__wrapper {
       transform: translateY(0.1rem);
-      @apply inline-flex items-center justify-end ml-2 relative z-20
+      @apply inline-flex items-center justify-end ml-2 relative z-10
         duration-200 hover:bg-gray-200 p-1 rounded cursor-pointer
         dark:hover:bg-gray-700;
     }
