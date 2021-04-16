@@ -1,0 +1,20 @@
+.ranged-input {
+
+  &__wrapper {
+    @apply flex flex-col items-center duration-200;
+  }
+
+  &__input {
+    @apply border-none font-body font-black text-center duration-200
+      focus:outline-none
+      dark:bg-gray-800 dark:text-white;
+
+    &--error {
+      @apply text-red-400 dark:text-red-400;
+    }
+  }
+
+  &__placeholder {
+    @apply font-body font-light text-sm duration-200;
+  }
+}

@@ -2,8 +2,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { parseInt } from 'lodash';
 
-import './styles.css';
-import { colors } from '@/types/Colors';
+import './styles.scss';
 
 export type Props = {
   /**
@@ -253,11 +252,10 @@ const RangedInput: FC<Props> = ({
           ref={endInput}
           onChange={handleChangeEnd}
           onKeyDown={handleKeyDownEnd}
-          className="ranged-input__input"
+          className={`ranged-input__input ${shouldEndShowError ? 'ranged-input__input--error' : ''}`}
           style={{
             width: shouldEndRender ? widthMultiplier * maxDigit * width : 0,
             opacity: shouldEndRender ? 1 : 0,
-            color: shouldEndShowError ? colors.red : 'black'
           }}
           placeholder={inputPlaceholder}
         />
