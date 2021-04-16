@@ -1,6 +1,6 @@
 .button {
   @apply font-body font-bold px-2 py-1 rounded text-sm border-2
-  duration-300 flex items-center
+  duration-300 flex items-center whitespace-nowrap
   focus:border-transparent focus:outline-none;
 
   & svg {

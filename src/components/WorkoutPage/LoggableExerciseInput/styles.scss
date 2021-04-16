@@ -18,10 +18,15 @@
   }
 
   &__comparison {
-    @apply pt-0 text-gray-600 duration-200 opacity-0 dark:text-gray-300;
+    @apply pt-0 text-gray-600 duration-200 opacity-100 dark:text-gray-300;
 
-    &.active {
-      @apply opacity-100;
+    &-wrapper {
+      @apply border-gray-700 pl-12 w-0 overflow-hidden duration-500 opacity-0
+        dark:border-gray-300;
+
+      &.active {
+        @apply border-l-2 w-min opacity-100; 
+      }
     }
 
     span {
@@ -34,9 +39,6 @@
 
     &-separator {
       @apply w-0.5 bg-gray-300 ml-7 mr-5 duration-200 opacity-0;
-      &.active {
-        @apply opacity-100;
-      }
     }
   }
 

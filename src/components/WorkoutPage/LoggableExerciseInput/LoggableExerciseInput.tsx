@@ -41,7 +41,7 @@ export type Props = {
   /**
    * color data (bands?)
    */
-  colorData?: ColorData[]
+  colorData?: ColorData[];
 };
 
 const LoggableExerciseInput: FC<Props> = ({
@@ -51,7 +51,7 @@ const LoggableExerciseInput: FC<Props> = ({
   className,
   onChange,
   comparisonExercise,
-  colorData
+  colorData,
 }) => {
   const [exercise, setExercise] = useState<CompleteExercise>(defaultExercise);
   const [logs, setLogs] = useState<ExerciseSetOrdered[]>(defaultExercise.logs);
@@ -223,21 +223,18 @@ const LoggableExerciseInput: FC<Props> = ({
           )}
         </div>
       </div>
-      {isLoggable && comparisonExercise && showComparison ? (
-        <>
-          <div
-            className={`loggable-exercise-input__comparison-separator ${
-              showComparison ? 'active' : ''
-            }`}
-          />
+      {isLoggable && comparisonExercise ? (
+        <div
+          className={`loggable-exercise-input__comparison-wrapper ${
+            showComparison ? 'active' : ''
+          }`}
+        >
           <LoggableExerciseInput
             defaultExercise={comparisonExercise}
-            className={`loggable-exercise-input__comparison ${
-              showComparison ? 'active' : ''
-            }`}
+            className="loggable-exercise-input__comparison"
             isLoggable={false}
           />
-        </>
+        </div>
       ) : null}
     </div>
   );

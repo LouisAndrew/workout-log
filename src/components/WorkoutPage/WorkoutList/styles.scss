@@ -1,4 +1,8 @@
 .workout-list {
+  * {
+    @apply duration-200;
+  }
+
   &__wrapper {
     @apply duration-200 w-min;
 
