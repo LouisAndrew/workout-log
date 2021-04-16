@@ -7,6 +7,7 @@ import { ExerciseInput } from '@components/Input';
 import { rangeToString, stringToRange } from '@helper/ranges';
 import { ColorData } from '@t/ColorData';
 
+import { Button } from '@/components/Button';
 import { LoggableExerciseInput } from '../LoggableExerciseInput';
 
 type Props = {
@@ -19,15 +20,15 @@ type Props = {
   /**
    * if template is editable
    */
-  isEditable?: boolean
+  isEditable?: boolean;
   /**
    * if logging is allowd
    */
-  isLoggable?: boolean
+  isLoggable?: boolean;
   /**
    * color data (bands?)
    */
-  colorData?: ColorData[]
+  colorData?: ColorData[];
 };
 
 const WorkoutListItem: FC<Props> = ({
@@ -39,9 +40,13 @@ const WorkoutListItem: FC<Props> = ({
   comparisonExercise,
   isEditable = true,
   isLoggable,
-  colorData
+  colorData,
 }) => (
-  <Draggable isDragDisabled={!isEditable} draggableId={exercise.id} index={index}>
+  <Draggable
+    isDragDisabled={!isEditable}
+    draggableId={exercise.id}
+    index={index}
+  >
     {(provided, snapshot) => {
       const dragHandler = provided.dragHandleProps;
 
@@ -53,10 +58,7 @@ const WorkoutListItem: FC<Props> = ({
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <div
-            className="workout-list__drag-handle"
-            {...dragHandler}
-          >
+          <div className="workout-list__drag-handle" {...dragHandler}>
             <BiGridVertical />
           </div>
 
@@ -90,7 +92,14 @@ const WorkoutListItem: FC<Props> = ({
               colorData={colorData}
             />
           )}
-          {isEditable && <BiX className="workout-list__remove-exercise" onClick={onRemove} />}
+          {isEditable && (
+            <Button
+              Icon={BiX}
+              className="workout-list__remove-exercise"
+              onClick={onRemove}
+              type="remove"
+            />
+          )}
         </div>
       );
     }}

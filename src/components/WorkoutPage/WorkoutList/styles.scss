@@ -1,0 +1,83 @@
+.workout-list {
+  &__wrapper {
+    @apply duration-200 w-min;
+
+    &:hover .workout-list__add-button {
+      @apply opacity-100;
+    }
+  } 
+
+  &__exercises-wrapper {
+    @apply border-2 border-transparent;
+
+    &.active {
+      @apply bg-gray-50 border-gray-200 dark:bg-gray-900 dark:border-gray-700;
+    }
+  }
+  
+  &__exercise {
+    animation: none !important;
+    @apply flex items-start duration-200 hover:bg-gray-100 px-3 rounded w-min
+      dark:bg-gray-800 dark:hover:bg-gray-700;
+    
+    &-overlay {
+      backdrop-filter: blur(12px);
+      @apply duration-200 opacity-60 bg-gray-200;
+      
+      input {
+        @apply bg-gray-200;
+      }
+    }
+
+    &:hover{
+      .workout-list__remove-exercise {
+        @apply opacity-100;
+      }
+
+      & .loggable-exercise-input__wrapper {
+        @apply dark:bg-gray-700;
+      }
+
+      input {
+        @apply bg-gray-100 dark:bg-gray-700;
+      }
+    } 
+
+    &-input {
+      @apply w-full;
+    }
+  }
+
+  &__remove-exercise.button {
+    @apply mt-3 h-7 w-7 opacity-0 ml-auto justify-center;
+    svg {
+      @apply h-4 w-4;
+    }
+  }
+
+  &__template {
+    @apply my-2 ml-3 mb-6 pt-2;
+  }
+
+  &__button-group {
+    transition-duration: 500ms;
+    transition-delay: 200ms;
+    @apply ml-8 mt-3 flex;
+    &.no-margin {
+      @apply ml-0;
+    }
+  }
+
+  &__add-button {
+    @apply mr-3 duration-200 opacity-0;
+  }
+
+  &__drag-handle {
+    @apply text-gray-400 h-8 w-8 p-0.5 duration-200 mr-2 rounded mt-5
+      hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-600;
+
+    svg {
+      @apply h-full w-full;
+    }
+  }
+}

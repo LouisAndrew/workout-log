@@ -1,7 +1,7 @@
 .exercise-input {
 
   &__wrapper {
-    @apply overflow-hidden duration-200;
+    @apply overflow-hidden duration-200 w-72;
   }
 
   &__upper-wrapper {
@@ -14,7 +14,7 @@
 
   &__input {
     @apply border-none text-3xl font-display tracking-widest font-bold
-      focus:outline-none w-full 
+      focus:outline-none w-full
       dark:bg-gray-800;
   }
 
