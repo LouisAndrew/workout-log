@@ -23,7 +23,10 @@ export const useProvideAuth = () => {
 
   const saveLocalUser = (email: string, password: string) => {
     const userData = `email=${email};password=${password}`;
-    window.localStorage.setItem(localStorageId, DES.encrypt(userData, authSecret).toString());
+    window.localStorage.setItem(
+      localStorageId,
+      DES.encrypt(userData, authSecret).toString()
+    );
   };
 
   const loadLocalUser = async () => {
@@ -32,16 +35,28 @@ export const useProvideAuth = () => {
       return;
     }
     const userDataDecrypted = DES.decrypt(u, authSecret).toString(enc.Utf8);
-    const [email, password] = userDataDecrypted.split(';').map((s) => s.split('=')[1]);
+    const [email, password] = userDataDecrypted
+      .split(';')
+      .map((s) => s.split('=')[1]);
     await signIn(email, password);
+  };
+
+  const removeLocalUser = () => {
+    window.localStorage.removeItem(localStorageId);
   };
 
   const createUserDb = async (id: string, name: string): Promise<void> => {
     const supabase = get();
     if (supabase) {
-      await supabase.from(TABLES.USER_DATA).insert([{
-        uuid: id, name, templates: [], logs: [], settings: JSON.stringify(defaultUserSettings)
-      }]);
+      await supabase.from(TABLES.USER_DATA).insert([
+        {
+          uuid: id,
+          name,
+          templates: [],
+          logs: [],
+          settings: JSON.stringify(defaultUserSettings),
+        },
+      ]);
     }
   };
 
@@ -85,6 +100,16 @@ export const useProvideAuth = () => {
     return null;
   };
 
+  const signOut = async () => {
+    const supabase = get();
+    if (supabase) {
+      await supabase.auth.signOut();
+      removeLocalUser();
+      return true;
+    }
+    return false;
+  };
+
   const loadUser = () => {
     while (!get()) {
       //
@@ -95,6 +120,10 @@ export const useProvideAuth = () => {
   const user = () => get()?.auth.user();
 
   return {
-    signIn, signUp, user, loadUser
+    signIn,
+    signUp,
+    user,
+    loadUser,
+    signOut,
   };
 };

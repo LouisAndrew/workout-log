@@ -10,11 +10,13 @@ import { Template } from '@r/Template';
 import { ExerciseLog } from '@r/ExerciseLog';
 import { Settings } from '@r/Settings';
 import { Sidebar } from '@components/Sidebar';
+import { useAuth } from '@h/useAuth';
 
 const darkModeId = 'use-dark-mode';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const { signOut } = useAuth();
   const history = useHistory();
   const location = useLocation();
 
@@ -23,6 +25,13 @@ function App() {
   const loadDarkModeStorage = () => localStorage.getItem(darkModeId) ?? 'false';
   const saveDarkModeStorage = (value: boolean) => {
     localStorage.setItem(darkModeId, `${value}`);
+  };
+
+  const signUserOut = async () => {
+    const response = await signOut();
+    if (response) {
+      history.push(R.LOGIN);
+    }
   };
 
   useEffect(() => {
@@ -49,7 +58,7 @@ function App() {
           location={location.pathname}
           darkMode={darkMode}
           setDarkMode={(val) => setDarkMode(val)}
-          logOut={async () => {}}
+          logOut={signUserOut}
         />
       )}
       <Switch>
