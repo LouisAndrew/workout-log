@@ -42,7 +42,7 @@ const ColoredWeightInput: FC<Props> = ({
   const [colors, setColors] = useState<string[]>(
     getColorsFromWeight(colorData, weight) || null
   );
-  const [displayColorPicker, setDisplayColorPicker] = useState(false);
+  const [displayColorPicker, setDisplayColorPicker] = useState(true);
 
   const handleChangeColor = (c: string) => {
     if (isLoggable) {
