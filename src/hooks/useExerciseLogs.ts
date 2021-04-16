@@ -77,7 +77,7 @@ export const useExerciseLogs = () => {
 
       return exercises as CompleteExercise[];
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return null;
     }
   };

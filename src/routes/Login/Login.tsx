@@ -74,7 +74,7 @@ const Login: FC<Props> = () => {
         setErrors((prev) => ({ ...prev, password: 'Oops, something went wrong!' }));
       }
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       setErrors((prev) => ({ ...prev, password: 'Oops, something went wrong!' }));
     }
   };
@@ -94,7 +94,7 @@ const Login: FC<Props> = () => {
         setErrors((prev) => ({ ...prev, password: 'Oops, something went wrong!' }));
       }
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       setErrors((prev) => ({ ...prev, password: 'Oops, something went wrong!' }));
     }
   };

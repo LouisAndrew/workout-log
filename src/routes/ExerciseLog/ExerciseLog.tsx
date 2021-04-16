@@ -19,7 +19,7 @@ const ExerciseLog: FC = () => {
   const [colorData, setColorData] = useState<ColorData[]>([]);
 
   const { search } = useLocation();
-  const history = useHistory();
+  const { replace } = useHistory();
   const { getLogs, saveLogs } = useExerciseLogs();
   const { getTemplate } = useTemplate();
   const { getUserLogsByTemplate, getUserBands } = useUserData();
@@ -59,7 +59,7 @@ const ExerciseLog: FC = () => {
         setColorData(bands);
         setWorkout(wt);
         if (allowLog) {
-          await getAllWorkouts(templateId, t);
+          await getAllWorkouts(templateId, t, wt);
         }
       }
     } finally {
@@ -67,7 +67,7 @@ const ExerciseLog: FC = () => {
     }
   };
 
-  const getAllWorkouts = async (templateId: string, t: WorkoutTemplate) => {
+  const getAllWorkouts = async (templateId: string, t: WorkoutTemplate, wt: Workout) => {
     const res = await getUserLogsByTemplate(templateId, user.id);
     const promises = await Promise.all(
       res.map(async (result) => {
@@ -80,7 +80,7 @@ const ExerciseLog: FC = () => {
       })
     );
     setComparisonWorkouts(
-      promises.filter((p) => p.date.getTime() !== workout?.date.getTime()) || []
+      promises.filter((p) => p.date.getTime() !== wt.date.getTime()) || []
     );
   };
 
@@ -90,7 +90,7 @@ const ExerciseLog: FC = () => {
   ) => {
     const res = await saveLogs(w as Workout, isTemplateChanged, user.id);
     if (res) {
-      history.push(R.DASHBOARD);
+      replace(R.DASHBOARD);
     }
 
     setErr('Error while saving the logs');

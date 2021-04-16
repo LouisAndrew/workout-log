@@ -23,7 +23,7 @@ export const useStorage = (table: TABLES) => {
         return !res.error;
       } return false;
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return false;
     }
   };
@@ -33,16 +33,16 @@ export const useStorage = (table: TABLES) => {
       if (supabase) {
         if (constrain) {
           const res = await supabase.from(table).select(query).match(constrain);
-          console.log({ res });
+          // console.log({ res });
           return !res.error ? res : false;
         }
         const res = await supabase.from(table).select(query);
-        console.log({ res });
+        // console.log({ res });
         return !res.error ? res : false;
       }
       return false;
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return false;
     }
   };
@@ -52,16 +52,16 @@ export const useStorage = (table: TABLES) => {
       if (supabase) {
         if (strictUpdate) {
           const res = await supabase.from(table).update(value).match(constrain);
-          console.log({ res });
+          // console.log({ res });
           return !res.error;
         }
         const res = await supabase.from(table).upsert(value).match(constrain);
-        console.log({ res });
+        // console.log({ res });
         return !res.error;
       }
       return false;
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return false;
     }
   };
@@ -70,11 +70,11 @@ export const useStorage = (table: TABLES) => {
     try {
       if (supabase) {
         const res = await supabase.from(table).delete().match(constrain);
-        console.log({ res });
+        // console.log({ res });
         return !res.error;
       } return false;
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return false;
     }
   };

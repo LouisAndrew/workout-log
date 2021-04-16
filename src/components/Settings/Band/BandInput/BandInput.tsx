@@ -30,7 +30,7 @@ export type Props = {
 const generateBandId = (ids: number[]) => {
   const sorted = [...ids].sort((a, b) => a - b);
   const num = sorted[sorted.length - 1] + 1;
-  return Number.isNaN(num) ? 0 : num;
+  return Number.isNaN(num) ? 1 : num;
 };
 
 const BandInput: FC<Props> = ({ ids, onSubmit, close }) => {

@@ -39,7 +39,7 @@ export const useTemplate = () => {
       // todo: create page for error route.
       return '/error';
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return '/error';
     }
   };
@@ -57,7 +57,7 @@ export const useTemplate = () => {
 
       return template;
     } catch (e) {
-      console.error(e);
+      // console.error(e);
       return null;
     }
   };
