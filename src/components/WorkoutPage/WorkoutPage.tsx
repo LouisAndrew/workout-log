@@ -289,7 +289,7 @@ const WorkoutPage: FC<Props> = ({
                     setDisplayComparatorSelect(false);
                   }}
                   comparisonWorkouts={comparisonWorkouts || []}
-                  className="workout-page__comparator-select"
+                  className="workout-page__comparator-select popper"
                 />
               )}
             </Button>

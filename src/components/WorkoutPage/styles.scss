@@ -81,14 +81,14 @@
   }
   
   &__comparator-select {
-    @apply absolute z-20 w-96 top-0;
+    @apply absolute z-50 w-96 top-0;
   }
   
 
   &__compare {
     &-btn.button {
       transform: translateX(0.2rem);
-      @apply py-0 border-transparent ml-10;
+      @apply py-0 border-transparent ml-10 relative z-20;
 
       &:hover .workout-page__remove-comparison.button {
         @apply opacity-100;
@@ -149,13 +149,13 @@
   }
 
   &__heading {
-    @apply text-left;
+    @apply text-left mb-3;
   }
 
   &__workout {
     @apply flex font-body font-medium items-center justify-between py-0.5 duration-200 w-full
       hover:bg-gray-200 px-1 rounded
-      dark:hover:bg-gray-700;
+      dark:hover:bg-gray-600;
   }
   
 }
