@@ -22,7 +22,7 @@ import { ColorData } from '@t/ColorData';
 import { WorkoutList } from './WorkoutList';
 import { TemplateMaker } from './TemplateMaker';
 
-import './styles.css';
+import './styles.scss';
 import { Button } from '../Button';
 import ColorPicker from './ColorPicker';
 import ComparatorSelect from './ComparatorSelect';
@@ -239,7 +239,7 @@ const WorkoutPage: FC<Props> = ({
           />
           {displayColorPicker && (
             <ColorPicker
-              className="workout-page__color-picker"
+              className="workout-page__color-picker popper"
               onClick={(c) => {
                 setColor(c);
                 setDisplayColorPicker(false);
