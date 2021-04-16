@@ -8,7 +8,7 @@ import { R } from '@r/index';
 
 export default {
   title: 'Components/Sidebar',
-  component: Sidebar
+  component: Sidebar,
 };
 
 const Template: Story<Props> = (args) => (
@@ -19,5 +19,19 @@ const Template: Story<Props> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  location: R.DASHBOARD
+  location: R.DASHBOARD,
+  setDarkMode: () => {},
+  darkMode: false,
+  logOut: async () => {},
 };
+
+export const DarkMode = () => (
+  <div className="dark">
+    <Template
+      location={R.DASHBOARD}
+      setDarkMode={() => {}}
+      logOut={async () => {}}
+      darkMode
+    />
+  </div>
+);

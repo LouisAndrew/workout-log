@@ -4,8 +4,31 @@
     @apply  w-max h-screen p-4;
   }
 
-  &__links-wrapper {
-    @apply h-full bg-gray-100 rounded px-5 py-4;
+  &__content {
+    @apply h-full bg-gray-100 rounded px-5 py-4 flex flex-col
+      dark:bg-gray-700;
+  }
+
+  &__controls {
+    @apply flex flex-wrap justify-between;
+
+    &--col {
+      @apply flex-col-reverse;
+
+      .sidebar__controls-button {
+        @apply justify-center;
+      }
+    }
+
+    &-button {
+      @apply mb-3;
+    }
+
+    &-toggle-dark {
+      & .button__icon-wrapper {
+        @apply mr-0;
+      }
+    }
   }
 
   &__link {
@@ -13,25 +36,34 @@
 
     &-content {
       padding-top: 0.5rem;
-      @apply flex items-center font-body font-medium pl-4 pr-6 pb-2 rounded duration-200
-        text-gray-500 hover:bg-gray-200  border-2 border-transparent;
+      @apply flex items-center font-body font-medium px-4 pb-2 rounded duration-200
+        text-gray-500 hover:bg-gray-200  border-2 border-transparent
+        dark:text-gray-400 dark:hover:bg-gray-600;
 
       &--active {
-        @apply text-black border-gray-400 bg-gray-200;
+        @apply text-black border-gray-400 bg-gray-200
+          dark:text-white dark:border-gray-500 dark:bg-gray-600;
       }
     }
 
     &-icon {
       transform: translateY(-5%);
-      @apply h-5 w-5 mr-3;
+      @apply h-5 w-5;
     }
 
-    &--logout {
-      @apply mt-auto;
+    &-text {
+      @apply mx-3 duration-200;
+
+      &--shrinked {
+        @apply overflow-hidden w-0 mx-0;
+      }
     }
   }
 
-  &__logout {
-    @apply mt-auto w-full;
+  &__logout.button {
+    @apply mt-auto justify-center p-1;
+    & .button__icon-wrapper {
+      @apply mr-0;
+    }
   }
 }

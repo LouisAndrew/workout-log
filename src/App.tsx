@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Switch, Route, useHistory, useLocation
 } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { Settings } from '@r/Settings';
 import { Sidebar } from '@components/Sidebar';
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
   const history = useHistory();
   const location = useLocation();
 
@@ -22,9 +23,14 @@ function App() {
   });
 
   return (
-    <div className="app__wrapper">
+    <div className={`app__wrapper ${darkMode ? 'dark' : ''}`}>
       {location.pathname !== '/login' && (
-        <Sidebar location={location.pathname} />
+        <Sidebar
+          location={location.pathname}
+          darkMode={darkMode}
+          setDarkMode={(val) => setDarkMode(val)}
+          logOut={async () => {}}
+        />
       )}
       <Switch>
         <PrivateRoute path={R.DASHBOARD}>
