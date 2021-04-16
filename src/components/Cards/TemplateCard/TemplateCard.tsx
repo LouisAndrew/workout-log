@@ -1,12 +1,11 @@
 import React, { FC, useRef, useState } from 'react';
 import { WorkoutTemplate } from '@/types/Workout';
 
-import './styles.css';
 import { getReadableDate } from '@/helper/date';
 import { Button } from '@components/Button';
 import { BiDotsHorizontalRounded, BiEdit, BiNote } from 'react-icons/bi';
 import { useClickOutside } from '@/hooks/useClickOutside';
-// import { colors } from '@t/Colors';
+import './styles.scss';
 
 export type Props = {
   /**
@@ -61,6 +60,7 @@ const TemplateCard: FC<Props> = ({
         }}
         className="template-card__settings"
         Icon={BiDotsHorizontalRounded}
+        size="l"
       />
       <div className="template-card__name">{template.name}</div>
       <div className="template-card__times-done template-card__data-wrapper mt-2">
