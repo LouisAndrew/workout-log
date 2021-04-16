@@ -9,7 +9,7 @@ import { ExerciseSetOrdered, Metric, Review } from '@t/Set';
 import { rangeToString, stringToRange, Range } from '@helper/ranges';
 import { deepEqual } from '@helper/comparator';
 
-import './styles.css';
+import './styles.scss';
 import { cloneDeep } from 'lodash';
 import { ColorData } from '@/types/ColorData';
 
@@ -186,9 +186,11 @@ const LoggableExerciseInput: FC<Props> = ({
                 colorData={colorData}
               />
               {isLoggable && (
-                <BiX
+                <Button
                   className="loggable-exercise-input__remove-log"
                   onClick={() => removeLog(l.order)}
+                  Icon={BiX}
+                  type="remove"
                 />
               )}
             </div>

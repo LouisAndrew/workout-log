@@ -10,7 +10,7 @@
 .review-select {
   &__wrapper {
     @apply w-52 duration-200 bg-gray-100 px-4 py-3 rounded
-      border-2 border-gray-200 shadow-lg;
+      border-2 border-gray-200 shadow-lg dark:border-gray-600 z-40;
   }
   &__selected {
     @apply flex items-center w-full bg-gray-200 px-1 py-0.5 rounded

@@ -5,7 +5,7 @@ import { BiDice3, BiPencil, BiX } from 'react-icons/bi';
 import { Button } from '@components/Button';
 import { ID_MAX_LENGTH } from '@helper/generateId';
 
-import './styles.css';
+import './styles.scss';
 
 export type Props = {
   /**
@@ -56,11 +56,9 @@ const TemplateMaker: FC<Props> = ({
   };
 
   return (
-    <div className={`template-maker__wrapper ${className}`}>
-      <BiX
-        className="absolute right-2 h-5 w-5 cursor-pointer"
-        onClick={close}
-      />
+    <div className={`template-maker__wrapper popper ${className}`}>
+
+      <Button Icon={BiX} onClick={close} type="remove" className="template-maker__close-button" />
       TEMPLATE ID:
       <span className="template-maker__id-placeholder">{defaultId}</span>
       <div className="template-maker__button-group">

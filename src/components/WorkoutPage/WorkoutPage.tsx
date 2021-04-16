@@ -93,7 +93,7 @@ const WorkoutPage: FC<Props> = ({
   const [isLogChanged, setIsLogChanged] = useState(false);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [color, setColor] = useState<Colors>(
-    (defaultWorkout.color as Colors) || colors.gray
+    (defaultWorkout?.color as Colors) || colors.gray
   );
 
   const [compareWith, setCompareWith] = useState<Workout | null>(null);

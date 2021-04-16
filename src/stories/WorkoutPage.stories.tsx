@@ -15,6 +15,7 @@ const Template: Story<Props> = (args) => <WorkoutPage {...args} />;
 export const TemplatePageNew = Template.bind({});
 TemplatePageNew.args = {
   type: 'TEMPLATE',
+  isCreatingNew: true
 };
 
 export const LogPage = Template.bind({});

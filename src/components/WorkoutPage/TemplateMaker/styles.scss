@@ -1,0 +1,48 @@
+.template-maker {
+  &__wrapper {
+    @apply text-sm font-body tracking-wider font-bold w-48 bg-gray-100 px-4 py-3 rounded
+    border-2 border-gray-200 shadow-lg relative;
+  }
+  
+  &__id-placeholder {
+    @apply block font-medium text-xs;
+  }
+  
+  &__button-group {
+    @apply mt-3;
+
+    svg {
+      transform: scale(1.5);
+      @apply ml-1;
+    }
+  }
+
+  &__custom-id {
+    @apply w-full mt-3;
+
+    &-input {
+      @apply bg-gray-50 font-body rounded-none w-full py-1 px-2 mt-1 mb-2
+        dark:bg-gray-600;
+
+      &.error {
+        @apply text-red-500;
+      }
+
+      &-label {
+        @apply block h-0 overflow-hidden opacity-0 duration-200;
+
+        &.active {
+          @apply h-16 opacity-100;
+        }
+      }
+    }
+  }
+
+  &__close-button {
+    @apply absolute right-2 h-5 w-5 cursor-pointer justify-center; 
+   }
+}
+
+.error-custom-id {
+  @apply font-medium text-xs text-red-500 mb-3;
+}
