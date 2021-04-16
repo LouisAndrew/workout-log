@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Switch, Route, useHistory, useLocation
 } from 'react-router-dom';
@@ -11,10 +11,30 @@ import { ExerciseLog } from '@r/ExerciseLog';
 import { Settings } from '@r/Settings';
 import { Sidebar } from '@components/Sidebar';
 
+const darkModeId = 'use-dark-mode';
+
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const history = useHistory();
   const location = useLocation();
+
+  const firstRender = useRef(true);
+
+  const loadDarkModeStorage = () => localStorage.getItem(darkModeId) ?? 'false';
+  const saveDarkModeStorage = (value: boolean) => {
+    localStorage.setItem(darkModeId, `${value}`);
+  };
+
+  useEffect(() => {
+    setDarkMode(loadDarkModeStorage() === 'true');
+    firstRender.current = false;
+  }, []);
+
+  useEffect(() => {
+    if (!firstRender.current) {
+      saveDarkModeStorage(darkMode);
+    }
+  }, [darkMode]);
 
   useEffect(() => {
     if (location.pathname === '/') {

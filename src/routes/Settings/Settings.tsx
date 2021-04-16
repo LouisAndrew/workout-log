@@ -25,7 +25,7 @@ const Settings: FC = () => {
 
   const { user: authUser } = useAuth();
   const { getUserSettings, updateSettings } = useUserData();
-  const { replace } = useHistory();
+  const { push } = useHistory();
 
   const user = authUser() as User;
 
@@ -51,7 +51,7 @@ const Settings: FC = () => {
   const saveSettings = async () => {
     const response = await updateSettings(user.id, userSettings as UserSettings);
     if (response) {
-      replace(R.DASHBOARD);
+      push(R.DASHBOARD);
     }
   };
 

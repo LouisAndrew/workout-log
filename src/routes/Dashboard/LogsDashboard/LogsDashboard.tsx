@@ -7,7 +7,7 @@ import { useUserData } from '@h/useUserData';
 import { R } from '@r/index';
 import LogItem from './LogItem';
 
-import './styles.css';
+import './styles.scss';
 
 type Props = {};
 
@@ -15,7 +15,7 @@ const LogsDashboard: FC<Props> = () => {
   const { user: userData } = useAuth();
   const { getUserLogs } = useUserData();
   const user = userData() as User;
-  const { replace } = useHistory();
+  const { push } = useHistory();
 
   const [logsData, setLogsData] = useState<[string, number][]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +47,7 @@ const LogsDashboard: FC<Props> = () => {
               templateId={id}
               timestamp={timestamp}
               onViewLog={() => {
-                replace(
+                push(
                   `${R.LOG}?template=${`${user.id}-${id}`}&date=${timestamp}`
                 );
               }}

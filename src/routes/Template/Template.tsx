@@ -45,7 +45,7 @@ const Template: FC = () => {
       } else {
         const tableId = `${uid}-${w.templateId}`;
         await updateUserTemplate(uid, tableId, t.templateId);
-        history.replace(R.DASHBOARD);
+        history.push(R.DASHBOARD);
       }
     }
   };

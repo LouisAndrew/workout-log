@@ -90,7 +90,7 @@ const ExerciseLog: FC = () => {
   ) => {
     const res = await saveLogs(w as Workout, isTemplateChanged, user.id);
     if (res) {
-      history.replace(R.DASHBOARD);
+      history.push(R.DASHBOARD);
     }
 
     setErr('Error while saving the logs');
