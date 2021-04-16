@@ -235,8 +235,12 @@ const LogInput: FC<Props> = ({
           metric={metric}
           weight={weight}
           handleChangeWeight={handleChangeWeight}
-          handleChangeMetric={(m) => setMetric(m)}
-          setWeightDirectly={(w) => setWeight(w)}
+          handleChangeMetric={(m) => {
+            setMetric(m);
+          }}
+          setWeightDirectly={(w) => {
+            setWeight(w);
+          }}
           style={{
             width: getLength(weight) > 2 ? getCustomWidth(weight) * width : 32,
           }}
