@@ -8,11 +8,13 @@ export const AuthContext = createContext<{
   user:() => User | null | undefined;
   signIn: AuthFunc;
   signUp: AuthFunc;
+  signOut: () => Promise<Boolean>
   loadUser: () => Promise<void>
     }>({
       user: () => null,
       signIn: async (e, p) => null,
       signUp: async (e, p) => null,
+      signOut: async () => true,
       loadUser: async () => {}
     });
 
