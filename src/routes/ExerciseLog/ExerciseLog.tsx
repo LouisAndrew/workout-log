@@ -16,7 +16,7 @@ const ExerciseLog: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogAllowed, setIsLogAllowed] = useState(false);
   const [err, setErr] = useState('');
-  const [colorData, setColorData] = useState<ColorData[]>([]);
+  const [, setColorData] = useState<ColorData[]>([]);
 
   const { search } = useLocation();
   const history = useHistory();
