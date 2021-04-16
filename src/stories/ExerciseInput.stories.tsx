@@ -44,8 +44,7 @@ DefaultWithReps.args = {
   isEditable: true,
 };
 
-export const DefaultFilled = Template.bind({});
-DefaultFilled.args = {
+const fullProps = {
   value: 'Bench Press',
   defaultSets: {
     start: 3,
@@ -58,6 +57,9 @@ DefaultFilled.args = {
   isEditable: true,
 };
 
+export const DefaultFilled = Template.bind({});
+DefaultFilled.args = fullProps;
+
 export const DefaultFilledNoEdit = Template.bind({});
 DefaultFilledNoEdit.args = {
   value: 'Bench Press',
@@ -69,3 +71,9 @@ DefaultFilledNoEdit.args = {
     end: 8,
   },
 };
+
+export const DarkMode = () => (
+  <div className="dark">
+    <ExerciseInput {...fullProps} />
+  </div>
+);
