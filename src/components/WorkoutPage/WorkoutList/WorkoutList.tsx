@@ -15,7 +15,7 @@ import { deepEqual, isTemplateChanged } from '@helper/comparator';
 import { E } from '@helper/exercises-helper';
 import { cloneDeep, debounce } from 'lodash';
 import WorkoutListItem from './WorkoutListItem';
-import './styles.css';
+import './styles.scss';
 
 type W = Workout | WorkoutTemplate;
 

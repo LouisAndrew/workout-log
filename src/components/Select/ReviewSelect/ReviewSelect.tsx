@@ -11,8 +11,10 @@ import {
 
 import { Review, ReviewIndicator } from '@t/Set';
 import { useClickOutside } from '@h/useClickOutside';
+import { Button } from '@/components/Button';
+
 import Selector from './Selector';
-import './styles.css';
+import './styles.scss';
 
 export type Props = {
   /**
@@ -114,24 +116,27 @@ const ReviewSelect: FC<Props> = ({
   }, []);
 
   return (
-    <div className={`review-select__wrapper ${className}`} ref={ref}>
+    <div className={`review-select__wrapper popper ${className}`} ref={ref}>
       <div className="review-select__selected">
         <ReviewIcon r={reviewIndicator} />
         <span className="review-select__selected-indicator">
           {reviewIndicator === '?' ? 'NOT SET' : reviewIndicator}
         </span>
         <div className="review-select__selected-icons-wrapper">
-          <BiX
-            className={`review-select__remove-icon review-select__selected-icons opacity-${
-              reviewIndicator === '?' || !isEditable ? '0' : '1 cursor-pointer'
+          <Button
+            className={`review-select__remove-icon review-select__selected-icons review-select__selected-icons--${
+              reviewIndicator === '?' || !isEditable ? 'inactive' : 'active'
             }`}
             onClick={handleDeleteIndicator}
+            Icon={BiX}
+            type="remove"
           />
-          <BiCaretDownSquare
-            className={`review-select__expand-icon review-select__selected-icons opacity-${
-              isEditable ? '1 cursor-pointer' : '0'
+          <Button
+            className={`review-select__expand-icon review-select__selected-icons review-select__selected-icons--${
+              isEditable ? 'active' : 'inactive'
             }`}
             onClick={toggleSelection}
+            Icon={BiCaretDownSquare}
           />
         </div>
       </div>

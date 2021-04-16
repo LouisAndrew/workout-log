@@ -1,0 +1,93 @@
+.loggable-exercise-input {
+
+  &__wrapper {
+    @apply duration-200 hover:bg-gray-100 px-3 pt-3 pb-4 flex w-full
+     dark:bg-gray-800  dark:hover:bg-gray-700;
+
+    &:hover input {
+      @apply bg-gray-100 duration-200 dark:bg-gray-700;
+    }
+
+    &:hover & {
+      @apply dark:bg-gray-700;
+    }
+
+    &.main {
+      @apply w-full duration-200;
+    }
+  }
+
+  &__comparison {
+    @apply pt-0 text-gray-600 duration-200 opacity-100 dark:text-gray-300;
+
+    &-wrapper {
+      @apply border-gray-700 pl-12 w-0 overflow-hidden duration-500 opacity-0
+        dark:border-gray-300;
+
+      &.active {
+        @apply border-l-2 w-min opacity-100; 
+      }
+    }
+
+    span {
+      @apply text-gray-600 dark:text-gray-300;
+    }
+
+    & .ranged-input__input, & .log-input__weight-metric {
+      @apply dark:text-gray-300
+    }
+
+    &-separator {
+      @apply w-0.5 bg-gray-300 ml-7 mr-5 duration-200 opacity-0;
+    }
+  }
+
+  &__log-wrapper {
+    @apply pt-4 duration-200;
+  }
+
+  &__indicator {
+    @apply text-xs font-body font-semibold
+      text-gray-500 italic;
+  }
+
+  &__log {
+    @apply flex items-center py-2 px-2 w-max duration-100 rounded
+      hover:bg-gray-200 dark:hover:bg-gray-600;
+
+    &:hover .log-input__input {
+      @apply bg-gray-200 duration-100 dark:bg-gray-600;
+    }
+
+    &-button svg {
+      transform: scale(1.5) rotate(45deg);
+      @apply ml-0.5;
+    }
+  }
+
+  &__remove-log {
+    @apply h-7 w-7 rounded duration-200 opacity-0 border-transparent border-2 ml-5
+     group-hover:opacity-100 cursor-pointer justify-center;
+  }
+
+  &__button {
+    @apply duration-200 opacity-0 border-transparent whitespace-nowrap;
+
+    &-group {
+      @apply flex;
+    }
+  }
+
+  &__compare-button {
+    @apply ml-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500;
+    svg {
+      transform: scale(1.5);
+      @apply ml-0.5;
+    }
+  }
+
+  &__wrapper:hover &__button,
+  &__wrapper .log-input__input:focus &__button {
+    @apply opacity-100;
+  }
+}

@@ -20,8 +20,8 @@ type TemplateDashboard = WorkoutTemplate & {
 };
 
 const TemplatesDashboard: FC = () => {
-  const { replace } = useHistory();
-  const { getUserTemplate, getLogsDataDashboard, getUserBands } = useUserData();
+  const { push } = useHistory();
+  const { getUserTemplate, getLogsDataDashboard } = useUserData();
   const { user: authUser } = useAuth();
   const { getMultipleTemplates, createTemplate } = useTemplate();
   const { createLogs } = useExerciseLogs();
@@ -37,7 +37,6 @@ const TemplatesDashboard: FC = () => {
     try {
       const uid = user.id;
       const templates = await getUserTemplate(uid);
-      console.log(await getUserBands(uid));
       if (templates) {
         const req = await getMultipleTemplates(templates, uid);
         const templatesModified = await Promise.all(
@@ -67,22 +66,22 @@ const TemplatesDashboard: FC = () => {
       const route = `${
         R.LOG
       }?template=${tableTemplateId}&date=${date.getTime()}&state=create`;
-      replace(route);
+      push(route);
     }
   };
 
   const handleCreateTemplate = async () => {
     const { id } = user;
     const route = await createTemplate(id);
-    replace(route);
+    push(route);
   };
 
   const viewTemplate = (templateId: string) => {
-    replace(`${R.TEMPLATE}?id=${user.id}-${templateId}`);
+    push(`${R.TEMPLATE}?id=${user.id}-${templateId}`);
   };
 
   const editTemplate = (templateId: string) => {
-    replace(`${R.TEMPLATE}?id=${user.id}-${templateId}&state=edit`);
+    push(`${R.TEMPLATE}?id=${user.id}-${templateId}&state=edit`);
   };
 
   useEffect(() => {

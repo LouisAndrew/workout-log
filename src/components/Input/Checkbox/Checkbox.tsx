@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import './styles.css';
+import './styles.scss';
 
 export type Props = {
   /**

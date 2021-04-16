@@ -56,9 +56,9 @@ const Button: FC<Props> = ({
     // eslint-disable-next-line react/button-has-type
     type={nativeType}
     onClick={onClick}
-    className={`button button--${type} ${
-      size === 'm' ? '' : `button--${size}`
-    }  ${className}`}
+    className={`button button--${type}${
+      size === 'm' ? '' : ` button--${size}`
+    } ${className}`}
     {...rest}
   >
     {Icon && (

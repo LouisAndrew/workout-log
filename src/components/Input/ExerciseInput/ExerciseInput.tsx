@@ -4,7 +4,7 @@ import { Range } from '@helper/ranges';
 
 import { RangedInput } from '../RangedInput';
 
-import './styles.css';
+import './styles.scss';
 
 export type Props = {
   /**

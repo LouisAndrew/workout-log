@@ -1,0 +1,56 @@
+.template-card {
+
+  &__wrapper {
+    border-left-style: solid;
+    border-left-width: 4px;
+    @apply bg-gray-100 p-4 rounded flex flex-col w-full max-w-xs
+      relative duration-200
+      dark:bg-gray-600;
+
+    &:hover {
+      border-left-width: 8px;
+    }
+  }
+
+  &__settings { 
+    &.button {
+      @apply border-transparent p-0.5 self-end absolute top-2 right-2 text-gray-600
+        dark:text-gray-200 dark:hover:bg-gray-500;
+
+      &__icon-wrapper {
+        @apply mr-0;
+      }
+    } 
+  }
+
+  &__data {
+    @apply font-display text-sm font-bold tracking-widest
+    inline-block ml-2;
+
+    &-wrapper {
+      @apply font-body text-xs;
+    }
+  }
+  
+
+  &__name {
+    @apply font-display tracking-widest font-bold text-xl flex items-center;
+  }
+}
+
+.template-settings__wrapper {
+  @apply right-2 top-2 left-auto;
+
+  & .button {
+    @apply w-full;
+  }
+
+  & svg {
+    transform: scale(1.5);
+    @apply ml-1;
+  }
+}
+
+.id {
+  @apply w-2 h-2 rounded-full ml-2 border-4 border-red-400;
+}

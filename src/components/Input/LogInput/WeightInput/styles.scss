@@ -1,0 +1,48 @@
+.log-input {
+  &__weight {
+    &-input-label {
+      @apply ml-4;
+    }
+
+    &-metric {
+      @apply duration-200 font-display text-base ml-1 font-black px-1 py-0.5 rounded duration-200 hover:bg-gray-200 relative inline-block z-0
+        dark:text-white dark:hover:bg-gray-700;
+
+      &--unfilled {
+        @apply text-gray-400 dark:text-gray-400;
+      }
+    }
+
+    &-input {
+      @apply dark:bg-gray-800;
+    }
+  }
+
+  &__metric-select-button.button {
+    @apply text-left w-full;
+  }
+}
+
+.color {
+  &-weight-input {
+    &__wrapper {
+      transform: translateY(0.1rem);
+      @apply inline-flex items-center justify-end ml-2 relative z-10
+        duration-200 hover:bg-gray-200 p-1 rounded cursor-pointer
+        dark:hover:bg-gray-700;
+    }
+  }
+
+  &-picker__colors-wrapper {
+    @apply flex;
+  }
+
+  &-weight-input__color-placeholder,
+  &-picker__color-select {
+    @apply h-4 w-4 flex items-center justify-center rounded mx-0.5;
+  }
+
+  &-picker__color-select:hover svg {
+    opacity: 0.5;
+  }
+}

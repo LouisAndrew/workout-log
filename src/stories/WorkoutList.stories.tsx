@@ -26,7 +26,7 @@ LogList.args = {
 };
 
 export const LogListComparable = Template.bind({});
-LogList.args = {
+LogListComparable.args = {
   type: 'LOG',
   defaultWorkout: workout1,
   comparisonWorkout: workout2,
@@ -38,3 +38,13 @@ LogListComparableNotEqual.args = {
   defaultWorkout: workout1,
   comparisonWorkout: workout3,
 };
+
+export const DarkMode = () => (
+  <div className="dark">
+    <TemplateList
+      type="LOG"
+      defaultWorkout={workout1}
+      comparisonWorkout={workout2}
+    />
+  </div>
+);

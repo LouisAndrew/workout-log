@@ -4,9 +4,10 @@
 
 .basic-input__input {
   min-width: 16rem;
-  @apply block font-display tracking-widest text-lg tracking-widest bg-gray-100 rounded 
-    px-2 py-1 mt-1 duration-200 w-full
-   focus:outline-none focus:ring-1 focus:ring-black focus:ring-offset-1;
+  @apply block font-display tracking-widest text-lg bg-gray-100 rounded 
+    px-2 py-1 mt-1 duration-200 w-full border-2 border-transparent
+   focus:outline-none focus:border-gray-300
+   dark:bg-gray-600 dark:focus:border-gray-500;
 }
 
 .basic-input__input.error {
@@ -18,5 +19,5 @@
 }
 
 .basic-input__input-icon {
-  @apply absolute h-6 w-6 right-0 bottom-2 cursor-pointer;
+  @apply absolute h-5 w-5 right-0 bottom-3 cursor-pointer dark:text-gray-200;
 }

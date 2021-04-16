@@ -2,13 +2,12 @@ import React, { FC, useRef, useState } from 'react';
 
 import { ColorData } from '@t/ColorData';
 import { Metric } from '@t/Set';
-import { colors } from '@t/Colors';
 
 import { Button } from '@components/Button';
 import { useClickOutside } from '@h/useClickOutside';
 import ColoredWeightInput from './ColoredWeightInput';
 
-import './styles.css';
+import './styles.scss';
 
 export type Props = {
   /**
@@ -28,7 +27,7 @@ export type Props = {
 const WeightInput: FC<Props> = ({
   colorData,
   metric,
-  weight,
+  weight = -1,
   handleChangeWeight,
   handleChangeMetric,
   exerciseId,
@@ -84,8 +83,7 @@ const WeightInput: FC<Props> = ({
             setDisplaySelectMetric(true);
           }
         }}
-        className="log-input__weight-metric duration-200"
-        style={{ color: weight === -1 ? colors.gray : 'black' }}
+        className={`log-input__weight-metric ${weight === -1 ? 'log-input__weight-metric--unfilled' : ''}`}
         onClick={() => setDisplaySelectMetric(true)}
       >
         {metric}

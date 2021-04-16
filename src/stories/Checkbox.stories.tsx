@@ -11,3 +11,8 @@ export default {
 const Template: Story<Props> = (args) => <Checkbox {...args} />;
 
 export const Default = Template.bind({});
+export const DarkMode = () => (
+  <div className="dark">
+    <Default inputId="1" />
+  </div>
+);

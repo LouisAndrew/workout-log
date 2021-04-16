@@ -7,10 +7,9 @@
     @apply inline-flex items-end;
 
     & .button {
-      @apply inline-block ml-4 text-gray-500 hover:text-black py-0.5;
+      @apply inline-block ml-4 text-gray-500 hover:text-black py-0.5 dark:hover:text-white;
     }
   }
-
   &__bands-wrapper {
     @apply mt-3 flex flex-col flex-wrap max-w-md;
   }

@@ -16,6 +16,12 @@ const Template: Story<Props> = (args) => (
   </div>
 );
 
+const DarkTemplate: Story<Props> = (args) => (
+  <div className="w-1/3 dark">
+    <RangedInput {...args} className="w-max" />
+  </div>
+);
+
 export const Inactive = Template.bind({});
 Inactive.args = {
   isEditable: true,
@@ -57,4 +63,17 @@ FilledNoEdit.args = {
   defaultStart: 12,
   defaultEnd: 15,
   placeholder: 'reps',
+};
+
+export const DarkMode = DarkTemplate.bind({});
+DarkMode.args = {
+  isEditable: true
+};
+
+export const FilledDarkMode = DarkTemplate.bind({});
+FilledDarkMode.args = {
+  defaultStart: 3,
+  defaultEnd: 4,
+  placeholder: 'sets',
+  isEditable: true,
 };

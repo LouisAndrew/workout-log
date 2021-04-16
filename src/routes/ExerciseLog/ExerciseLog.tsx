@@ -16,7 +16,7 @@ const ExerciseLog: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogAllowed, setIsLogAllowed] = useState(false);
   const [err, setErr] = useState('');
-  const [, setColorData] = useState<ColorData[]>([]);
+  const [colorData, setColorData] = useState<ColorData[]>([]);
 
   const { search } = useLocation();
   const history = useHistory();
@@ -90,7 +90,7 @@ const ExerciseLog: FC = () => {
   ) => {
     const res = await saveLogs(w as Workout, isTemplateChanged, user.id);
     if (res) {
-      history.replace(R.DASHBOARD);
+      history.push(R.DASHBOARD);
     }
 
     setErr('Error while saving the logs');
@@ -114,6 +114,7 @@ const ExerciseLog: FC = () => {
             isEditable={false}
             saveLog={handleSave}
             comparisonWorkouts={comparisonWorkouts}
+            colorData={colorData}
           />
           {err && (
             <div className="error-msg font-body font-medium text-red-500">

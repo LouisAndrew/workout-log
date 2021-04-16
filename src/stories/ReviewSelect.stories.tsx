@@ -48,6 +48,16 @@ SelectedWithNotesNoEdit.args = {
   },
 };
 
+export const DarkMode = () => (
+  <div className="dark">
+    <ReviewSelect
+      defaultReview={{ indicator: '?' }}
+      onChange={() => {}}
+      isEditable
+    />
+  </div>
+);
+
 export const Selector = () => (
   <SelectorComponent
     indicator="UP"

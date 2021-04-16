@@ -39,3 +39,13 @@ Comparing.args = {
   comparisonExercise: benchPressLog2,
   isEditable: true,
 };
+
+export const DarkMode = () => (
+  <div className="dark">
+    <LoggableExerciseInput
+      defaultExercise={benchPressLog1}
+      isEditable
+      comparisonExercise={benchPressLog2}
+    />
+  </div>
+);

@@ -11,6 +11,11 @@ export default {
 };
 
 const Template: Story<Props> = (args) => <LogInput {...args} />;
+const DarkModeTemplate: Story<Props> = (args) => (
+  <div className="dark">
+    <LogInput {...args} />
+  </div>
+);
 
 export const Inactive = Template.bind({});
 Inactive.args = {
@@ -79,4 +84,23 @@ FilledNotEditable.args = {
   defaultReview: {
     indicator: 'UP',
   },
+};
+
+export const DarkMode = DarkModeTemplate.bind({});
+DarkMode.args = {
+  index: 1,
+  isEditable: true,
+};
+
+export const DarkModeColor = DarkModeTemplate.bind({});
+DarkModeColor.args = {
+  index: 1,
+  defaultWeight: 10002000,
+  defaultReps: 12,
+  defaultReview: {
+    indicator: 'STAY',
+  },
+  isEditable: true,
+  colorData: mockColorData,
+  weightMetric: 'BAND'
 };

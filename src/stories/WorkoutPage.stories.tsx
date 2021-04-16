@@ -15,6 +15,7 @@ const Template: Story<Props> = (args) => <WorkoutPage {...args} />;
 export const TemplatePageNew = Template.bind({});
 TemplatePageNew.args = {
   type: 'TEMPLATE',
+  isCreatingNew: true,
 };
 
 export const LogPage = Template.bind({});
@@ -22,3 +23,9 @@ LogPage.args = {
   type: 'LOG',
   defaultWorkout: workout1,
 };
+
+export const DarkMode = () => (
+  <div className="dark">
+    <WorkoutPage type="LOG" defaultWorkout={workout1} />
+  </div>
+);

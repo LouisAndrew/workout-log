@@ -1,0 +1,20 @@
+.checkbox {
+  &__label {
+    @apply flex items-center font-body text-sm tracking-wider font-light cursor-pointer block rounded
+    focus:outline-none;
+  }
+
+  &__input {
+    @apply hidden;
+  }
+
+  &__mask {
+    @apply block w-3 h-3 border-2 border-black ring-black rounded-lg duration-200 mr-2
+      dark:border-white;
+  } 
+
+  &__input:checked + .checkbox__mask {
+    @apply w-2 h-2 mr-3 bg-black ring-2 ring-offset-2 dark:bg-white dark:ring-offset-gray-800 dark:ring-white;
+  }
+}
+
